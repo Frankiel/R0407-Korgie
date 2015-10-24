@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korgie", "Korgie\Korgie.csproj", "{503CA424-9B44-4D5C-B5DF-CBB650B7C8F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korgie.Tests", "Korgie.Tests\Korgie.Tests.csproj", "{69179535-2465-454A-8ADE-FF5AEAD31E77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{503CA424-9B44-4D5C-B5DF-CBB650B7C8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{503CA424-9B44-4D5C-B5DF-CBB650B7C8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{503CA424-9B44-4D5C-B5DF-CBB650B7C8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{503CA424-9B44-4D5C-B5DF-CBB650B7C8F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69179535-2465-454A-8ADE-FF5AEAD31E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69179535-2465-454A-8ADE-FF5AEAD31E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69179535-2465-454A-8ADE-FF5AEAD31E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69179535-2465-454A-8ADE-FF5AEAD31E77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
