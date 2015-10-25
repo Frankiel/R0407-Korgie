@@ -35,3 +35,43 @@ C:\Users\Артур\Documents\Visual Studio 2015\Projects\Korgie\Korgie\bin\Syst
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\Korgie\Korgie\obj\Debug\Korgie.csprojResolveAssemblyReference.cache
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\Korgie\Korgie\obj\Debug\Korgie.dll
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\Korgie\Korgie\obj\Debug\Korgie.pdb
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\csc.exe
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\System.Collections.Immutable.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\System.Reflection.Metadata.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\vbc.exe
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\VBCSCompiler.exe
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\roslyn\VBCSCompiler.exe.config
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Korgie.dll.config
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Korgie.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Korgie.pdb
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\EntityFramework.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\EntityFramework.SqlServer.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Microsoft.Owin.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Microsoft.Web.Infrastructure.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Owin.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Helpers.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Mvc.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Razor.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Webpages.Deployment.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Webpages.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Webpages.Razor.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\EntityFramework.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\EntityFramework.SqlServer.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\Microsoft.Owin.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Razor.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Webpages.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Webpages.Deployment.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Webpages.Razor.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Helpers.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\bin\System.Web.Mvc.xml
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\obj\Debug\Korgie.csprojResolveAssemblyReference.cache
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\obj\Debug\Korgie.dll
+D:\Мария\ХНУРЭ\5 семестр\АВПЗ\Sigma\R0407-Korgie\Korgie\obj\Debug\Korgie.pdb

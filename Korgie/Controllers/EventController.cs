@@ -10,7 +10,7 @@ namespace Korgie.Controllers
     public class EventController : Controller
     {
         // GET: Event
-        public ActionResult Index()
+        public ActionResult IndexEvents()
         {
             return View(); //return the calendar page
         }
