@@ -1,0 +1,140 @@
+﻿body {
+    margin: 0px;
+}
+
+/* Shared */
+.header {
+    width: 100%;
+    height: 150px;
+    background: #ccc;
+}
+
+.logo {
+    width: 150px;
+    height: 100px;
+    position: absolute;
+    top: 25px;
+    left: 35px;
+    background: #888;
+}
+
+/**{
+    border: solid 1px #000;
+}*/
+
+.menu {
+    margin-top: 95px;
+}
+
+/* content */
+/* events */
+
+.month-header {
+    margin: 15px;
+    font-size: 26px;
+}
+
+.month-name {
+}
+
+.seven-cols {
+    padding: 0px 15px;
+    text-align: center;
+}
+
+.seven-cols .col-xs-1 {
+    text-align: center;
+    width: 14.285714285714285714285714285714%;
+    padding: 0px;
+}
+
+.month-day {
+    float: left;
+    border: 1px solid #333;
+    width: 14.285714285714285714285714285714%;
+    height: calc((100vw) / 7);
+    margin: 0px -1px -1px 0px;
+}
+
+@media (max-width: 599px) {
+    .container {
+        padding: 0px 0px 0px 5px !important;
+    }
+
+    .row {
+        margin: 0px !important;
+    }
+
+    .seven-cols {
+        padding: 0px;
+    }
+
+    .month-day:first-of-type {
+        margin-left: 10px;
+    }
+}
+
+@media (min-width: 600px) {
+    .container {
+        padding: 0px;
+    }
+
+    .month-day {
+        width: calc((100vw - 40px) / 8);
+        height: calc((100vw - 40px) / 8);
+        margin: calc((100vw - 40px) / 128);
+    }
+}
+
+@media (min-width: 768px) {
+    .month-day {
+        width: 92px;
+        height: 92px;
+        margin: 5px;
+    }
+}
+
+@media (min-width: 992px) {
+    .month-day {
+        width: 120px;
+        height: 120px;
+        margin: 7px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .month-day {
+        width: 146px;
+        height: 146px;
+        margin: 8px;
+    }
+}
+
+/* footer */
+
+.footer {
+    height: 50px;
+    background: #999;
+}
+
+#about {
+    margin-left: 20%;
+    padding: 15px;
+    width: 20%;
+    float: left;
+}
+
+#copyright {
+    padding: 15px;
+    width: 20%;
+    float: left;
+    text-align: center;
+}
+
+#social {
+    margin-right: 20%;
+    padding: 15px;
+    width: 20%;
+    float: left;
+    text-align: right;
+}

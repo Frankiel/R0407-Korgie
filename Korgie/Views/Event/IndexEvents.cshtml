@@ -1,0 +1,45 @@
+﻿<div class="header">
+    <div class="logo"></div>
+    <nav class="container">
+        <div class="navbar-collapse collapse nav navbar-right menu">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Events</a></li>
+                <li><a href="#">Notes</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Statistics</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="container content" ng-controller="EventsCtrl" id="events-month">
+    <div class="row seven-cols">
+        <div class="center-block month-header">
+            <button type="button" class="btn btn-default" ng-click="prevMonth()">
+                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+            </button>
+            {{month | monthName}}, {{year}}
+            <button type="button" class="btn btn-default" ng-click="nextMonth()">
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="col-xs-1">Mon</div>
+        <div class="col-xs-1">Tue</div>
+        <div class="col-xs-1">Wed</div>
+        <div class="col-xs-1">Thu</div>
+        <div class="col-xs-1">Fri</div>
+        <div class="col-xs-1">Sat</div>
+        <div class="col-xs-1">Sun</div>
+    </div>
+    <div class="month-day" ng-repeat="calendarDay in days track by $index">
+        <div>{{calendarDay.day}}</div>
+    </div>
+</div>
+
+<div class="footer">
+    <div id="about">About</div>
+    <div id="copyright">copyright</div>
+    <div id="social">socials</div>
+</div>
