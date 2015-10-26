@@ -97,13 +97,13 @@ namespace Korgie.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); //There I understood that redirection was going from this method
         }
 
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl) //THE FORM WITH REGISTED BUTTON
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
@@ -116,7 +116,8 @@ namespace Korgie.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //ARTHUR: THERE WAS RedirectToLocal WHEN U HAVE AN ACC AND LOGIN U WILL GO WITH THIS LINK!!! WITHOUT REDIRECTING to REGISTER Button
+                    return RedirectToAction("IndexEvents", "Event");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 //case SignInStatus.RequiresVerification:
@@ -126,7 +127,7 @@ namespace Korgie.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email }); //THERE WE WILL GO IF U DONT HAVE AN ACCOUNT!!!
             }
         }
 
@@ -135,12 +136,13 @@ namespace Korgie.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)//THERE WE WILL GO IF U DONT HAVE AN ACCOUNT!!!
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("IndexEvents", "Event");
-            }
+            //WAS UNCOMMENTED BEFORE!!!
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return RedirectToAction("IndexEvents", "Event");
+            //}
             if (ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider
@@ -157,14 +159,14 @@ namespace Korgie.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction("IndexEvents", "Event"); //RedirectToLocal(returnUrl) //THERE WE WILL GO AFTER PRESSING BUTTON REGISTER IF U DIDNT HAVE AN ACC!!!
                     }
                 }
                 AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            return View("Event/IndexEvents"); //parameter was 'model'
+            return View(model); //parameter was 'model'
         }
 
         //
