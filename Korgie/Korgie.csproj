@@ -161,6 +161,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\bootstrap.css.map" />
     <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\korgie.pubxml" />
     <None Include="Scripts\libs\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\libs\bootstrap.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
