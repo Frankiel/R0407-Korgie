@@ -58,7 +58,7 @@ namespace Korgie.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return RedirectToAction("ExternalLogin", "Account"); //View();
         }
 
         //
@@ -68,6 +68,7 @@ namespace Korgie.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(Korgie.Models.LoginViewModel model, string returnUrl)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View(model);

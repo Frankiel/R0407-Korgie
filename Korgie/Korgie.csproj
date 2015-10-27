@@ -203,8 +203,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\libs\jquery-2.1.4.min.map" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\Lockout.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
