@@ -1,11 +1,29 @@
 ﻿var korgie = angular.module('korgie', []);
 
-korgie.controller('EventsCtrl', function ($scope) {
-    var today = new Date();
-    $scope.month = today.getMonth();
-    $scope.year = today.getFullYear();
-    $scope.days = getMonthDays();
+korgie.controller('EventsCtrl', function ($scope, $http, $q) {
+    $scope.events;
+    $scope.month;
+    $scope.year;
+    $scope.days;
 
+    var today = new Date();
+    getMonthInfo().then(function () {
+        $http.get('/Event/GetEvents', { params: { month: $scope.month, year: $scope.year } }).then(function successCallback(response) {
+            convertEvents(response.data).then(setEvents);
+        }, function errorCallback(response) {
+            console.log('getting events failed');
+        });
+    })
+
+
+    function getMonthInfo() {
+        var deferred = $q.defer();
+        $scope.month = today.getMonth();
+        $scope.year = today.getFullYear();
+        $scope.days = getMonthDays();
+        deferred.resolve();
+        return deferred.promise;
+    }
     function getMonthDays() {
         var result = new Array();
 
@@ -40,10 +58,28 @@ korgie.controller('EventsCtrl', function ($scope) {
         }
         return result;
     }
+    function convertEvents(data) {
+        var deferred = $q.defer();
+        var result = new Array();
+        data.forEach(function (element) {
+            result.push({
+                EventId: element.EventId,
+                Title: element.Title,
+                Start: new Date(new Date(parseInt(element.Start.substr(6)))),
+                End: new Date(new Date(parseInt(element.End.substr(6)))),
+                Type: element.Type,
+                Description: element.Description,
+                Period: element.Period,
+                Tags: element.Tags
+            });
+        });
+        console.log(result);
+        $scope.events = result;
+        deferred.resolve();
+        return deferred.promise;
+    }
+    function setEvents() {
 
-    var getWeekDayName = function () {
-        var weekDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        return weekDayNames[weekDayNumber];
     }
 
     $scope.nextMonth = function () {
@@ -78,13 +114,10 @@ korgie
     .directive('dayOfMonth', function () {
         return {
             link: function (scope, element, attrs) {
-                /*scope.events = JSON.parse(attrs.events);
-                console.log(scope.events);
 
-                console.log(new Date(parseInt("/Date(1445547600000)/".replace("/Date(", "").replace(")/", ""), 10)));*/
             },
             restrict: 'E',
             transclude: true,
-            templateUrl: 'Scripts/custom/monthDay.html'
+            templateUrl: 'Scripts/custom/monthDay.html' // PROBLEM
         };
     });;
