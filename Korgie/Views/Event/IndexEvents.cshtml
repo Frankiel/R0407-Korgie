@@ -2,10 +2,12 @@
 @model Event[]
 
 <div class="header">
-    <div class="logo"></div>
+    <div class="logo-keeper">
+        <div class="logo"></div>
+    </div>
     <nav class="container">
-        <div class="navbar-collapse collapse nav navbar-right menu">
-            <ul class="nav navbar-nav">
+        <div class="nav navbar-right menu">
+            <ul class="nav">
                 <li class="active"><a href="#">Events</a></li>
                 <li><a href="#">Notes</a></li>
                 <li><a href="#">Contacts</a></li>
@@ -17,9 +19,16 @@
     </nav>
 </div>
 
+<div class="dark-div" ng-click="showHideMenu()"></div>
 <div class="container content" ng-controller="EventsCtrl" id="events-month">
+    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+        <button type="button" class="btn btn-link btn-lg" flex="15" ng-click="showHideMenu()">
+            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+        </button>
+        <h2 flex="70">Events</h2>
+    </div>
     <div class="row seven-cols">
-        <div class="center-block month-header">
+        <div class="center-block month-header" layout="row" layout-align="space-between center">
             <button type="button" class="btn btn-default" ng-click="prevMonth()">
                 <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
             </button>
@@ -40,8 +49,8 @@
     <day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>
 </div>
 
-<div class="footer">
-    <div id="about">About</div>
-    <div id="copyright">copyright</div>
-    <div id="social">socials</div>
+<div class="footer" layout="row" layout-align="space-around center">
+    <div>About</div>
+    <div>copyright</div>
+    <div>socials</div>
 </div>

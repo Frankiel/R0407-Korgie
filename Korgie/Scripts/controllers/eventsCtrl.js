@@ -64,4 +64,10 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', function ($scope, $q) 
         }
         $scope.days = getMonthDays();
     }
+
+    $scope.showHideMenu = function () {
+        $('.header').toggleClass('opened-menu');
+        $('.content').toggleClass('opened-menu');
+        $('.dark-div').toggleClass('opened-menu');
+    }
 }]);

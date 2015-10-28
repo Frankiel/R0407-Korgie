@@ -50,6 +50,10 @@
 }
 
 /* Shared */
+/*.mobile-header, .mobile-header btn {
+    display: none;
+}*/
+
 .header {
     width: 100%;
     height: 150px;
@@ -78,6 +82,7 @@
 
 .month-header {
     margin: 15px;
+    width: 300px;
     font-size: 26px;
 }
 
@@ -116,8 +121,80 @@
 }
 
 @media (max-width: 599px) {
+    .mobile-header {
+        height: 50px;
+        width: calc(100% + 5px);
+        margin-left: -5px;
+        background: #ccc;
+        text-align: center;
+    }
+
+    .mobile-header h2 {
+        margin-top: 10px;
+    }
+
+    .header {
+        position: fixed;
+        left: -100%;
+        background: #fff;
+        border-right: 1px solid #aaa;
+        height: 100%;
+        width: 35%;
+        z-index: 20;
+        transition: left 0.5s ease-in;
+    }
+
+    .header.opened-menu {
+        left: 0px;
+        transition: left 0.5s ease-in;
+    }
+
+    .logo-keeper {
+        width: 100%;
+        height: 60px;
+        background: #ccc;
+    }
+
+    .logo {
+        top: 5px;
+        left: 10px;
+        width: 75px;
+        height: 50px;
+    }
+
+    .menu {
+        margin: 0px;
+    }
+
+    .header ul {
+        width: 100%;
+        padding-left: 2%;
+        right: 0px !important;
+    }
+
+    .header li {
+        display: block;
+        width: 100%;
+    }
+
     .container {
         padding: 0px 0px 0px 5px !important;
+    }
+
+    .dark-div {
+        position: fixed;
+        background: #fff;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        opacity: 0.4;
+        transition: all 0.5s ease-in;
+    }
+
+    .dark-div.opened-menu {
+        z-index: 15;
+        background: #000;
+        transition: all 0.5s ease-in;
     }
 
     .row {
@@ -130,6 +207,10 @@
 }
 
 @media (min-width: 600px) {
+    .header li {
+        display: inline-block !important;
+    }
+
     .container {
         padding: 0px;
     }
@@ -138,6 +219,13 @@
         width: calc((100vw - 40px) / 8);
         height: calc((100vw - 40px) / 8);
         margin: calc((100vw - 40px) / 128);
+    }
+}
+
+@media (max-width: 767px) {
+    .header ul {
+        position: absolute;
+        right: 10px;
     }
 }
 
@@ -170,26 +258,4 @@
 .footer {
     height: 50px;
     background: #999;
-}
-
-#about {
-    margin-left: 20%;
-    padding: 15px;
-    width: 20%;
-    float: left;
-}
-
-#copyright {
-    padding: 15px;
-    width: 20%;
-    float: left;
-    text-align: center;
-}
-
-#social {
-    margin-right: 20%;
-    padding: 15px;
-    width: 20%;
-    float: left;
-    text-align: right;
 }
