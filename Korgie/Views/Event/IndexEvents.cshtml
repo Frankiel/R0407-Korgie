@@ -35,10 +35,9 @@
         <div class="col-xs-1">Fri</div>
         <div class="col-xs-1">Sat</div>
         <div class="col-xs-1">Sun</div>
+        <div class="calendar-place"></div>
     </div>
-    <div class="month-day" ng-repeat="calendarDay in days track by $index">
-        <div>{{calendarDay.day}}</div>
-    </div>
+    <day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>
 </div>
 
 <div class="footer">
