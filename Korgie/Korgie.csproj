@@ -150,7 +150,6 @@
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\custom\events.js" />
     <Content Include="Scripts\libs\angular-mocks.js" />
     <Content Include="Scripts\libs\angular.js" />
     <Content Include="Scripts\libs\angular.min.js" />
@@ -214,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\custom\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
