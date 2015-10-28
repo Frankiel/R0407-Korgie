@@ -1,32 +1,26 @@
 ﻿@using Microsoft.Owin.Security
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div> It's Korgie main page!
-    </div>
-    @{
-        var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "" }))
-        {
-            @Html.AntiForgeryToken()
-            <div id="socialLoginList">
-                <p>
-                    @foreach (AuthenticationDescription p in loginProviders)
+<div class="background-image" layout="column" layout-align="center center">
+    <div class="container">
+        <div class="text-center start-page-content">
+            <br />
+            <br />
+            <h1>Welcome to the Korgie main page!</h1>
+            <hr />
+            <p>Korgie is a useful organizer, that can save your everyday life! Try Korgie to remember every detail in your plans. Single and repeating events, to-do lists, notes, sharing with friends – everything you need is here!</p>
+            <hr />
+            @{
+                var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "" }))
                 {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Login with @p.AuthenticationType</button>
-                    }
-                </p>
-            </div>
-        }
-    }
-</body>
-</html>
+                    @Html.AntiForgeryToken()
+                    <div id="socialLoginList">
+                            @foreach (AuthenticationDescription p in loginProviders)
+                            {
+                                <button type="submit" class="btn btn-default btn-lg" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Sign in with @p.AuthenticationType</button>
+                            }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
