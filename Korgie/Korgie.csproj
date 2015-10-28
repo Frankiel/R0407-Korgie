@@ -151,7 +151,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\custom\events.js" />
-    <Content Include="Scripts\custom\monthDay.html" />
     <Content Include="Scripts\libs\angular-mocks.js" />
     <Content Include="Scripts\libs\angular.js" />
     <Content Include="Scripts\libs\angular.min.js" />
