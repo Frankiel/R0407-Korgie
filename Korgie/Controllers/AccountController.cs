@@ -117,7 +117,14 @@ namespace Korgie.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    //ARTHUR: THERE WAS RedirectToLocal WHEN U HAVE AN ACC AND LOGIN U WILL GO WITH THIS LINK!!! WITHOUT REDIRECTING to REGISTER Button
+                    //ARTHUR: THERE WAS RedirectToLocal WHEN U HAVE AN ACC AND LOGIN U WILL GO WITH THIS LINK!!! WITHOUT REDIRECTING to REGISTER Buttonzz
+                    HttpCookie cookie = Request.Cookies["Preferences"];
+                    if (cookie== null)
+                    {
+                        cookie = new HttpCookie("Preferences");
+                    }
+                    cookie["Email"] = loginInfo.Email;
+                    Response.Cookies.Add(cookie);
                     return RedirectToAction("IndexEvents", "Event");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -160,6 +167,13 @@ namespace Korgie.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        HttpCookie cookie = Request.Cookies["Preferences"];
+                        if (cookie == null)
+                        {
+                            cookie = new HttpCookie("Preferences");
+                        }
+                        cookie["Email"] = model.Email;
+                        Response.Cookies.Add(cookie);
                         return RedirectToAction("IndexEvents", "Event"); //RedirectToLocal(returnUrl) //THERE WE WILL GO AFTER PRESSING BUTTON REGISTER IF U DIDNT HAVE AN ACC!!!
                     }
                 }
