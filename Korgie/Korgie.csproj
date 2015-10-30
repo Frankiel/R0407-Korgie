@@ -150,6 +150,7 @@
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\controllers\eventsCtrl.js" />
     <Content Include="Scripts\libs\angular-mocks.js" />
     <Content Include="Scripts\libs\angular.js" />
     <Content Include="Scripts\libs\angular.min.js" />
@@ -166,6 +167,9 @@
     <Content Include="Scripts\libs\bootstrap.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.4.js" />
     <Content Include="Scripts\libs\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\services\directives.js" />
+    <Content Include="Scripts\services\filters.js" />
+    <Content Include="Scripts\templates\dayOfMonth.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
