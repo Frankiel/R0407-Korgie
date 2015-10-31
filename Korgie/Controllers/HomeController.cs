@@ -17,7 +17,7 @@ namespace Korgie.Controllers
             {
                 return View();
             }
-            return RedirectToAction("IndexEvents", "Event"); //return main page if user didn't log in and calendar page if he is logged in
+            return RedirectToAction("Index", "WebSite"); //return main page if user didn't log in and calendar page if he is logged in
         }
 
 
