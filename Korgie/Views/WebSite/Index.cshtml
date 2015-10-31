@@ -1,0 +1,31 @@
+﻿@{
+
+}
+
+<div class="header">
+    <div class="logo-keeper">
+        <div class="logo"></div>
+    </div>
+    <nav class="container">
+        <div class="nav navbar-right menu">
+            <ul class="nav">
+                <li class="active"><a href="#">Events</a></li>
+                <li><a href="#">Notes</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Statistics</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div>
+    <section ng-include="'../../ContentViews/Events.html'" ng-controller="EventsCtrl"></section>
+</div>
+
+<div class="footer" layout="row" layout-align="space-around center">
+    <div>About</div>
+    <div>copyright</div>
+    <div>socials</div>
+</div>
