@@ -89,16 +89,10 @@
 .month-name {
 }
 
-.seven-cols {
-    padding: 0px 15px;
-    text-align: center;
+.week-days * {
+    width: 25px;
 }
 
-.seven-cols .col-xs-1 {
-    text-align: center;
-    width: 14.285714285714285714285714285714%;
-    padding: 0px;
-}
 
 /* day-of-month directive */
 
