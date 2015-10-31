@@ -125,7 +125,7 @@ namespace Korgie.Controllers
                     }
                     cookie["Email"] = loginInfo.Email;
                     Response.Cookies.Add(cookie);
-                    return RedirectToAction("IndexEvents", "Event");
+                    return RedirectToAction("Index", "WebSite");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 //case SignInStatus.RequiresVerification:
@@ -174,7 +174,7 @@ namespace Korgie.Controllers
                         }
                         cookie["Email"] = model.Email;
                         Response.Cookies.Add(cookie);
-                        return RedirectToAction("IndexEvents", "Event"); //RedirectToLocal(returnUrl) //THERE WE WILL GO AFTER PRESSING BUTTON REGISTER IF U DIDNT HAVE AN ACC!!!
+                        return RedirectToAction("Index", "WebSite"); //RedirectToLocal(returnUrl) //THERE WE WILL GO AFTER PRESSING BUTTON REGISTER IF U DIDNT HAVE AN ACC!!!
                     }
                 }
                 AddErrors(result);
