@@ -10,7 +10,7 @@
             },
             link: function (scope, element, attrs) {
                 scope.events;
-                $http.get('/Event/GetEvents', { params: { month: scope.month, year: scope.year } }).then(function successCallback(response) {
+                $http.get('/WebSite/GetEvents', { params: { month: scope.month, year: scope.year } }).then(function successCallback(response) {
                     convertEvents(response.data);
                 }, function errorCallback(response) {
                     console.log('getting events failed');

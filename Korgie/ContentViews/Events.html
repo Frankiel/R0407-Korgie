@@ -1,0 +1,30 @@
+﻿<div class="dark-div" ng-click="showHideMenu()"></div>
+<div class="container content" id="events-month">
+    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+        <button type="button" class="btn btn-link btn-lg" flex="15" ng-click="showHideMenu()">
+            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+        </button>
+        <h2 flex="70">Events</h2>
+    </div>
+    <div layout-align="center center" layout="row">
+        <div class="month-header" layout="row" layout-align="space-between center">
+            <button type="button" class="btn btn-default" ng-click="prevMonth()">
+                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+            </button>
+            {{month | monthName}}, {{year}}
+            <button type="button" class="btn btn-default" ng-click="nextMonth()">
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+    <div layout="row" layout-align="space-around center" class="week-days">
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+        <div>Sun</div>
+    </div>
+    <day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>
+</div>
