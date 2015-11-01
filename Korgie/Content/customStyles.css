@@ -100,7 +100,7 @@
 .disabled-month-day {
     background-color: #f0f0f0;
     color: #999;
-    border: 1px solid #999 !important;
+    border: 1px dashed #999 !important;
     box-shadow: none !important;
     z-index: 20;
 }
@@ -112,22 +112,27 @@
 }
 
 .day-number {
-    display: inline-block;
     padding-left: 5%;
     width: 30%;
     height: 30%;
 }
 
 .event-container {
-    position: relative;
-    display: inline-block;
-    width: 30%;
-    height: 30%;
-    background-color: yellow;
-    border: 1px solid #000;
+    width: 100%;
+    height: 60%;
 }
 
-.event-container * {
+.event-container > * {
+    margin-top: 3.3%;
+    margin-left: 2.5%;
+    float: left;
+    background-color: yellow;
+    border: 1px solid #000;
+    width: 30%;
+    height: 50%;
+}
+
+.event-container > * > * {
     height: 100%;
 }
 

@@ -21,7 +21,7 @@ namespace Korgie.Controllers
         {
             // Get all events for set month and year from DB
             DateTime now = DateTime.Now;
-            Event[] eventsStub = { new Event(1, "event1", new DateTime(year, month, now.Day, 12, 00, 00), new DateTime(year, month, now.Day, 13, 00, 00), "Sports", "a few words", 0, new List<string>() { "123", "234" }), new Event(2, "event2", new DateTime(year, month, now.Day, 12, 00, 00), new DateTime(year, month, now.Day, 13, 00, 00), "Sports", "a few words", 0, new List<string>() { "123", "234" }) };
+            Event[] eventsStub = { new Event(1, "event1", new DateTime(year, month, now.Day, 12, 00, 00), new DateTime(year, month, now.Day, 13, 00, 00), "Sports", "a few words", 0, new List<string>() { "123", "234" }), new Event(2, "event2", new DateTime(year, month, now.Day, 12, 00, 00), new DateTime(year, month, now.Day, 13, 00, 00), "Sports", "a few words", 0, new List<string>() { "123", "234" }), new Event(3, "event3", new DateTime(year, month, now.Day, 12, 00, 00), new DateTime(year, month, now.Day, 13, 00, 00), "Sports", "a few words", 0, new List<string>() { "123", "234" }), new Event(4, "event4", new DateTime(year, month, now.Day, 12, 00, 00), new DateTime(year, month, now.Day, 13, 00, 00), "Sports", "a few words", 0, new List<string>() { "123", "234" }) };
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
     }

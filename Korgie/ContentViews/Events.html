@@ -30,9 +30,11 @@
     <div class="month-day" ng-repeat="calendarDay in days">
         <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': !calendarDay.month}">
             <div class="day-number">{{calendarDay.day}}</div>
-            <div class="event-container" ng-repeat="event in calendarDay.events">
-                <div ng-click="showEvent(event.EventId)">
-                    
+            <div class="event-container">
+                <div ng-repeat="event in calendarDay.events">
+                    <div ng-click="showEvent(event.EventId)">
+
+                    </div>
                 </div>
             </div>
         </div>
