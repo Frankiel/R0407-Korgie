@@ -143,6 +143,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Korgie.mdf" />
+    <Content Include="App_Data\Korgie_log.ldf">
+      <DependentUpon>Korgie.mdf</DependentUpon>
+    </Content>
     <Content Include="ContentViews\Events.html" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
@@ -218,7 +222,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Scripts\custom\" />
   </ItemGroup>
   <PropertyGroup>
