@@ -61,6 +61,15 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function 
         console.log('getting events failed');
     });
 
+    /*$(document).ready(function () {
+        var divs = $('month-day').children();
+        divs.forEach(function (div) {
+            if (!div.attr('month', undefined)) {
+                div.css('box-shadow', 'rgba(0, 0, 0, 0.5) 0 0 2px');
+            }
+        });
+    });*/
+
     $scope.nextMonth = function () {
         if ($scope.month < 11) {
             $scope.month++;
