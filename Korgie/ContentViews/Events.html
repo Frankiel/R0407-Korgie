@@ -26,5 +26,15 @@
         <div>Sat</div>
         <div>Sun</div>
     </div>
-    <day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>
+    <!--<day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>-->
+    <div class="month-day" ng-repeat="calendarDay in days">
+        <div ng-click="showDay(calendarDay.id)">
+            <div class="day-number">{{calendarDay.day}}</div>
+            <div class="event-container" ng-repeat="event in calendarDay.events">
+                <div ng-click="showEvent(event.EventId)">
+                    {{event.Title}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

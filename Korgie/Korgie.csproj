@@ -170,6 +170,7 @@
     <Content Include="Scripts\libs\jquery-2.1.4.min.js" />
     <Content Include="Scripts\services\directives.js" />
     <Content Include="Scripts\services\filters.js" />
+    <Content Include="Scripts\services\services.js" />
     <Content Include="Scripts\templates\dayOfMonth.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

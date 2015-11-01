@@ -86,15 +86,9 @@
     font-size: 26px;
 }
 
-.month-name {
-}
-
 .week-days * {
     width: 25px;
 }
-
-
-/* day-of-month directive */
 
 .month-day {
     float: left;
@@ -102,6 +96,10 @@
     width: 14.285714285714285714285714285714%;
     height: calc((100vw) / 7);
     margin: 0px -1px -1px 0px;
+}
+
+.month-day > * {
+    height: 100%;
 }
 
 .disabled-month-day {
@@ -112,6 +110,12 @@
 .day-number {
     display: inline-block;
     padding-left: 5%;
+}
+
+.event-container {
+    width: 30%;
+    height: 30%;
+    background-color: yellow;
 }
 
 @media (max-width: 599px) {
