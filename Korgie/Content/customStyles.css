@@ -74,7 +74,12 @@
 }*/
 
 .menu {
-    margin-top: 95px;
+    margin-top: 75px;
+}
+
+.signout-button {
+    font-size: 13px !important;
+    padding: 2px !important;
 }
 
 /* content */

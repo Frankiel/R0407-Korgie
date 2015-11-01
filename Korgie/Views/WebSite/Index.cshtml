@@ -7,6 +7,10 @@
         <div class="logo"></div>
     </div>
     <nav class="container">
+        <div layout="column" layout-align="start end">
+            <div>@ViewBag.Email</div>
+            <!--Edit signout-button class-->
+        </div>
         <div class="nav navbar-right menu">
             <ul class="nav">
                 <li class="active"><a href="#">Events</a></li>
@@ -15,6 +19,7 @@
                 <li><a href="#">Notifications</a></li>
                 <li><a href="#">Statistics</a></li>
                 <li><a href="#">Settings</a></li>
+                <li><button class="btn btn-mini btn-primary signout-button" type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'">Sign out</button></li>
             </ul>
         </div>
     </nav>
