@@ -50,11 +50,6 @@
     margin: 0px;
 }
 
-/* Shared */
-/*.mobile-header, .mobile-header btn {
-    display: none;
-}*/
-
 .header {
     width: 100%;
     height: 150px;
@@ -90,6 +85,7 @@
     margin: 15px;
     width: 300px;
     font-size: 26px;
+    text-align: center;
 }
 
 .week-days * {
@@ -101,6 +97,7 @@
     width: calc(14.285714285714285714285714285714% - 2px);
     height: calc((100vw) / 7 - 2px);
     margin: 0px 1px 1px 0px;
+    cursor: pointer;
 }
 
 .disabled-month-day {
@@ -109,6 +106,7 @@
     border: 1px dashed #999 !important;
     box-shadow: none !important;
     z-index: 20;
+    cursor: default;
 }
 
 .month-day > * {
@@ -132,7 +130,6 @@
     margin-top: 3.3%;
     margin-left: 2.5%;
     float: left;
-    background-color: yellow;
     border: 1px solid #000;
     width: 30%;
     height: 50%;
@@ -168,6 +165,73 @@
     height: 100%;
 }
 
+.day-mode-close, .day-mode-delete {
+    float: right;
+}
+
+.day-mode-header {
+    margin-left: 36px;
+}
+
+.day-mode-events, .day-mode-todos {
+    border-right: 2px dotted #000;
+    width: 50%;
+}
+
+.detailed-event {
+    border: 1px solid #000;
+    margin-bottom: 10px;
+    width: 95%;
+    overflow: hidden;
+}
+
+.detailed-event:hover .day-mode-delete {
+    right: 0px;
+    transition: right ease 0.3s;
+}
+
+.day-mode-events > * {
+    margin: 5px;
+}
+
+.day-mode-delete {
+    margin: 3px;
+    position: relative;
+    right: -35px;
+    transition: right ease 0.3s;
+}
+
+.detailed-event .time {
+    margin: 11px;
+}
+
+.detailed-event .title {
+    text-align: center;
+    font-weight: bold;
+    font: bold 20px 'Times New Roman';
+}
+
+.detailed-event .type {
+    margin: 11px;
+}
+
+.detailed-event .type *:first-child {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin-right: 10px;
+}
+
+.day-mode-todos {
+    border-right: none;
+}
+
+@media (max-width: 310px) {
+    .detailed-event {
+        width: 45% !important;
+    }
+}
+
 @media (max-width: 599px) {
     .mobile-header {
         height: 50px;
@@ -177,8 +241,12 @@
         text-align: center;
     }
 
+    .mobile-header button {
+        margin-left: 5px;
+    }
+
     .mobile-header h2 {
-        margin-top: 10px;
+        width: calc(100% - 82px);
     }
 
     .header {
@@ -209,22 +277,6 @@
         width: 75px;
         height: 50px;
     }
-
-    .menu {
-        margin: 0px;
-    }
-
-    .header ul {
-        width: 100%;
-        padding-left: 2%;
-        right: 0px !important;
-    }
-
-    .header li {
-        display: block;
-        width: 100%;
-    }
-
     .container {
         padding: 0px 0px 0px 5px !important;
     }
@@ -247,6 +299,26 @@
 
     .row {
         margin: 0px !important;
+    }
+
+    .some-events {
+        background-color: #ff7d00;
+    }
+
+    .day-mode-events, .day-mode-todos {
+        border-right: none;
+        border-bottom: 2px dotted #000;
+        width: 100%;
+    }
+
+    .detailed-event {
+        display: inline-block;
+        width: 30%;
+        cursor: pointer;
+    }
+
+    .day-mode-todos {
+        border-bottom: none;
     }
 }
 

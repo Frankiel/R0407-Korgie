@@ -26,6 +26,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
             result.unshift({
                 id: j - 1,
                 day: lastDayPrev--,
+                month: undefined,
                 events: []
             });
         }
@@ -85,9 +86,9 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     }
 
     $scope.showDay = function (index) {
-        /*if ($scope.days[index].month != undefined) {
+        if ($scope.days[index].month != undefined) {
             $scope.dayToShow = $scope.days[index];
-        }*/
+        }
     }
 
     $scope.showTypeEvents = function (type) {
@@ -98,13 +99,58 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         if (e.stopPropagation) e.stopPropagation();
     }
 
+    $scope.nextDay = function () {
+        var dayIndex = $scope.days.indexOf($scope.dayToShow);
+        if ($scope.days[dayIndex + 1].month == undefined) {
+            $scope.nextMonth();
+            $scope.dayToShow = $scope.days[(new Date($scope.year, $scope.month, 1).getDay() + 6) % 7];
+        } else {
+            $scope.dayToShow = $scope.days[dayIndex + 1];
+        }
+    }
+
+    $scope.prevDay = function () {
+        var dayIndex = $scope.days.indexOf($scope.dayToShow);
+        if ($scope.days[dayIndex - 1].month == undefined) {
+            $scope.prevMonth();
+            var firstDay = (new Date($scope.year, $scope.month, 1).getDay() + 6) % 7;
+            var days = 33 - new Date($scope.year, $scope.month, 33).getDate();
+            $scope.dayToShow = $scope.days[firstDay + days - 1];
+        } else {
+            $scope.dayToShow = $scope.days[dayIndex - 1];
+        }
+    }
+
     $scope.showHideMenu = function () {
         $('.header').toggleClass('opened-menu');
         $('.content').toggleClass('opened-menu');
         $('.dark-div').toggleClass('opened-menu');
     }
 
-    $scope.opendDialog = function (dialogId) {
+    $scope.closeDayMode = function () {
+        $scope.dayToShow = undefined;
+    }
+
+    $scope.deleteEvent = function (id) {
+        var date;
+        $scope.dayToShow.events.forEach(function (ev, i) {
+            if (ev.EventId == id) {
+                date = ev.Start.getDate();
+                $scope.dayToShow.events.splice(i, 1);
+            }
+        });
+        var d = $scope.days.filter(function (day) {
+            return day.day == date && day.month != undefined;
+        })[0];
+        d.events.forEach(function (ev, i) {
+            if (ev.EventId == id) {
+                $scope.dayToShow.events.splice(i, 1);
+            }
+        });
+        d.types = korgieApi.getTypes(d.events);
+    };
+
+    $scope.openDialog = function (dialogId) {
         LxDialogService.open(dialogId);
     };
 

@@ -9,4 +9,10 @@
         return function (date) {
             return $filter('monthName')(date.month) + ' ' + date.day + ', ' + date.year;
         }
+    })
+    .filter('getStartTime', function ($filter) {
+        return function (date) {
+            var mins = date.getMinutes();
+            return date.getHours() + ':' + ((mins < 10) ? '0' + mins : mins);
+        }
     });

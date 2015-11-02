@@ -1,52 +1,79 @@
 ﻿<div class="dark-div" ng-click="showHideMenu()"></div>
 <div class="container content">
-
+    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+        <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="showHideMenu()">
+            <i class="mdi mdi-menu"></i>
+        </button>
+        <h2>Events</h2>
+    </div>
     <div id="day-mode" ng-if="dayToShow">
-        <div layout-align="center center" layout="row">
+        <div class="day-mode-close">
+            <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="closeDayMode()"><i class="mdi mdi-close"></i></button>
+        </div>
+        <div class="day-mode-header" layout-align="center center" layout="row">
             <div class="day-header" layout="row" layout-align="space-between center">
-                <button class="btn btn--m btn--blue btn--icon" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
+                <button class="btn btn--m btn--blue btn--icon" ng-click="prevDay()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
                 {{dayToShow | dayMode}}
-                <button class="btn btn--m btn--blue btn--icon" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+                <button class="btn btn--m btn--blue btn--icon" ng-click="nextDay()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+            </div>
+        </div>
+        <div layout="row" layout-sm="column">
+            <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="center center">
+                <div layout="row" layout-align="center center">
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')"><i class="mdi mdi-plus"></i></button>
+                </div>
+                <div class="detailed-event" ng-repeat="event in dayToShow.events" ng-click="openDialog('test')">
+                    <div class="day-mode-delete">
+                        <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
+                    </div>
+                    <div class="time">{{event.Start | getStartTime}}</div>
+                    <div class="title" layout="row" layout-align="center center">{{event.Title}}</div>
+                    <div class="type" layout="row" layout-align="start center">
+                        <div class={{event.Type}}></div>
+                        {{event.Type}}
+                    </div>
+                </div>
+            </div>
+            <div class="day-mode-todos" layout="column" layout-align="space-between center">
+                <div>
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')"><i class="mdi mdi-plus"></i></button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
-        <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()">
-            <i class="mdi mdi-chevron-right"></i>
-        </button>
-        <h2 flex="70">Events</h2>
-    </div>
-    <div layout-align="center center" layout="row">
-        <div class="month-header" layout="row" layout-align="space-between center">
-            <button class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-            {{month | monthName}}, {{year}}
-            <button class="btn btn--m btn--blue btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+    <div ng-if="!dayToShow">        
+        <div layout-align="center center" layout="row">
+            <div class="month-header" layout="row" layout-align="space-between center">
+                <button class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
+                {{month | monthName}}, {{year}}
+                <button class="btn btn--m btn--blue btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+            </div>
         </div>
-    </div>
-    <div layout="row" layout-align="space-around center" class="week-days">
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
-        <div>Sun</div>
-    </div>
-    <!--<day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>-->
-    <div class="month-day" ng-repeat="calendarDay in days">
-        <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': !calendarDay.month}">
-            <div class="day-number">{{calendarDay.day}}</div>
-            <div class="event-container">
-                <div ng-repeat="type in calendarDay.types">
-                    <div class={{type}} ng-click="showTypeEvents(type)">
+        <div layout="row" layout-align="space-around center" class="week-days">
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+            <div>Sun</div>
+        </div>
+        <!--<day-of-month month={{month}} year={{year}} monthdays="days"></day-of-month>-->
+        <div class="month-day" ng-repeat="calendarDay in days">
+            <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0}">
+                <div class="day-number">{{calendarDay.day}}</div>
+                <div class="event-container" hide-sm>
+                    <div ng-repeat="type in calendarDay.types">
+                        <div class={{type}} ng-click="showTypeEvents(type)">
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <button class="btn btn--l btn--blue btn--icon" lx-ripple type="button" ng-click="opendDialog('test')"><i class="mdi mdi-comment"></i></button>
+
     <lx-dialog class="dialog dialog--l" id="test" auto-close="true">
         <div>Hello world!</div>
     </lx-dialog>

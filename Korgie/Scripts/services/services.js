@@ -26,7 +26,7 @@
             }
         });
         return result;
-    }
+    };
 };
 
 angular
