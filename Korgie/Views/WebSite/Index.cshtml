@@ -13,13 +13,13 @@
         </div>
         <div class="nav navbar-right menu">
             <ul class="nav">
-                <li class="active"><a href="#">Events</a></li>
-                <li><a href="#">Notes</a></li>
-                <li><a href="#">Contacts</a></li>
-                <li><a href="#">Notifications</a></li>
-                <li><a href="#">Statistics</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><button class="btn btn-mini btn-primary signout-button" type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'">Sign out</button></li>
+                <li class="active"><button class="btn btn--m btn--blue btn--flat" lx-ripple>Events</button></li>
+                <li><button class="btn btn--m btn--blue btn--flat" lx-ripple>Notes</button></li>
+                <li><button class="btn btn--m btn--blue btn--flat" lx-ripple>Contacts</button></li>
+                <li><button class="btn btn--m btn--blue btn--flat" lx-ripple>Notifications</button></li>
+                <li><button class="btn btn--m btn--blue btn--flat" lx-ripple>Statistics</button></li>
+                <li><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button"><i class="mdi mdi-settings"></i></button></li>
+                <li><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'"><i class="mdi mdi-logout"></i></button></li>
             </ul>
         </div>
     </nav>
