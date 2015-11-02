@@ -1,4 +1,4 @@
-﻿var korgie = angular.module('korgie', []);
+﻿var korgie = angular.module('korgie', ['lumx']);
 
 korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function ($scope, $http, $q, korgieApi) {
     var today = new Date();
