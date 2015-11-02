@@ -6,6 +6,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function 
     $scope.year = today.getFullYear();
     $scope.events;
     $scope.days;
+    $scope.dayToShow;
 
     function getMonthDays() {
         var result = [];
@@ -30,15 +31,17 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function 
         }
         var lastDay = 33 - new Date($scope.year, $scope.month, 33).getDate(), i = firstWeekDay;
         for (; i < lastDay + firstWeekDay; i++) {
+            var evs = $scope.events.filter(function (ev) {
+                var date = ev.Start;
+                return date.getMonth() == $scope.month && date.getDate() == i - firstWeekDay + 1;
+            });
             result.push({
                 id: i,
                 day: i - firstWeekDay + 1,
                 month: $scope.month,
                 year: $scope.year,
-                events: $scope.events.filter(function (ev) {
-                    var date = ev.Start;
-                    return date.getMonth() == $scope.month && date.getDate() == i - firstWeekDay + 1;
-                })
+                events: evs,
+                types: korgieApi.getTypes(evs)
             });
         }
         for (; i % 7 != 0; i++) {
@@ -92,18 +95,12 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function 
 
     $scope.showDay = function (index) {
         if ($scope.days[index].month != undefined) {
-            console.log($scope.days[index].day);
+            $scope.dayToShow = $scope.days[index];
         }
     }
 
-    $scope.showEvent = function (index) {
-        var i, length = $scope.events.length;
-        for (i = 0; i < length; i++) {
-            if ($scope.events[i].EventId == index) {
-                break;
-            };
-        };
-        console.log($scope.events[i]);
+    $scope.showTypeEvents = function (type) {
+        console.log(type);
 
         if (!e) var e = window.event;
         e.cancelBubble = true;

@@ -80,7 +80,7 @@
 /* content */
 /* events */
 
-.month-header {
+.month-header, .day-header {
     margin: 15px;
     width: 300px;
     font-size: 26px;
@@ -133,6 +133,12 @@
 }
 
 .event-container > * > * {
+    height: 100%;
+}
+
+#day-mode {
+    z-index: 20;
+    width: 100%;
     height: 100%;
 }
 

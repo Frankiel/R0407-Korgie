@@ -17,6 +17,16 @@
         deferred.resolve(result);
         return deferred.promise;
     };
+
+    this.getTypes = function (events) {
+        var result = [];
+        events.forEach(function (event) {
+            if (!result.some(type => type == event.Type)) {
+                result.push(event.Type);
+            }
+        });
+        return result;
+    }
 };
 
 angular
