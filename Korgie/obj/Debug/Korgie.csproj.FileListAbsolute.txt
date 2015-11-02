@@ -304,7 +304,6 @@ C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\bi
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\bin\System.Web.Webpages.Razor.xml
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\bin\System.Web.Helpers.xml
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\bin\System.Web.Mvc.xml
-C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\obj\Debug\Korgie.csprojResolveAssemblyReference.cache
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\obj\Debug\Korgie.dll
 C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\obj\Debug\Korgie.pdb
 D:\Маняша\5 семестр\Корги\R0407-Korgie\Korgie\bin\roslyn\csc.exe
@@ -539,3 +538,4 @@ D:\Мария\ХНУРЭ\5 семестр\АВПЗ\R0407-Korgie\Korgie\bin\Syste
 D:\Мария\ХНУРЭ\5 семестр\АВПЗ\R0407-Korgie\Korgie\obj\Debug\Korgie.csprojResolveAssemblyReference.cache
 D:\Мария\ХНУРЭ\5 семестр\АВПЗ\R0407-Korgie\Korgie\obj\Debug\Korgie.dll
 D:\Мария\ХНУРЭ\5 семестр\АВПЗ\R0407-Korgie\Korgie\obj\Debug\Korgie.pdb
+C:\Users\Артур\Documents\Visual Studio 2015\Projects\R0407-Korgie\Korgie\obj\Debug\Korgie.csprojResolveAssemblyReference.cache

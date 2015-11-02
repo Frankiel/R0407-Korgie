@@ -1,6 +1,6 @@
-﻿var korgie = angular.module('korgie', []);
+﻿var korgie = angular.module('korgie', ['lumx']);
 
-korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function ($scope, $http, $q, korgieApi) {
+korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialogService', function ($scope, $http, $q, korgieApi, LxDialogService) {
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -112,4 +112,12 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', function 
         $('.content').toggleClass('opened-menu');
         $('.dark-div').toggleClass('opened-menu');
     }
+
+    $scope.opendDialog = function (dialogId) {
+        LxDialogService.open(dialogId);
+    };
+
+    $scope.closingDialog = function () {
+        LxNotificationService.info('Dialog closed!');
+    };
 }]);

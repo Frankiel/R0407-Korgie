@@ -13,7 +13,7 @@ namespace Korgie.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            //ViewBag.Email = Request.Cookies["Preferences"]["Email"];
+            ViewBag.Email = Request.Cookies["Preferences"]["Email"];
             return View(); // don't return anything
         }
 
