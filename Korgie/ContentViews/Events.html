@@ -4,32 +4,24 @@
     <div id="day-mode" ng-if="dayToShow">
         <div layout-align="center center" layout="row">
             <div class="day-header" layout="row" layout-align="space-between center">
-                <button type="button" class="btn btn-default" ng-click="prevMonth()">
-                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-                </button>
-                {{month | monthName}}, {{year}}
-                <button type="button" class="btn btn-default" ng-click="nextMonth()">
-                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                </button>
+                <button class="btn btn--m btn--blue btn--icon" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
+                {{dayToShow | dayMode}}
+                <button class="btn btn--m btn--blue btn--icon" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
     </div>
 
     <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
-        <button type="button" class="btn btn-link btn-lg" flex="15" ng-click="showHideMenu()">
-            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+        <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()">
+            <i class="mdi mdi-chevron-right"></i>
         </button>
         <h2 flex="70">Events</h2>
     </div>
     <div layout-align="center center" layout="row">
         <div class="month-header" layout="row" layout-align="space-between center">
-            <button type="button" class="btn btn-default" ng-click="prevMonth()">
-                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-            </button>
+            <button class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
             {{month | monthName}}, {{year}}
-            <button type="button" class="btn btn-default" ng-click="nextMonth()">
-                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-            </button>
+            <button class="btn btn--m btn--blue btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
         </div>
     </div>
     <div layout="row" layout-align="space-around center" class="week-days">
@@ -47,7 +39,7 @@
             <div class="day-number">{{calendarDay.day}}</div>
             <div class="event-container">
                 <div ng-repeat="type in calendarDay.types">
-                    <div ng-click="showTypeEvents(type)">
+                    <div class={{type}} ng-click="showTypeEvents(type)">
 
                     </div>
                 </div>

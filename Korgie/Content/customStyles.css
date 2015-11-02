@@ -34,6 +34,7 @@
     max-width: 50px;
     border-color: #f13e3e;
     border-width: 3px;
+    margin-left: calc(50% - 25px);
 }
 
 .background-image p {
@@ -74,7 +75,12 @@
 }*/
 
 .menu {
-    margin-top: 95px;
+    margin-top: 75px;
+}
+
+.signout-button {
+    font-size: 13px !important;
+    padding: 2px !important;
 }
 
 /* content */
@@ -134,6 +140,26 @@
 
 .event-container > * > * {
     height: 100%;
+}
+
+.Work {
+    background-color: red;
+}
+
+.Sports {
+    background-color: blue;
+}
+
+.Study {
+    background-color: yellow;
+}
+
+.Rest {
+    background-color: green;
+}
+
+.Additional {
+    background-color: pink;
 }
 
 #day-mode {
