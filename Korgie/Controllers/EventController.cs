@@ -13,6 +13,20 @@ namespace Korgie.Controllers
         // GET: Event
         public ActionResult Index()
         {
+            string[] allcookies = Request.Cookies.AllKeys;
+            bool result = true;
+            foreach (string x in allcookies)
+            {
+                if (x == "Preferences")
+                {
+                    result = false;
+                }
+            }
+
+            if (result)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.Email = Request.Cookies["Preferences"]["Email"];
             return View(); // don't return anything
         }
