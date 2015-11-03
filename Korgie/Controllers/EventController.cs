@@ -8,7 +8,7 @@ using Korgie.Models;
 
 namespace Korgie.Controllers
 {
-    public class WebSiteController : Controller
+    public class EventController : Controller
     {
         // GET: Event
         public ActionResult Index()

@@ -22,7 +22,7 @@ namespace Korgie.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "WebSite"); //return main page if user didn't log in and calendar page if he is logged in
+            return RedirectToAction("Index", "Event"); //return main page if user didn't log in and calendar page if he is logged in
         }
 
 

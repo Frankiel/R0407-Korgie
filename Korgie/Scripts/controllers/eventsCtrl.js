@@ -56,7 +56,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         return result;
     }
 
-    $http.get('/WebSite/GetEvents', { params: { month: parseInt($scope.month) + 1, year: $scope.year } }).then(function successCallback(response) {
+    $http.get('/Event/GetEvents', { params: { month: parseInt($scope.month) + 1, year: $scope.year } }).then(function successCallback(response) {
         korgieApi.convertEvents(response.data).then(function (events) {
             $scope.events = events;
             $scope.days = getMonthDays();
