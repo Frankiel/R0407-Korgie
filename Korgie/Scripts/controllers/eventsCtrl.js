@@ -157,4 +157,29 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     $scope.closingDialog = function () {
         LxNotificationService.info('Dialog closed!');
     };
+
+    /*-------------------------------------------------------------------*/
+    $scope.eventToEdit = {
+        EventId: 5,
+        Title: "Tidghnhdgnhdgngtle",
+        Start: new Date(),
+        Time: "11:30",
+        End: new Date(),
+        Type: "sport",
+        Description: "gtyjtyjdhywmnyhnkl mrt sgjnm ,hh r tnj;hnjkm, jnhoklm ,yhkm,yhtojk m,r6ukm, ykm,yhnjikm 5yhting jkm.5y htog; jnkm. yh tm,ht gok;nm,yhtkm, ehtnd tvu oybmktu chjnkmuvibh njkfsdf",
+        Period: 0,
+
+        Repeat: [false, false, false, false, false, false, false],
+        Tags: "Tags"
+    };
+    console.log($scope.eventToEdit);
+
+
+    $scope.showHideControlls = function () {
+        $(".controllsVisible").toggle();
+        $(".controllsUnvisible").toggle();
+    }
+
+
+
 }]);

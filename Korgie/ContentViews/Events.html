@@ -75,6 +75,98 @@
     </div>
 
     <lx-dialog class="dialog dialog--l" id="test" auto-close="true">
-        <div>Hello world!</div>
+        <div class="event" layout="column" layout-align="space-beetwen" layout-margin layout-padding>
+            <div class="buttons" layout="row">
+                <button class=" btn btn--m btn--blue btn--flat controllsVisible" lx-ripple ng-click="showHideControlls()">edit</button>
+                <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button><!--ng-click="opendDialog('test1')"-->
+                <!--<lx-dialog class="dialog dialog--l" id="test1" auto-close="true">zwesxdrjk,.;</lx-dialog>-->
+            </div>
+            <div class="center-block">
+                <h1>
+                    <span class="display-block controllsVisible">{{eventToEdit.Title}}</span>
+                    <lx-text-field label="Title" fixed-label="true" class="controllsUnvisible">
+                        <input type="text" ng-model="eventToEdit.Title">
+                    </lx-text-field>
+                </h1>
+            </div>
+            <div class="center-div">
+                <div layout="row" layout-sm="column">
+                    <div flex=" 50">
+                        <div>
+                            <p>Date:</p>
+                            <span class="display-block controllsVisible"> {{eventToEdit.Start}}</span>
+                            <input class="controllsUnvisible" type="date" ng-model="eventToEdit.Start">
+                        </div>
+                        <div>
+                            <p>Time:</p><span class="display-block controllsVisible">{{eventToEdit.Time}}</span>
+                            <input class="controllsUnvisible" type="time" name="time" ng-model="eventToEdit.Time">
+                        </div>
+                        <div>
+                            <p>Type:</p><span class="display-block controllsVisible">{{eventToEdit.Type}}</span>
+                            <select class="controllsUnvisible" ng-model="eventToEdit.Type">
+                                <option value="sport">Sport</option>
+                                <option value="work">Work</option>
+                                <option value="study">Study</option>
+                                <option value="rest">Rest</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div flex=" 50">
+                        <div>
+                            <p>Notifications:</p> <span class="display-block controllsVisible">{{eventToEdit.Notifications}}</span>
+                            <input class="controllsUnvisible" type="number" min="0" ng-model="eventToEdit.Notifications"> days
+                        </div>
+                        <div>
+                            <p>Periodical:</p>
+
+                            <span class="display-block controllsVisible">{{eventToEdit.Period}}</span>
+                            <select class="controllsUnvisible" ng-model="eventToEdit.Period">
+                                <option value="day">Day</option>
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                                <option value="year">Year</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="checkbox" layout="row">
+                            <input type="checkbox" id="checkbox1" class="checkbox__input">
+                            <label for="checkbox1" class="checkbox__label">Mon</label>
+                            <input type="checkbox" id="checkbox2" class="checkbox__input">
+                            <label for="checkbox2" class="checkbox__label">Tue</label>
+                            <input type="checkbox" id="checkbox3" class="checkbox__input">
+                            <label for="checkbox3" class="checkbox__label">Wed</label>
+                            <input type="checkbox" id="checkbox4" class="checkbox__input">
+                            <label for="checkbox4" class="checkbox__label">Thu</label>
+                            <input type="checkbox" id="checkbox5" class="checkbox__input">
+                            <label for="checkbox5" class="checkbox__label">Fri</label>
+                            <input type="checkbox" id="checkbox6" class="checkbox__input">
+                            <label for="checkbox6" class="checkbox__label">Sut</label>
+                            <input type="checkbox" id="checkbox7" class="checkbox__input">
+                            <label for="checkbox7" class="checkbox__label">Sun</label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <p>Description:</p>
+                        <span class="display-block controllsVisible">{{eventToEdit.Description}}</span>
+                        <textarea class="controllsUnvisible">{{eventToEdit.Description}}</textarea>
+                    </div>
+                    <div>
+                        <p>Tags:</p>
+                        <span class="display-block controllsVisible">{{eventToEdit.Tags}}</span>
+                        <textarea class="controllsUnvisible">{{eventToEdit.Tags}}</textarea>
+                    </div>
+                    <div>
+                        <p>Contacts:</p>
+
+                    </div>
+                </div>
+                <div layout="row" layout-align="end">
+                    <button class="btn btn--m btn--blue btn--flat" lx-ripple>Save</button>
+                    <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close>Close</button>
+                </div>
+            </div>
+        </div>
     </lx-dialog>
 </div>
