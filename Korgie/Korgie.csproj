@@ -893,7 +893,7 @@
     <Content Include="Scripts\libs\velocity\.bower.json" />
     <Content Include="Scripts\libs\velocity\bower.json" />
     <Content Include="Views\Event\Index.cshtml">
-      <BrowseToURL>~/Event/IndexEvents</BrowseToURL>
+      <BrowseToURL>~/Event/Index</BrowseToURL>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
