@@ -58,9 +58,9 @@
 
 .logo {
     width: 150px;
-    height: 100px;
+    height: 90px;
     position: absolute;
-    top: 25px;
+    top: 15px;
     left: 35px;
     background: #888;
 }
@@ -70,12 +70,16 @@
 }*/
 
 .menu {
-    margin-top: 75px;
+    margin-top: 70px;
 }
 
-.signout-button {
-    font-size: 13px !important;
-    padding: 2px !important;
+.searchfield{
+    margin-top: 40px;
+    
+}
+
+.email{
+    margin-top:8px;
 }
 
 /* content */
@@ -241,6 +245,18 @@
         text-align: center;
     }
 
+    .navicons{
+        position: fixed;
+        bottom: 0px;
+        width: 35%;
+        text-align: center;
+        overflow:hidden;
+    }
+
+    .searchfield{
+        margin-top: 0px;
+    }
+
         .mobile-header button {
             margin-left: 5px;
         }
@@ -273,13 +289,13 @@
 
     .logo {
         top: 5px;
-        left: 10px;
+        left: 15px;
         width: 75px;
         height: 50px;
     }
 
     .container {
-        padding: 0px 0px 0px 5px !important;
+        padding: 0px 0px 0px 0px !important;
     }
 
     .dark-div {
@@ -322,9 +338,31 @@
         border-bottom: none;
     }
 
+    /*Navbar area start*/
     .center-div {
         margin: 0 2% 0 2%;
     }
+
+    .menu {
+        margin-top: 0px;
+        overflow:hidden;
+    }
+
+    .menu ul{
+        position: static !important;
+        margin-top: 10px;
+    }
+
+    .menu li button{
+        width:100%;
+        padding:0px !important;
+    }
+
+    .searchfield div{
+        width:94% !important;
+        margin-left:3% !important;
+    }
+    /*Navbar area finish*/
 }
 
 @media (min-width: 600px) {
@@ -364,6 +402,24 @@
     .center-div {
         margin: 0 10% 0 10%;
     }
+}
+
+@media (max-width: 959px) {
+    .menu{
+        margin-top:0px;
+    }
+    .searchfield{
+        margin-top:0px;
+        text-align:right;
+    }
+    .header ul {
+        position: relative;
+        right: 10px;
+    }
+    .searchfield div{
+        width:350px;
+    }
+
 }
 
 @media (min-width: 992px) {
