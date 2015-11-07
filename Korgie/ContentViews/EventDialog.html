@@ -1,13 +1,12 @@
 ﻿<div class="event" layout="column" layout-align="space-beetwen" layout-margin layout-padding>
     <div class="buttons" layout="row">
-        <button class=" btn btn--m btn--blue btn--flat controllsVisible" lx-ripple ng-click="showHideControlls()">edit</button>
-        <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button><!--ng-click="opendDialog('test1')"-->
-        <!--<lx-dialog class="dialog dialog--l" id="test1" auto-close="true">zwesxdrjk,.;</lx-dialog>-->
+        <button class="btn btn--m btn--red btn--icon controlls-visible" lx-ripple ng-click="showHideControlls()"><i class="mdi mdi-pencil"></i></button>
+        <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
     </div>
     <div class="center-block">
         <h1>
-            <span class="display-block controllsVisible">{{eventToEdit.Title}}</span>
-            <lx-text-field label="Title" fixed-label="true" class="controllsUnvisible">
+            <span class="display-block controlls-visible">{{eventToSave.Title}}</span>
+            <lx-text-field label="Title" fixed-label="true" class="controlls-unvisible">
                 <input type="text" ng-model="eventToEdit.Title">
             </lx-text-field>
         </h1>
@@ -17,16 +16,28 @@
             <div flex=" 50">
                 <div>
                     <p>Date:</p>
-                    <span class="display-block controllsVisible"> {{eventToEdit.Start}}</span>
-                    <input class="controllsUnvisible" type="date" ng-model="eventToEdit.Start">
+                    <span class="display-block controlls-visible"> {{eventToSave.Start | date}}</span>
+                    <input class="controlls-unvisible" type="date" ng-model="eventToEdit.Start">
                 </div>
                 <div>
-                    <p>Time:</p><span class="display-block controllsVisible">{{eventToEdit.Time}}</span>
-                    <input class="controllsUnvisible" type="time" name="time" ng-model="eventToEdit.Time">
+                    <p>Time:</p>
+                    <p class="controlls-visible">{{eventToSave.Time}}</p>
+                    <input class="controlls-unvisible" type="time" name="time" ng-model="eventToEdit.Time">
                 </div>
                 <div>
-                    <p>Type:</p><span class="display-block controllsVisible">{{eventToEdit.Type}}</span>
-                    <select class="controllsUnvisible" ng-model="eventToEdit.Type">
+                    <p>Type:</p>
+                    <p class="controlls-visible">{{eventToSave.Type}}</p>
+                    <!--<lx-select class="controlls-unvisible" ng-model="eventToSave.Type" placeholder="Type" choices="Types" floating-label>
+                        <lx-select-selected>
+                            {{ $selected.name }}
+                        </lx-select-selected>
+
+                        <lx-select-choices>
+                            {{ $choice.name }}
+                        </lx-select-choices>
+                    </lx-select>-->
+
+                    <select class="controlls-unvisible" ng-model="eventToEdit.Type">
                         <option value="sport">Sport</option>
                         <option value="work">Work</option>
                         <option value="study">Study</option>
@@ -35,15 +46,16 @@
                 </div>
             </div>
             <div flex=" 50">
-                <div>
-                    <p>Notifications:</p> <span class="display-block controllsVisible">{{eventToEdit.Notifications}}</span>
-                    <input class="controllsUnvisible" type="number" min="0" ng-model="eventToEdit.Notifications"> days
+                <div layout="row">
+                    <p>Notifications: </p>
+                    <p class="controlls-visible">{{eventToSave.Notifications}}</p>
+                    <input class="controlls-unvisible" type="number" min="0" ng-model="eventToEdit.Notifications">
+                    <p> days</p>
                 </div>
                 <div>
                     <p>Periodical:</p>
-
-                    <span class="display-block controllsVisible">{{eventToEdit.Period}}</span>
-                    <select class="controllsUnvisible" ng-model="eventToEdit.Period">
+                    <p class="controlls-visible">{{eventToSave.Period}}</p>
+                    <select class="controlls-unvisible" ng-model="eventToEdit.Period">
                         <option value="day">Day</option>
                         <option value="week">Week</option>
                         <option value="month">Month</option>
@@ -72,13 +84,13 @@
         <div>
             <div>
                 <p>Description:</p>
-                <span class="display-block controllsVisible">{{eventToEdit.Description}}</span>
-                <textarea class="controllsUnvisible">{{eventToEdit.Description}}</textarea>
+                <p class="controlls-visible">{{eventToSave.Description}}</p>
+                <textarea class="controlls-unvisible">{{eventToSave.Description}}</textarea>
             </div>
             <div>
                 <p>Tags:</p>
-                <span class="display-block controllsVisible">{{eventToEdit.Tags}}</span>
-                <textarea class="controllsUnvisible">{{eventToEdit.Tags}}</textarea>
+                <p class="controlls-visible">{{eventToSave.Tags}}</p>
+                <textarea class="controlls-unvisible">{{eventToSave.Tags}}</textarea>
             </div>
             <div>
                 <p>Contacts:</p>

@@ -126,18 +126,18 @@
     height: 60%;
 }
 
-.event-container > * {
-    margin-top: 3.3%;
-    margin-left: 2.5%;
-    float: left;
-    border: 1px solid #000;
-    width: 30%;
-    height: 50%;
-}
+    .event-container > * {
+        margin-top: 3.3%;
+        margin-left: 2.5%;
+        float: left;
+        border: 1px solid #000;
+        width: 30%;
+        height: 50%;
+    }
 
-.event-container > * > * {
-    height: 100%;
-}
+        .event-container > * > * {
+            height: 100%;
+        }
 
 .Work {
     background-color: red;
@@ -185,10 +185,10 @@
     overflow: hidden;
 }
 
-.detailed-event:hover .day-mode-delete {
-    right: 0px;
-    transition: right ease 0.3s;
-}
+    .detailed-event:hover .day-mode-delete {
+        right: 0px;
+        transition: right ease 0.3s;
+    }
 
 .day-mode-events > * {
     margin: 5px;
@@ -215,12 +215,12 @@
     margin: 11px;
 }
 
-.detailed-event .type *:first-child {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #000;
-    margin-right: 10px;
-}
+    .detailed-event .type *:first-child {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #000;
+        margin-right: 10px;
+    }
 
 .day-mode-todos {
     border-right: none;
@@ -241,13 +241,13 @@
         text-align: center;
     }
 
-    .mobile-header button {
-        margin-left: 5px;
-    }
+        .mobile-header button {
+            margin-left: 5px;
+        }
 
-    .mobile-header h2 {
-        width: calc(100% - 82px);
-    }
+        .mobile-header h2 {
+            width: calc(100% - 82px);
+        }
 
     .header {
         position: fixed;
@@ -260,10 +260,10 @@
         transition: left 0.5s ease-in;
     }
 
-    .header.opened-menu {
-        left: 0px;
-        transition: left 0.5s ease-in;
-    }
+        .header.opened-menu {
+            left: 0px;
+            transition: left 0.5s ease-in;
+        }
 
     .logo-keeper {
         width: 100%;
@@ -277,6 +277,7 @@
         width: 75px;
         height: 50px;
     }
+
     .container {
         padding: 0px 0px 0px 5px !important;
     }
@@ -291,11 +292,11 @@
         transition: all 0.5s ease-in;
     }
 
-    .dark-div.opened-menu {
-        z-index: 15;
-        background: #000;
-        transition: all 0.5s ease-in;
-    }
+        .dark-div.opened-menu {
+            z-index: 15;
+            background: #000;
+            transition: all 0.5s ease-in;
+        }
 
     .row {
         margin: 0px !important;
@@ -320,6 +321,7 @@
     .day-mode-todos {
         border-bottom: none;
     }
+
     .center-div {
         margin: 0 2% 0 2%;
     }
@@ -339,6 +341,7 @@
         height: calc((100vw - 40px) / 8);
         margin: calc((100vw - 40px) / 128);
     }
+
     .center-div {
         margin: 0 5% 0 5%;
     }
@@ -357,6 +360,7 @@
         height: 92px;
         margin: 5px;
     }
+
     .center-div {
         margin: 0 10% 0 10%;
     }
@@ -368,6 +372,7 @@
         height: 120px;
         margin: 7px;
     }
+
     .center-div {
         margin: 0 15% 0 15%;
     }
@@ -379,6 +384,7 @@
         height: 146px;
         margin: 8px;
     }
+
     .center-div {
         margin: 0 20% 0 20%;
     }
@@ -390,39 +396,49 @@
     height: 50px;
     background: #999;
 }
-/* event */
 
-.buttons {
-    position: absolute;
-    right: 2px;
-    display: none !important;
+/* event */
+.event {
+    margin : 10%;
+    font-family: 'Times New Roman', 'Helvetica Neue', Arial, sans-serif;
+    font-size: medium;
 }
 
-textarea {
+.event:hover .buttons {
+    display: block !important;
+}
+
+.event p{
+    margin: 5% 2% 2% 0;
+    font-size: large;
+}
+
+.event p:not(.controlls-visible) {
+    
+    color: grey;
+    font-weight: bold;
+}
+
+.event h1 {
+    margin: 10% 0 10% 0;
+}
+
+.event textarea {
     resize: none;
     width: 100%;
 }
 
-.event {
-    font-family: "Times New Roman", Times, serif;
-    font-size: medium;
+.buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none !important;
 }
 
-    .event:hover .buttons {
-        display: block !important;
-    }
-
-.controllsVisible {
+.controlls-visible {
     display: inline-block;
 }
 
-.controllsUnvisible {
+.controlls-unvisible {
     display: none;
-}
-
-p {
-    margin: 5% 2% 2% 0;
-    font-size: large;
-    color: grey;
-    font-weight: bold;
 }

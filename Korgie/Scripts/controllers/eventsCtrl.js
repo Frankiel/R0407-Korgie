@@ -1,6 +1,6 @@
-﻿var korgie = angular.module('korgie', ['lumx']);
+﻿var korgie = angular.module("korgie", ["lumx"]);
 
-korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialogService', function ($scope, $http, $q, korgieApi, LxDialogService) {
+korgie.controller("EventsCtrl", ["$scope", "$http", "$q", "korgieApi", "LxDialogService", function ($scope, $http, $q, korgieApi, LxDialogService) {
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -56,13 +56,13 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         return result;
     }
 
-    $http.get('/Event/GetEvents', { params: { month: parseInt($scope.month) + 1, year: $scope.year } }).then(function successCallback(response) {
+    $http.get("/Event/GetEvents", { params: { month: parseInt($scope.month) + 1, year: $scope.year } }).then(function successCallback(response) {
         korgieApi.convertEvents(response.data).then(function (events) {
             $scope.events = events;
             $scope.days = getMonthDays();
         });
     }, function errorCallback(response) {
-        console.log('getting events failed');
+        console.log("getting events failed");
     });
 
     $scope.nextMonth = function () {
@@ -122,9 +122,9 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     }
 
     $scope.showHideMenu = function () {
-        $('.header').toggleClass('opened-menu');
-        $('.content').toggleClass('opened-menu');
-        $('.dark-div').toggleClass('opened-menu');
+        $(".header").toggleClass("opened-menu");
+        $(".content").toggleClass("opened-menu");
+        $(".dark-div").toggleClass("opened-menu");
     }
 
     $scope.closeDayMode = function () {
@@ -155,7 +155,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     };
 
     $scope.closingDialog = function () {
-        LxNotificationService.info('Dialog closed!');
+        LxNotificationService.info("Dialog closed!");
     };
 
     /*-------------------------------------------------------------------*/
@@ -163,23 +163,59 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         EventId: 5,
         Title: "Tidghnhdgnhdgngtle",
         Start: new Date(),
-        Time: "11:30",
+        Time: new Date(),
         End: new Date(),
-        Type: "sport",
-        Description: "gtyjtyjdhywmnyhnkl mrt sgjnm ,hh r tnj;hnjkm, jnhoklm ,yhkm,yhtojk m,r6ukm, ykm,yhnjikm 5yhting jkm.5y htog; jnkm. yh tm,ht gok;nm,yhtkm, ehtnd tvu oybmktu chjnkmuvibh njkfsdf",
+        Type: "Sport",
+        Description: "gtyjtyjdhy",
+        Notifications: 0,
         Period: 0,
-
         Repeat: [false, false, false, false, false, false, false],
         Tags: "Tags"
     };
+    $scope.eventToSave = {
+        EventId: 5,
+        Title: "Tidghnhdgnhdgngtle",
+        Start: new Date(),
+        Time: new Date(),
+        End: new Date(),
+        Type: "",
+        Description: "gtyjtyjdhy",
+        Notifications: 0,
+        Period: 0,
+        Repeat: [false, false, false, false, false, false, false],
+        Tags: "Tags"
+    };
+
+    $scope.save = function () {
+        $scope.eventToEdit = $scope.eventToSave;/*??????????????!!!!!!!!!*/
+        $scope.showHideControlls();
+    }
     console.log($scope.eventToEdit);
 
-
     $scope.showHideControlls = function () {
-        $(".controllsVisible").toggle();
-        $(".controllsUnvisible").toggle();
+        $(".controlls-visible").toggle();
+        $(".controlls-unvisible").toggle();
     }
+    $scope.Types = [
+        { type: "Sport" },
+        { type: "Work" },
+        { type: "Rest" },
+        { type: "Study" },
+        { type: "Additional" }
+    ];
+    
+    $scope.people = [
+    { name: "Adam", email: "adam@email.com", age: 10 },
+    { name: "Amalie", email: "amalie@email.com", age: 12 },
+    { name: "Wladimir", email: "wladimir@email.com", age: 30 },
+    { name: "Samantha", email: "samantha@email.com", age: 31 },
+    { name: "Estefanía", email: "estefanía@email.com", age: 16 },
+    { name: "Natasha", email: "natasha@email.com", age: 54 },
+    { name: "Nicole", email: "nicole@email.com", age: 43 },
+    { name: "Adrian", email: "adrian@email.com", age: 21 }
+    ];
 
-
-
+    $scope.selects = {
+        selectedPerson: undefined
+    };
 }]);
