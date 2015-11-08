@@ -1,0 +1,44 @@
+﻿.mainsettingsblock{
+    width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:10px;
+    text-align:left;
+}
+
+.settingsarea{
+    width:100%;
+    text-align:center;
+}
+
+.avatar{
+    width:200px;
+    height:200px;
+    background-color:#888;
+}
+
+.eventelement{
+    margin-top:10px;
+}
+
+.eventname{
+    text-align:center;
+}
+
+.eventicon{
+    text-align:center;
+}
+
+@media (max-width: 959px) {
+    .mainsettingsblock{
+        width:400px;
+        height:500px;
+        margin-left:auto;
+        margin-right:auto;
+        margin-bottom:200px;
+    }
+
+    .selecteventcolor{
+       display:none; 
+    }
+}

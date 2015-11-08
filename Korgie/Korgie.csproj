@@ -149,12 +149,14 @@
     </Content>
     <Content Include="ContentViews\EventDialog.html" />
     <Content Include="ContentViews\Events.html" />
+    <Content Include="ContentViews\Settings.html" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\eventsCtrl.js" />
     <Content Include="Scripts\libs\angular-mocks.js" />
