@@ -93,15 +93,68 @@
 /* content */
 /* events */
 
-.month-header, .day-header {
+.month-header, .day-header, .week-header {
     margin: 15px;
     width: 300px;
     font-size: 26px;
     text-align: center;
 }
 
+.week-header {
+    width: 210px;
+}
+
+.week-switcher {
+    float: right;
+    margin-top: 18px;
+}
+
+.week-switcher + div {
+    margin-left: 81px;
+}
+
+.week-mode-days {
+    height: 100%;
+}
+
+.week-mode-scroll {
+    max-height: calc(100vh - 267px);
+}
+
+.week-mode-days > * {
+    width: 100%;
+    height: 100%;
+}
+
+.week-mode-day-names {
+    text-align: center;
+    padding: 5px;
+}
+
+.week-mode-event {
+    padding: 5px;
+    margin: 10px 5px 10px;
+    font-size: 13.5px;
+    width: calc(100% - 10px);
+    border: 1px solid #000;
+    overflow: hidden;
+}
+
+.week-mode-event > * {
+    margin: 5px 0px 5px;
+}
+
+.week-days {
+    padding-right: 18px;
+}
+
 .week-days * {
     width: 25px;
+}
+
+.week-mode-type > *:last-child {
+    border: 1px solid #000;
+    margin-left: 5px;
 }
 
 .month-day {
@@ -138,18 +191,18 @@
     height: 60%;
 }
 
-    .event-container > * {
-        margin-top: 3.3%;
-        margin-left: 2.5%;
-        float: left;
-        border: 1px solid #000;
-        width: 30%;
-        height: 50%;
-    }
+.event-container > * {
+    margin-top: 3.3%;
+    margin-left: 2.5%;
+    float: left;
+    border: 1px solid #000;
+    width: 30%;
+    height: 50%;
+}
 
-        .event-container > * > * {
-            height: 100%;
-        }
+.event-container > * > * {
+    height: 100%;
+}
 
 .Work {
     background-color: red;
@@ -197,10 +250,10 @@
     overflow: hidden;
 }
 
-    .detailed-event:hover .day-mode-delete {
-        right: 0px;
-        transition: right ease 0.3s;
-    }
+.detailed-event:hover .day-mode-delete {
+    right: 0px;
+    transition: right ease 0.3s;
+}
 
 .day-mode-events > * {
     margin: 5px;
@@ -227,12 +280,12 @@
     margin: 11px;
 }
 
-    .detailed-event .type *:first-child {
-        width: 20px;
-        height: 20px;
-        border: 1px solid #000;
-        margin-right: 10px;
-    }
+.detailed-event .type *:first-child {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin-right: 10px;
+}
 
 .day-mode-todos {
     border-right: none;
@@ -265,13 +318,13 @@
         margin-top: 0px;
     }
 
-        .mobile-header button {
-            margin-left: 5px;
-        }
+    .mobile-header button {
+        margin-left: 5px;
+    }
 
-        .mobile-header h2 {
-            width: calc(100% - 82px);
-        }
+    .mobile-header h2 {
+        margin-left: 40px;
+    }
 
     .header {
         position: fixed;
@@ -284,10 +337,10 @@
         transition: left 0.5s ease-in;
     }
 
-        .header.opened-menu {
-            left: 0px;
-            transition: left 0.5s ease-in;
-        }
+    .header.opened-menu {
+        left: 0px;
+        transition: left 0.5s ease-in;
+    }
 
     .logo-keeper {
         width: 100%;
@@ -306,6 +359,46 @@
         padding: 0px 0px 0px 0px !important;
     }
 
+    .week-switcher {
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+
+    .week-switcher + div {
+        margin-left: 0px;
+    }
+
+    .week-mode-days {
+        height: 390px;
+    }
+
+    .week-mode-scroll {
+        max-height: 395px !important;
+    }
+
+    .week-mode-days > * {
+        height: 50px;
+        border: 1px solid #000;
+        margin: 5px;
+        width: calc(100% - 10px);
+    }
+
+    .week-mode-day-names {
+        text-align: left;
+        margin: 5px;
+    }
+
+    .week-mode-day-names > * {
+        display: inline-block;
+    }
+
+    .week-mode-type > * {
+        width: 20px;
+        height: 20px;
+        margin: -15px 5px 0px;
+        float: right;
+    }
+
     .dark-div {
         position: fixed;
         background: #fff;
@@ -316,11 +409,11 @@
         transition: all 0.5s ease-in;
     }
 
-        .dark-div.opened-menu {
-            z-index: 15;
-            background: #000;
-            transition: all 0.5s ease-in;
-        }
+    .dark-div.opened-menu {
+        z-index: 15;
+        background: #000;
+        transition: all 0.5s ease-in;
+    }
 
     .row {
         margin: 0px !important;
@@ -384,8 +477,18 @@
 
     .month-day {
         width: calc((100vw - 40px) / 8);
-        height: calc((100vw - 40px) / 8);
-        margin: calc((100vw - 40px) / 128);
+        height: calc((100vw - 30px) / 8);
+        margin: calc((100% - 40px) / 128);
+    }
+
+    .week-mode-day-names {
+        background-color: #ddd;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5) inset;
+    }
+      
+    .week-mode-type > *:last-child {
+        width: 16px;
+        height: 16px;
     }
 
     .center-div {
@@ -402,9 +505,9 @@
 
 @media (min-width: 768px) {
     .month-day {
-        width: 92px;
-        height: 92px;
-        margin: 5px;
+        width: 94px;
+        height: 94px;
+        margin: 4px;
     }
 
     .center-div {
@@ -423,7 +526,7 @@
     .header ul {
         position: relative;
         right: 10px;
-    }
+}
     .searchfield div{
         width:350px;
     }
@@ -439,6 +542,12 @@
 
     .center-div {
         margin: 0 15% 0 15%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .scrollbar-container {
+        overflow: auto !important;
     }
 }
 
@@ -478,7 +587,7 @@
 }
 
 .event p:not(.controlls-visible) {
-    
+
     color: grey;
     font-weight: bold;
 }
@@ -497,7 +606,7 @@
     top: 10px;
     right: 10px;
     display: none !important;
-}
+    }
 
 .controlls-visible {
     display: inline-block;
