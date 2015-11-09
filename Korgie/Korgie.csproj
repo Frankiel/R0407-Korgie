@@ -159,6 +159,8 @@
     <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\eventsCtrl.js" />
+    <Content Include="Scripts\controllers\homeCtrl.js" />
+    <Content Include="Scripts\controllers\settingsCtrl.js" />
     <Content Include="Scripts\libs\angular-mocks.js" />
     <Content Include="Scripts\libs\angular.js" />
     <Content Include="Scripts\libs\angular.min.js" />
