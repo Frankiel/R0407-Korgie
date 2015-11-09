@@ -32,7 +32,7 @@ namespace Korgie.Controllers
             return View(); // don't return anything
         }
 
-        public string GetMonthEvents(int month, int year)
+        public string GetEvents(int month, int year)
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE MONTH(Start)=@Value1 AND YEAR(Start)=@Value2", month, year);
             return new JavaScriptSerializer().Serialize(eventsStub);

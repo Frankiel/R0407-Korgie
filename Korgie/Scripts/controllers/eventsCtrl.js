@@ -96,7 +96,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     function getEvents(isNextPrevWeek) {
         var param, method;
         if (!$scope.isWeekMode) {
-            method = '/Event/GetMonthEvents';
+            method = '/Event/GetEvents';
             param = {
                 month: parseInt($scope.month) + 1,
                 year: $scope.year
