@@ -68,28 +68,28 @@
                                         <span class="fs-title display-block">Work</span>
                                     </div>
                                     <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
-                                        <button class="btn btn--s btn--blue btn--fab" lx-ripple><i class="mdi mdi-briefcase"></i></button>
+                                        <button class="btn btn--s btn--blue btn--fab" lx-ripple ng-click="slideWorkColors()" id="work"><i class="mdi mdi-briefcase"></i></button>
                                     </div>
-                                    <div class="selecteventcolor">
-                                        <button class="btn btn--s btn--blue btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--red btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--purple btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--green btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--yellow btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--orange btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--teal btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--pink btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
-                                        <button class="btn btn--s btn--grey btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
+                                    <div class="selecteventcolor colors-closed" id="workcolors">
+                                        <button class="btn btn--s btn--blue btn--fab" lx-ripple ng-click="selectWorkColor(btn--blue)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab" lx-ripple ng-click="selectWorkColor(btn--red)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--purple btn--fab" lx-ripple ng-click="selectWorkColor(btn--purple)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab" lx-ripple ng-click="selectWorkColor(btn--green)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab" lx-ripple ng-click="selectWorkColor(btn--yellow)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--orange btn--fab" lx-ripple ng-click="selectWorkColor(btn--orange)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab" lx-ripple ng-click="selectWorkColor(btn--teal)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--pink btn--fab" lx-ripple ng-click="selectWorkColor(btn--pink)"><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--grey btn--fab" lx-ripple ng-click="selectWorkColor(btn--grey)"><i class="mdi mdi-none"></i></button>
                                     </div>
                                 </div>
                                 <div layout="row" layout-align="center center" class="eventelement">
                                     <div flex="10" class="eventname" flex-md="20" flex-sm="20">
-                                        <span class="fs-title display-block">Studing</span>
+                                        <span class="fs-title display-block">Studying</span>
                                     </div>
                                     <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
-                                        <button class="btn btn--s btn--yellow btn--fab" lx-ripple><i class="mdi mdi-book-open"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab" lx-ripple ng-click="slideStudyingColors()"><i class="mdi mdi-book-open"></i></button>
                                     </div>
-                                    <div class="selecteventcolor">
+                                    <div class="selecteventcolor colors-closed" id="studyingcolors">
                                         <button class="btn btn--s btn--blue btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--red btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--purple btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
@@ -106,9 +106,9 @@
                                         <span class="fs-title display-block">Sport</span>
                                     </div>
                                     <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
-                                        <button class="btn btn--s btn--teal btn--fab" lx-ripple><i class="mdi mdi-dumbbell"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab" lx-ripple ng-click="slideSportColors()"><i class="mdi mdi-dumbbell"></i></button>
                                     </div>
-                                    <div class="selecteventcolor">
+                                    <div class="selecteventcolor colors-closed" id="sportcolors">
                                         <button class="btn btn--s btn--blue btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--red btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--purple btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
@@ -125,9 +125,9 @@
                                         <span class="fs-title display-block">Relaxing</span>
                                     </div>
                                     <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
-                                        <button class="btn btn--s btn--red btn--fab" lx-ripple><i class="mdi mdi-beach"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab" lx-ripple ng-click="slideRelaxingColors()"><i class="mdi mdi-beach"></i></button>
                                     </div>
-                                    <div class="selecteventcolor">
+                                    <div class="selecteventcolor colors-closed" id="relaxingcolors">
                                         <button class="btn btn--s btn--blue btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--red btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--purple btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
@@ -144,9 +144,9 @@
                                         <span class="fs-title display-block">Additional</span>
                                     </div>
                                     <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
-                                        <button class="btn btn--s btn--green btn--fab" lx-ripple><i class="mdi mdi-plus"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab" lx-ripple ng-click="slideAdditionalColors()"><i class="mdi mdi-plus"></i></button>
                                     </div>
-                                    <div class="selecteventcolor">
+                                    <div class="selecteventcolor colors-closed" id="additionalcolors">
                                         <button class="btn btn--s btn--blue btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--red btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
                                         <button class="btn btn--s btn--purple btn--fab" lx-ripple><i class="mdi mdi-none"></i></button>
