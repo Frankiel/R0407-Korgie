@@ -41,7 +41,21 @@ korgie.controller('SettingsCtrl', ['$scope', function ($scope) {
         $('#studyingcolors').addClass('colors-closed');
         $('#workcolors').addClass('colors-closed');
     }
-    $scope.selectWorkColor = function (clr) {
-        $('#work').css("background-color", clr);
-    }
+    //метод для закрытия колорпикера при нажатии на body
 }]);
+
+$(document).on("click", ".color-button", function () {
+    $(this).parent().prev().children().removeClass("btn--blue btn--red btn--purple btn--green btn--yellow btn--orange btn--teal btn--pink btn--grey"); //снимаю все цвета с кнопки типа
+    var className = $(this).attr('class');
+    $(this).parent().prev().children().addClass(className);
+    $(this).parent().prev().children().removeClass("color-button");
+    $(this).parent().addClass('colors-closed');
+});
+
+$(".set").on("click", ".set", function () {
+    $('#additionalcolors').addClass('colors-closed');
+    $('#sportcolors').addClass('colors-closed');
+    $('#relaxingcolors').addClass('colors-closed');
+    $('#studyingcolors').addClass('colors-closed');
+    $('#workcolors').addClass('colors-closed');
+});

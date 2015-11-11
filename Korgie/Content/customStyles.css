@@ -17,6 +17,10 @@
     margin-top: 30px;
 }
 
+.navicons {
+    margin-top: 5px;
+}
+
 .footer{
     display:none !important;
 }
@@ -128,16 +132,18 @@
 
 .week-mode-day-names {
     text-align: center;
-    padding: 5px;
+    padding: 4px;
+    cursor: pointer;
 }
 
 .week-mode-event {
     padding: 5px;
-    margin: 10px 5px 10px;
+    margin: 10px 5px 0px;
     font-size: 13.5px;
     width: calc(100% - 10px);
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
     overflow: hidden;
+    cursor: pointer;
 }
 
 .week-mode-event > * {
@@ -153,11 +159,12 @@
 }
 
 .week-mode-type > *:last-child {
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
     margin-left: 5px;
 }
 
 .month-day {
+    color:#424242;
     float: left;
     width: calc(14.285714285714285714285714285714% - 2px);
     height: calc((100vw) / 7 - 2px);
@@ -166,9 +173,9 @@
 }
 
 .disabled-month-day {
-    background-color: #f0f0f0;
-    color: #999;
-    border: 1px dashed #999 !important;
+    background-color: #f5f5f5;
+    color: #E0E0E0;
+    border: 1px dashed #E0E0E0 !important;
     box-shadow: none !important;
     z-index: 20;
     cursor: default;
@@ -176,8 +183,8 @@
 
 .month-day > * {
     height: 100%;
-    border: 1px solid #333;
-    box-shadow: rgba(0, 0, 0, 0.5) 0 0 2px;
+    /*border: 1px solid #333;*/
+    /*box-shadow: rgba(0, 0, 0, 0.5) 0 0 2px;*/
 }
 
 .day-number {
@@ -195,7 +202,7 @@
     margin-top: 3.3%;
     margin-left: 2.5%;
     float: left;
-    border: 1px solid #000;
+    /*border: 1px solid #000; border для типа ивента при месячном отображении*/
     width: 30%;
     height: 50%;
 }
@@ -205,23 +212,23 @@
 }
 
 .Work {
-    background-color: red;
+    background-color: #F44336;
 }
 
 .Sports {
-    background-color: blue;
+    background-color: #2196F3;
 }
 
 .Study {
-    background-color: yellow;
+    background-color: #FFEB3B;
 }
 
 .Rest {
-    background-color: green;
+    background-color: #4CAF50;
 }
 
 .Additional {
-    background-color: pink;
+    background-color: #E91E63;
 }
 
 #day-mode {
@@ -239,12 +246,12 @@
 }
 
 .day-mode-events, .day-mode-todos {
-    border-right: 2px dotted #000;
+    border-right: 1px solid #BDBDBD;
     width: 50%;
 }
 
 .detailed-event {
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
     margin-bottom: 10px;
     width: 95%;
     overflow: hidden;
@@ -283,7 +290,6 @@
 .detailed-event .type *:first-child {
     width: 20px;
     height: 20px;
-    border: 1px solid #000;
     margin-right: 10px;
 }
 
@@ -307,8 +313,9 @@
     }
 
     .navicons{
+        margin-top:0px;
         position: fixed;
-        bottom: 0px;
+        bottom: 10px;
         width: 35%;
         text-align: center;
         overflow:hidden;
@@ -368,24 +375,28 @@
         margin-left: 0px;
     }
 
-    .week-mode-days {
-        height: 390px;
-    }
-
     .week-mode-scroll {
         max-height: 395px !important;
     }
 
     .week-mode-days > * {
         height: 50px;
-        border: 1px solid #000;
         margin: 5px;
         width: calc(100% - 10px);
+
+        
+        border-radius: 2px;
+        background-color: #FFF;
+        overflow: hidden;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
     }
 
     .week-mode-day-names {
         text-align: left;
         margin: 5px;
+        height:30px !important;
+        box-shadow: 0 0px 0px 0px rgba(0,0,0,0),0 0px 0px 0 rgba(0,0,0,0),0 0px 0px 0 rgba(0,0,0,0) !important;
+        border-radius:0px;
     }
 
     .week-mode-day-names > * {
@@ -420,12 +431,12 @@
     }
 
     .some-events {
-        background-color: #ff7d00;
+        background-color: #FFE0B2; /*#ff7d00*/
     }
 
     .day-mode-events, .day-mode-todos {
         border-right: none;
-        border-bottom: 2px dotted #000;
+        border-bottom: 1px solid #BDBDBD;
         width: 100%;
     }
 
@@ -482,8 +493,7 @@
     }
 
     .week-mode-day-names {
-        background-color: #ddd;
-        box-shadow: 0 0 5px rgba(0,0,0,0.5) inset;
+        background-color: #F5F5F5 !important;
     }
       
     .week-mode-type > *:last-child {

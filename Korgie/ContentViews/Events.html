@@ -25,9 +25,9 @@
         <div layout="row" layout-sm="column">
             <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="center center">
                 <div layout="row" layout-align="center center">
-                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')"><i class="mdi mdi-plus"></i></button>
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')" disabled><i class="mdi mdi-plus"></i></button>
                 </div>
-                <div class="detailed-event" ng-repeat="event in dayToShow.events" ng-click="openDialog('test')">
+                <div class="detailed-event card" ng-repeat="event in dayToShow.events" ng-click="openDialog('test')">
                     <div class="day-mode-delete">
                         <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
                     </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="day-mode-todos" layout="column" layout-align="space-between center">
                 <div>
-                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')"><i class="mdi mdi-plus"></i></button>
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')" disabled><i class="mdi mdi-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
             <div>Sat</div>
             <div>Sun</div>
         </div>
-        <div class="month-day" ng-repeat="calendarDay in monthDays">
+        <div class="month-day card" ng-repeat="calendarDay in monthDays">
             <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0}">
                 <div class="day-number">{{calendarDay.day}}</div>
                 <div class="event-container" hide-sm>
@@ -95,12 +95,12 @@
         </div>
         <div class="week-mode-days" layout-gt-sm="row" layout-align="space-between start">
             <div flex ng-repeat="day in weekDays">
-                <div class="week-mode-day-names" ng-click="showDay(day.id)">
+                <div class="week-mode-day-names card" ng-click="showDay(day.id)">
                     <div hide-sm>{{day.date | date:'EEE,'}}</div>
                     <div hide-gt-sm>{{day.date | date:'EEEE,'}}</div>
                     <div>{{day.date | date:'dd.MM.yy'}}</div>
                 </div>
-                <div hide-sm class="week-mode-event" ng-repeat="event in day.events" ng-click="openDialog('test')">
+                <div hide-sm class="week-mode-event card" ng-repeat="event in day.events" ng-click="openDialog('test')">
                     <div layout="row" layout-align="center center">{{event.Start | getStartTime}}</div>
                     <div layout="row" layout-align="start center">{{event.Title}}</div>
                     <div class="week-mode-type" layout="row" layout-align="end center">

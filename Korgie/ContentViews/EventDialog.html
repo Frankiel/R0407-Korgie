@@ -1,11 +1,11 @@
 ﻿<div class="event" layout="column" layout-align="space-beetwen" layout-margin layout-padding>
     <div class="buttons" layout="row">
-        <button class="btn btn--m btn--red btn--icon controlls-visible" lx-ripple ng-click="showHideControlls()"><i class="mdi mdi-pencil"></i></button>
+        <button class="btn btn--m btn--red btn--icon controlls-visible" lx-ripple ng-click="showHideControlls()"><i class="mdi mdi-pencil" disabled></i></button>
         <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
     </div>
     <div class="center-block">
         <h1>
-            <span class="display-block controlls-visible">{{eventToSave.Title}}</span>
+            <span class="display-block controlls-visible fs-display-1">{{eventToSave.Title}}</span>
             <lx-text-field label="Title" fixed-label="true" class="controlls-unvisible">
                 <input type="text" ng-model="eventToEdit.Title">
             </lx-text-field>
