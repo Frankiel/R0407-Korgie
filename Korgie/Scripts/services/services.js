@@ -1,4 +1,17 @@
 ﻿function korgieApi($q) {
+    this.name = 'Frank Martin';
+    this.primaryEmail = 'frankmartin@gmail.com';
+    this.additionalEmail;
+    this.phone = "1234567890";
+    this.country = "Australia";
+    this.city = "Sydney";
+    this.sport = { Title: 'Sport', Color: 'btn--orange' };
+    this.work = { Title: 'Work', Color: 'btn--blue' };
+    this.rest = { Title: 'Rest', Color: 'btn--green' };
+    this.study = { Title: 'Study', Color: 'btn--red' };
+    this.additional = { Title: 'Additional', Color: 'btn--grey' };
+
+
     this.convertEvents = function (data) {
         var deferred = $q.defer();
         var result = [];

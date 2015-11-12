@@ -36,6 +36,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         }
         var lastDay = 33 - new Date($scope.year, $scope.month, 33).getDate(), i = firstWeekDay;
         for (; i < lastDay + firstWeekDay; i++) {
+            //добавляем в массив лишь те ивенты, которые идут в текущий день
             var evs = $scope.events.filter(function (ev) {
                 var date = ev.Start;
                 return date.getMonth() == $scope.month &&
@@ -96,6 +97,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     function getEvents(isNextPrevWeek) {
         var param, method;
         if (!$scope.isWeekMode) {
+            //метод получения ивентов с использованием функции обращения к серверу
             method = '/Event/GetMonthEvents';
             param = {
                 month: parseInt($scope.month) + 1,

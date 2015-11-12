@@ -213,22 +213,27 @@
 
 .Work {
     background-color: #F44336;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Sports {
     background-color: #2196F3;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Study {
     background-color: #FFEB3B;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Rest {
     background-color: #4CAF50;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Additional {
     background-color: #E91E63;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 #day-mode {
