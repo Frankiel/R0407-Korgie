@@ -1,5 +1,5 @@
 ﻿
-korgie.controller('SettingsCtrl', ['$scope', function ($scope) {
+korgie.controller('settingsCtrl', function ($scope) {
     $scope.showHideMenu = function () {
         $('.header').toggleClass('opened-menu');
         $('.content').toggleClass('opened-menu');
@@ -42,7 +42,7 @@ korgie.controller('SettingsCtrl', ['$scope', function ($scope) {
         $('#workcolors').addClass('colors-closed');
     }
     //метод для закрытия колорпикера при нажатии на body
-}]);
+});
 
 $(document).on("click", ".color-button", function () {
     $(this).parent().prev().children().removeClass("btn--blue btn--red btn--purple btn--green btn--yellow btn--orange btn--teal btn--pink btn--grey"); //снимаю все цвета с кнопки типа

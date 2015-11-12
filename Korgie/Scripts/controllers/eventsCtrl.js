@@ -1,6 +1,6 @@
-﻿var korgie = angular.module('korgie', ['lumx']);
+﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
-korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialogService', function ($scope, $http, $q, korgieApi, LxDialogService) {
+korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService) {
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -151,6 +151,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         $scope.isWeekMode = !$scope.isWeekMode;
         $scope.weekDays = getWeekDays();
         $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year);
+        console.log($scope.isWeekMode);
     }
 
     $scope.showDay = function (index) {
@@ -291,4 +292,4 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     $scope.selects = {
         selectedPerson: undefined
     };
-}]);
+});
