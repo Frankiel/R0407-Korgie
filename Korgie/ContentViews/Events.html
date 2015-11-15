@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <div ng-if="!dayToShow && !isWeekMode">
+    <div class="month-container" ng-if="!dayToShow && !isWeekMode">
         <div class="week-switcher" hide-sm>
             <input type="checkbox" id="switch1" class="switch__input" ng-model="isWeekMode" ng-click="changeMonthWeek()">
             <label for="switch1" class="switch__label">Week</label>
@@ -68,12 +68,14 @@
             <div>Sat</div>
             <div>Sun</div>
         </div>
-        <div class="month-day card" ng-repeat="calendarDay in monthDays">
-            <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0}">
-                <div class="day-number">{{calendarDay.day}}</div>
-                <div class="event-container" hide-sm>
-                    <div ng-repeat="type in calendarDay.types">
-                        <div class={{type}}>
+        <div class="calendar-container">
+            <div class="month-day card" ng-repeat="calendarDay in monthDays">
+                <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0}">
+                    <div class="day-number">{{calendarDay.day}}</div>
+                    <div class="event-container" hide-sm>
+                        <div ng-repeat="type in calendarDay.types">
+                            <div class={{type}}>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -119,7 +121,7 @@
             </div>
         </div>
     </div>
-    <lx-dialog class="dialog dialog--l" id="test" auto-close="false">
+    <lx-dialog class="dialog dialog--l" id="test" auto-close="false" lx-scrollbar>
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div class="controlls-visible">
