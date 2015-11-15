@@ -38,7 +38,6 @@ namespace Korgie.Controllers
 AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
             Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserTodo UTD,Users U WHERE MONTH(TD.Start)=@Value1 And YEAR(TD.Start)=@VALUE2
 AND TD.Todoid=UTD.Todoid AND UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
-            //SaveTodo(todoStub[0]);
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
         public string GetWeekEvents(int week, int year)
@@ -196,6 +195,46 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             }
             Todo[] todoStub = todo.ToArray();
             return todoStub;
+        }
+        public User GetProfileInfo()
+        {
+            User result = null;
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(@"SELECT * FROM Users WHERE PrimaryEmail=@Email",conn);
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        result = new User(dr.GetString(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6).Split(' ').ToList<string>(), dr.GetString(7).Split(' ').ToList<string>(), dr.GetString(8).Split(' ').ToList<string>(),
+                            dr.GetString(9).Split(' ').ToList<string>(), dr.GetString(10).Split(' ').ToList<string>());
+                    }
+                }
+            }
+            return result;
+        }
+        public void SaveProfileInfo(User user)
+        {
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(@"UPDATE Users SET Name=@Name,AdditionalEmail=@AdditionalEmail,Phone=@Phone,Country=@Country,City=@City,Sport=@Sport
+,Work=@Work,Study=@Study,Additional=@Additional,Rest=@Rest WHERE PrimaryEmail=@PrimaryEmail",conn);
+                cmd.Parameters.AddWithValue("@Name", user.Name);
+                cmd.Parameters.AddWithValue("@AdditionalEmail", user.AdditionalEmail);
+                cmd.Parameters.AddWithValue("@Phone", user.Phone);
+                cmd.Parameters.AddWithValue("@Country", user.Country);
+                cmd.Parameters.AddWithValue("@City", user.City);
+                cmd.Parameters.AddWithValue("@Sport", string.Join(" ", user.Sport.ToArray()));
+                cmd.Parameters.AddWithValue("@Work", string.Join(" ", user.Work.ToArray()));
+                cmd.Parameters.AddWithValue("@Study", string.Join(" ", user.Study.ToArray()));
+                cmd.Parameters.AddWithValue("@Additional", string.Join(" ", user.Additional.ToArray()));
+                cmd.Parameters.AddWithValue("@Rest", string.Join(" ", user.Rest.ToArray()));
+                cmd.Parameters.AddWithValue("@PrimaryEmail", user.PrimaryEmail);
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
