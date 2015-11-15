@@ -1,6 +1,6 @@
 ﻿var korgie = angular.module('korgie', ['lumx']);
 
-korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialogService', function ($scope, $http, $q, korgieApi, LxDialogService) {
+korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialogService', '$filter', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -11,6 +11,17 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     $scope.isWeekMode = false;
     $scope.week;
     $scope.weekDays;
+
+    $scope.eventAdding = false;
+    $scope.eventEditing = false;
+    $scope.eventToEdit;
+    $scope.eventToSave;
+    
+    $scope.types = [{ type: "Sports", color: "" },
+        { type: "Work", color: "" },
+        { type: "Rest", color: "" },
+        { type: "Study", color: "" },
+        { type: "Additional", color: "" }];
 
     function getMonthDays() {
         var result = [];
@@ -118,13 +129,13 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(response) {
-        korgieApi.convertEvents(response.data).then(function (events) {
-            $scope.events = events;
+                korgieApi.convertEvents(response.data).then(function (events) {
+                    $scope.events = events;
                     $scope.weekDays = getWeekDays(isNextPrevWeek);
-        });
-    }, function errorCallback(response) {
-        console.log("getting events failed");
-    });
+                });
+            }, function errorCallback(response) {
+                console.log("getting events failed");
+            });
         }
     }
     getEvents();
@@ -159,10 +170,10 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         if (!$scope.isWeekMode) {
             if ($scope.monthDays[index].month != undefined) {
                 $scope.dayToShow = $scope.monthDays[index];
-        }
+            }
         } else {
             $scope.dayToShow = $scope.weekDays[index];
-    }
+        }
     }
 
     $scope.nextDay = function () {
@@ -190,7 +201,7 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     $scope.nextWeek = function () {
         $scope.week++;
         getEvents(true);
-        }
+    }
 
     $scope.prevWeek = function () {
 
@@ -207,77 +218,148 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     }
 
     $scope.deleteEvent = function (id) {
-        var date;
-        $scope.dayToShow.events.forEach(function (ev, i) {
-            if (ev.EventId == id) {
-                date = ev.Start.getDate();
-                $scope.dayToShow.events.splice(i, 1);
-            }
-        });
-        var d = $scope.monthDays.filter(function (day) {
-            return day.day == date && day.month != undefined;
-        })[0];
-        d.events.forEach(function (ev, i) {
-            if (ev.EventId == id) {
-                $scope.dayToShow.events.splice(i, 1);
-            }
-        });
-        d.types = korgieApi.getTypes(d.events);
+        // $HTTP
+        crudEvent(id);
     };
 
-    $scope.openDialog = function (dialogId) {
-        LxDialogService.open(dialogId);
+    var crudEvent = function (oldEventId, newEvent) {
+        var date, d;
+        if (oldEventId != -1) {
+            if ($scope.isWeekMode) {
+                $scope.weekDays.forEach(function (day) {
+                    day.events.forEach(function (ev, i) {
+                        if (ev.EventId == oldEventId) {
+                            date = ev.Start.getDate();
+                            day.events.splice(i, 1);
+                        }
+                    })
+                });
+                d = $scope.weekDays.filter(function (day) {
+                    return day.day == date;
+                })[0];
+            } else {
+                $scope.dayToShow.events.forEach(function (ev, i) {
+                    if (ev.EventId == oldEventId) {
+                        date = ev.Start.getDate();
+                        $scope.dayToShow.events.splice(i, 1);
+                    }
+                });
+                d = $scope.monthDays.filter(function (day) {
+                    return day.day == date && day.month != undefined;
+                })[0];
+            }
+            d.events.forEach(function (ev, i) {
+                if (ev.EventId == oldEventId) {
+                    $scope.dayToShow.events.splice(i, 1);
+                }
+            });
+            d.types = korgieApi.getTypes(d.events);
+        }
+
+        if (newEvent != undefined) {
+            date = newEvent.Start.getDate();
+            if ($scope.isWeekMode) {
+                var i = 0;
+                for (; i < 7 && $scope.weekDays[i].day != newEvent.Start.getDate() ; i++) { }
+                d = $scope.weekDays[i];
+            } else {
+                var i = 0, length = $scope.monthDays.length;
+                for (; i < length && !($scope.monthDays[i].day == newEvent.Start.getDate() && $scope.monthDays[i].month != undefined) ; i++) { }
+                d = $scope.monthDays[i];
+            }
+            d.events.push(newEvent);
+            d.types = korgieApi.getTypes(d.events);
+        }
+    }
+
+    $scope.save = function () {
+        console.log($scope.eventToEdit);
+        $http({
+            url: '/Event/SaveEvents',
+            method: "GET",
+            params: {
+                EventId: $scope.eventToEdit.EventId || -1,
+                Title: $scope.eventToEdit.Title,
+                Start: $scope.eventToEdit.Start,
+                Type: $scope.eventToEdit.Type,
+                Description: $scope.eventToEdit.Description || '',
+                Period: $scope.eventToEdit.Period || 0,
+                Days: 0,
+                Tags: $scope.eventToEdit.Tags || ''
+            }
+        });
+        crudEvent(!$scope.eventAdding ? $scope.eventToEdit.EventId : -1, $scope.eventToEdit);
+        $scope.eventToSave = angular.copy($scope.eventToEdit);
+        $scope.showHideControlls();
+        $scope.eventAdding = false;
+        $scope.eventEditing = false;
+    }
+
+    $scope.openDialog = function (dialogName, event) {
+        if (event == undefined) {
+            $scope.eventAdding = true;
+            event = {
+                Type: 'Work',
+                Start: new Date($scope.dayToShow.year, $scope.dayToShow.month, $scope.dayToShow.day, 0, 0),
+                Period: 0
+            }
+            $scope.eventToEdit = event;
+            $scope.eventToSave = event;
+            setTimeout(function () {
+                $scope.showHideControlls()
+            }, 200);
+        } else {
+            $scope.eventAdding = false;
+            $scope.eventEditing = false;
+        }
+        $scope.eventToSave = event;
+        LxDialogService.open(dialogName);
     };
 
-    $scope.closingDialog = function () {
-        LxNotificationService.info('Dialog closed!');
+    $scope.closingDialog = function (dialogName) {
+        LxDialogService.close(dialogName);
     };
 
     /*-------------------------------------------------------------------*/
-    $scope.eventToEdit = {
-        EventId: 5,
-        Title: "Tidghnhdgnhdgngtle",
-        Start: new Date(),
-        Time: new Date(),
-        End: new Date(),
-        Type: "Sport",
-        Description: "gtyjtyjdhy",
-        Notifications: 0,
-        Period: 0,
-        Repeat: [false, false, false, false, false, false, false],
-        Tags: "Tags"
-    };
-    $scope.eventToSave = {
-        EventId: 5,
-        Title: "Tidghnhdgnhdgngtle",
-        Start: new Date(),
-        Time: new Date(),
-        End: new Date(),
-        Type: "",
-        Description: "gtyjtyjdhy",
-        Notifications: 0,
-        Period: 0,
-        Repeat: [false, false, false, false, false, false, false],
-        Tags: "Tags"
+
+    $scope.cancel = function () {
+        $scope.eventToEdit = angular.copy($scope.eventToSave);
+        $scope.showHideControlls();
+        $scope.eventEditing = false;
+        if ($scope.eventAdding) {
+            $scope.closingDialog('test');
+        }
     };
 
-    $scope.save = function () {
-        $scope.eventToEdit = $scope.eventToSave;/*??????????????!!!!!!!!!*/
-        $scope.showHideControlls();
+    $scope.edit = function () {
+        $scope.eventEditing = !$scope.eventEditing;
+        setTimeout(function () {
+            $scope.showHideControlls()
+        }, 200);
     }
-    console.log($scope.eventToEdit);
 
     $scope.showHideControlls = function () {
-        $(".controlls-visible").toggle();
+        /*$(".controlls-visible").toggle();
         $(".controlls-unvisible").toggle();
+        $scope.eventEditing = !$scope.eventEditing;*/
+        $scope.eventToEdit = angular.copy($scope.eventToSave);
+
+        var typeButtons = $('.type-click');
+        $('[etype="' + $scope.eventToEdit.Type + '"').addClass('btn--raised').removeClass('btn--flat');
+        typeButtons.click(function () {
+            typeButtons.removeClass('btn--raised');
+            $(this).removeClass('btn--flat').addClass('btn--raised');
+            $scope.eventToEdit.Type = $(this).attr('etype');
+        });
+
+        var periodButtons = $('.period-click');
+        $('[period="' + $scope.eventToEdit.Period + '"').addClass('btn--raised').removeClass('btn--flat');
+        periodButtons.click(function () {
+            periodButtons.removeClass('btn--raised');
+            $(this).removeClass('btn--flat').addClass('btn--raised');
+            $scope.eventToEdit.Period = $(this).attr('period');
+        });
     }
-    $scope.Types = [
-        { type: "Sport" },
-        { type: "Work" },
-        { type: "Rest" },
-        { type: "Study" },
-        { type: "Additional" }
-    ];
 
     $scope.people = [
     { name: "Adam", email: "adam@email.com", age: 10 },

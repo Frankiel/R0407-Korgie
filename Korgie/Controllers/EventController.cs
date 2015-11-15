@@ -42,23 +42,36 @@ namespace Korgie.Controllers
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE WEEKOFYEAR(Start)=@Value1 AND YEAR(Start)=@Value2", week, year);
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
-        public void SaveEvents(Event _event)
+        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags)
         {
-            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", _event.EventId);
+            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId);
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
             {
-                if (eventsStub.Length==0)
+                if (eventsStub.Length == 0)
                 {
-
-                    string sql = string.Format(@"INSERT INTO Events VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')", _event.EventId, _event.Title, _event.Start, _event.Type, 
-                        _event.Description, _event.Period, _event.Days, _event.Tags);
-                    var cmd = new SqlCommand(sql);
+                    var cmd = new SqlCommand(@"INSERT INTO EVENTS VALUES (@Title,@Start,@Type,@Description,@Period,@Days,@Tags)", conn);
+                    cmd.Parameters.AddWithValue("@Title", Title);
+                    cmd.Parameters.AddWithValue("@Start", Start);
+                    cmd.Parameters.AddWithValue("@Type", Type);
+                    cmd.Parameters.AddWithValue("@Description", Description);
+                    cmd.Parameters.AddWithValue("@Period", Period);
+                    cmd.Parameters.AddWithValue("@Days", Days);
+                    cmd.Parameters.AddWithValue("@Tags", Tags);
+                    conn.Open();
                     cmd.ExecuteNonQuery();
                 }
                 else
                 {
-                    string sql = string.Format(@"UPDATE Events SET EventId='{0}', Title='{1}', Start='{2}', Type='{3}', Description='{4}', Period='{5}', Days='{6}', Tags='{7}' WHERE EventId='{0}'");
-                    var cmd = new SqlCommand(sql);
+                    var cmd = new SqlCommand(@"UPDATE Events SET Title=@Title, Start=@Start, Type=@Type, Description=@Description, Period=@Period, Days=@Days, Tags=@Tags WHERE EventId=@EventId", conn);
+                    cmd.Parameters.AddWithValue("@EventId", EventId);
+                    cmd.Parameters.AddWithValue("@Title", Title);
+                    cmd.Parameters.AddWithValue("@Start", Start);
+                    cmd.Parameters.AddWithValue("@Type", Type);
+                    cmd.Parameters.AddWithValue("@Description", Description);
+                    cmd.Parameters.AddWithValue("@Period", Period);
+                    cmd.Parameters.AddWithValue("@Days", Days);
+                    cmd.Parameters.AddWithValue("@Tags", Tags);
+                    conn.Open();
                     cmd.ExecuteNonQuery();
                 }
             }

@@ -1,5 +1,28 @@
-﻿/*korgie
-    .directive('dayOfMonth', function ($http) {
+﻿korgie
+   /* .directive('title', function () {
+        var isValid = function (value) {
+            var regExp = /[\w|-|(|)|@|.|,|*|«|»|!|?|&|№|_]+/;
+            if (trgExp.test(value)) {
+                return true;
+            }
+            return false;
+        }
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ngModel) {
+                ngModel.$parsers.unshift(function (value) {
+                    ngModel.$setValidity('title', isValid(value));
+                    return value;
+                });
+
+                ngModel.$formatters.unshift(function (value) {
+                    ngModel.$setValidity('title', isValid(value));
+                    return value;
+                });
+            }
+        }
+    });
+    /*.directive('dayOfMonth', function ($http) {
         return {
             controller: function () {
             },
