@@ -14,7 +14,7 @@ namespace Korgie.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            /*string[] allcookies = Request.Cookies.AllKeys;
+            string[] allcookies = Request.Cookies.AllKeys;
             bool result = true;
             foreach (string x in allcookies)
             {
@@ -27,8 +27,8 @@ namespace Korgie.Controllers
             if (result)
             {
                 return RedirectToAction("Index", "Home");
-            }*/
-            ViewBag.Email = "maria97.55ua@gmail.com";// Request.Cookies["Preferences"]["Email"];
+            }
+            ViewBag.Email = Request.Cookies["Preferences"]["Email"];
             return View(); // don't return anything
         }
 
@@ -108,7 +108,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
-                    cmd2.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");
+                    cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                     cmd2.ExecuteNonQuery();
                 }
                 else
@@ -134,7 +134,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 conn.Open();
                 var cmd2 = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@EventId AND PrimaryEmail=@Email", conn);
                 cmd2.Parameters.AddWithValue("@EventId", id);
-                cmd2.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");//Request.Cookies["Preferences"]["Email"]);
+                cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 cmd2.ExecuteNonQuery();
                 var cmd = new SqlCommand(@"DELETE FROM Events WHERE EventId=@EventId", conn);
                 cmd.Parameters.AddWithValue("@EventId", id);
@@ -162,7 +162,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 //var cmd = new SqlCommand(@"Select * from AspNetUsers",conn);
                 cmd.Parameters.AddWithValue("@Value1", value1);
                 cmd.Parameters.AddWithValue("@Value2", value2);
-                cmd.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");// Request.Cookies["Preferences"]["Email"]);
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                 {
                     while (dr.Read())
@@ -184,7 +184,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 //var cmd = new SqlCommand(@"Select * from AspNetUsers",conn);
                 cmd.Parameters.AddWithValue("@Value1", value1);
                 cmd.Parameters.AddWithValue("@Value2", value2);
-                cmd.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");// Request.Cookies["Preferences"]["Email"]);
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                 {
                     while (dr.Read())
