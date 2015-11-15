@@ -151,6 +151,14 @@
     margin: 5px 0px 5px;
 }
 
+.month-container {
+    height: calc(100vh - 160px);
+}
+
+.calendar-container {
+    height: calc(100% - 77px);
+}
+
 .week-days {
     padding-right: 18px;
 }
@@ -169,6 +177,7 @@
     float: left;
     width: calc(14.285714285714285714285714285714% - 2px);
     height: calc((100vw) / 7 - 2px);
+    max-height: 15%;
     margin: 0px 1px 1px 0px;
     cursor: pointer;
 }
@@ -186,6 +195,10 @@
     height: 100%;
     /*border: 1px solid #333;*/
     /*box-shadow: rgba(0, 0, 0, 0.5) 0 0 2px;*/
+}
+
+.some-events {
+    background-color: #feb; /*#ff7d00*/
 }
 
 .day-number {
@@ -306,6 +319,11 @@
 
 
 /* event */
+
+#test {
+    max-height: calc(100vh - 60px);
+}
+
 .event {
     margin : 10%;
     font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
@@ -514,6 +532,14 @@
         float: right;
     }
 
+    .month-container {
+        height: calc(100vh - 70px);
+    }
+
+    .calendar-container {
+        height: calc(100% - 70px);
+    }
+
     .dark-div {
         position: fixed;
         background: #fff;
@@ -532,10 +558,6 @@
 
     .row {
         margin: 0px !important;
-    }
-
-    .some-events {
-        background-color: #FFE0B2; /*#ff7d00*/
     }
 
     .day-mode-events, .day-mode-todos {
@@ -592,7 +614,8 @@
 
     .month-day {
         width: calc((100vw - 40px) / 8);
-        height: calc((100vw - 30px) / 8);
+        height: calc((100vw - 40px) / 8);
+        max-height: 14%;
         margin: calc((100% - 40px) / 128);
     }
 
@@ -621,6 +644,7 @@
     .month-day {
         width: 94px;
         height: 94px;
+        max-height: 14%;
         margin: 4px;
     }
 
@@ -655,6 +679,7 @@
     .month-day {
         width: 120px;
         height: 120px;
+        max-height: 14%;
         margin: 7px;
     }
 
@@ -673,6 +698,7 @@
     .month-day {
         width: 146px;
         height: 146px;
+        max-height: 14%;
         margin: 8px;
     }
 
