@@ -218,7 +218,13 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     }
 
     $scope.deleteEvent = function (id) {
-        // $HTTP
+        $http({
+            url: '/Event/DeleteEvents',
+            method: "GET",
+            params: {
+                id: id
+            }
+        });
         crudEvent(id);
     };
 

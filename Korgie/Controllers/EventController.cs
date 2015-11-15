@@ -14,7 +14,7 @@ namespace Korgie.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            string[] allcookies = Request.Cookies.AllKeys;
+            /*string[] allcookies = Request.Cookies.AllKeys;
             bool result = true;
             foreach (string x in allcookies)
             {
@@ -27,20 +27,68 @@ namespace Korgie.Controllers
             if (result)
             {
                 return RedirectToAction("Index", "Home");
-            }
-            ViewBag.Email = Request.Cookies["Preferences"]["Email"];
+            }*/
+            ViewBag.Email = "maria97.55ua@gmail.com";// Request.Cookies["Preferences"]["Email"];
             return View(); // don't return anything
         }
 
         public string GetMonthEvents(int month, int year)
         {
-            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE MONTH(Start)=@Value1 AND YEAR(Start)=@Value2", month, year);
+            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE MONTH(E.Start)=@Value1 AND YEAR(E.Start)=@Value2
+AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
+            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserTodo UTD,Users U WHERE MONTH(TD.Start)=@Value1 And YEAR(TD.Start)=@VALUE2
+AND TD.Todoid=UTD.Todoid AND UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
+            //SaveTodo(todoStub[0]);
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
-        public string GetWeekEvent(int week,int year)
+        public string GetWeekEvents(int week, int year)
         {
-            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE WEEKOFYEAR(Start)=@Value1 AND YEAR(Start)=@Value2", week, year);
+            //Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE WEEKOFYEAR(Start)=@Value1 AND YEAR(Start)=@Value2", week, year);
+            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, Users U, UserEvents UE WHERE DATEPART(week,E.Start)=@Value1 AND YEAR(E.Start)=@Value2 AND
+E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail and U.PrimaryEmail=@Email", week, year);
+            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserToDo UTD,Users U WHERE DATEPART(week,TD.Start)=@Value1 AND YEAR(TD.Start)=@Value2 AND
+TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", week, year);
             return new JavaScriptSerializer().Serialize(eventsStub);
+        }
+        public void SaveTodo(Todo _todo)
+        {
+            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo WHERE Todoid=@Value1", _todo.TodoId);
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                string resulttasks = "";
+                foreach (string x in _todo.Tasks)
+                {
+                    resulttasks += x + " ";
+                }
+                if (todoStub.Length == 0)
+                {
+                    //string sql = string.Format(@"INSERT INTO Events VALUES ('{0}',{1},'{2}','{3}','{4}','{5}','{6}')", _event.Title, _event.Start, _event.Type, 
+                    //    _event.Description, _event.Period, _event.Days, _event.Tags);
+                    var cmd = new SqlCommand(@"INSERT INTO ToDo VALUES (@Title,@Start,@Color,@Description,@Tasks)", conn);
+                    cmd.Parameters.AddWithValue("@Title", _todo.Title);
+                    cmd.Parameters.AddWithValue("@Start", _todo.Start);
+                    cmd.Parameters.AddWithValue("@Color", _todo.Color);
+                    cmd.Parameters.AddWithValue("@Description", _todo.Description);
+                    cmd.Parameters.AddWithValue("@Tasks", resulttasks);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    //string sql = string.Format(@"UPDATE Events Title=@Title, Start=@Start, Type=@Type, Description=@Description, Period=@Period, Days=@Days, Tags=@Tags WHERE EventId='{0}'",_event.EventId,
+                    //    _event.Title,_event.Start,_event.Type,_event.Description,_event.Period,_event.Days,_event.Tags);
+                    var cmd = new SqlCommand(@"UPDATE ToDo SET Title=@Title, Start=@Start, Color=@Color, Description=@Description, Tasks=@Tasks WHERE Todoid=@Todoid", conn);
+                    cmd.Parameters.AddWithValue("@Todoid", _todo.TodoId);
+                    cmd.Parameters.AddWithValue("@Title", _todo.Title);
+                    cmd.Parameters.AddWithValue("@Start", _todo.Start);
+                    cmd.Parameters.AddWithValue("@Color", _todo.Color);
+                    cmd.Parameters.AddWithValue("@Description", _todo.Description);
+                    cmd.Parameters.AddWithValue("@Tasks", resulttasks);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
         }
         public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags)
         {
@@ -59,6 +107,9 @@ namespace Korgie.Controllers
                     cmd.Parameters.AddWithValue("@Tags", Tags);
                     conn.Open();
                     cmd.ExecuteNonQuery();
+                    var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
+                    cmd2.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");
+                    cmd2.ExecuteNonQuery();
                 }
                 else
                 {
@@ -76,7 +127,31 @@ namespace Korgie.Controllers
                 }
             }
         }
-        private Event[] GetEventsUNI(string sqlcommand,int value1=0,int value2=0)
+        public void DeleteEvents(int id)
+        {
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                conn.Open();
+                var cmd2 = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@EventId AND PrimaryEmail=@Email", conn);
+                cmd2.Parameters.AddWithValue("@EventId", id);
+                cmd2.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");//Request.Cookies["Preferences"]["Email"]);
+                cmd2.ExecuteNonQuery();
+                var cmd = new SqlCommand(@"DELETE FROM Events WHERE EventId=@EventId", conn);
+                cmd.Parameters.AddWithValue("@EventId", id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public void DeleteTodo(int id)
+        {
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                var cmd = new SqlCommand(@"DELETE FROM ToDo WHERE Todoid=@Todoid", conn);
+                cmd.Parameters.AddWithValue("@Todoid", id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        private Event[] GetEventsUNI(string sqlcommand, int value1 = 0, int value2 = 0)
         {
             //Get all events for set month and year from DB
             List<Event> events = new List<Event>();
@@ -87,6 +162,7 @@ namespace Korgie.Controllers
                 //var cmd = new SqlCommand(@"Select * from AspNetUsers",conn);
                 cmd.Parameters.AddWithValue("@Value1", value1);
                 cmd.Parameters.AddWithValue("@Value2", value2);
+                cmd.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");// Request.Cookies["Preferences"]["Email"]);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                 {
                     while (dr.Read())
@@ -97,6 +173,29 @@ namespace Korgie.Controllers
             }
             Event[] eventsStub = events.ToArray();
             return eventsStub;
+        }
+        private Todo[] GetTodoUNI(string sqlcommand, int value1 = 0, int value2 = 0)
+        {
+            List<Todo> todo = new List<Todo>();
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                var cmd = new SqlCommand(sqlcommand, conn);
+                conn.Open();
+                //var cmd = new SqlCommand(@"Select * from AspNetUsers",conn);
+                cmd.Parameters.AddWithValue("@Value1", value1);
+                cmd.Parameters.AddWithValue("@Value2", value2);
+                cmd.Parameters.AddWithValue("@Email", "maria97.55ua@gmail.com");// Request.Cookies["Preferences"]["Email"]);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        List<string> tasks = dr.GetString(5).Split(' ').ToList<string>();
+                        todo.Add(new Todo(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), tasks));
+                    }
+                }
+            }
+            Todo[] todoStub = todo.ToArray();
+            return todoStub;
         }
     }
 }
