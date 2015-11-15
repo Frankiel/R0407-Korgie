@@ -7,15 +7,16 @@ namespace Korgie.Models
 {
     public class User
     {
-        public int UserId { get; set; }
         public string Name { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
         public string PrimaryEmail { get; set; }
         public string AdditionalEmail { get; set; }
         public string Phone { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public Dictionary<string, string> EventTypeToColor { get; set; }
+        public Type Sport { get; set; }
+        public Type Work { get; set; }
+        public Type Study { get; set; }
+        public Type Additional { get; set; }
+        public Type Rest { get; set; }
     }
 }
