@@ -10,6 +10,8 @@
             <label for="switch1" class="switch__label">Week</label>
         </div>
     </div>
+
+    <!-- Day mode -->
     <div id="day-mode" ng-if="dayToShow">
         <div class="day-mode-close">
             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="closeDayMode()"><i class="mdi mdi-close"></i></button>
@@ -47,6 +49,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Month mode -->
     <div class="month-container" ng-if="!dayToShow && !isWeekMode">
         <div class="week-switcher" hide-sm>
             <input type="checkbox" id="switch1" class="switch__input" ng-model="isWeekMode" ng-click="changeMonthWeek()">
@@ -82,16 +86,18 @@
             </div>
         </div>
     </div>
+
+    <!-- Week mode -->
     <div ng-if="!dayToShow && isWeekMode">
         <div class="week-switcher" hide-sm>
             <input type="checkbox" id="switch1" class="switch__input" ng-model="isWeekMode" ng-click="changeMonthWeek()">
             <label for="switch1" class="switch__label">Week</label>
         </div>
         <div layout-align="center center" layout="row">
-            <div class="week-header" layout="row" layout-align="center center">
-                <button hide class="btn btn--m btn--blue btn--icon" ng-click="prevWeek()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
+            <div class="week-header" layout="row" layout-align="space-around center">
+                <button class="btn btn--m btn--blue btn--icon" ng-click="prevWeek()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
                 Week {{week}}
-                <button hide class="btn btn--m btn--blue btn--icon" ng-click="nextWeek()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+                <button class="btn btn--m btn--blue btn--icon" ng-click="nextWeek()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
         <div class="week-mode-days" layout-gt-sm="row" layout-align="space-between start">
@@ -121,6 +127,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Dialog mode -->
     <lx-dialog class="dialog dialog--l" id="test" auto-close="false" lx-scrollbar>
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">

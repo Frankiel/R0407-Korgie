@@ -80,9 +80,23 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
                 diff = d.getDate() - day + (day == 0 ? -6 : 1);
             monday = new Date(d.setDate(diff));
         } else {
-            var monday = new Date($scope.year, $scope.month, 1)
-            while (monday.getDay() != 1) {
-                monday.setDate(monday.getDate() - 1);
+            if (isNextPrev > 0) {
+                var sun = $scope.weekDays[6].date;
+                sun.setDate(sun.getDate() + 1);
+                monday = sun;
+            } else if (isNextPrev < 0) {
+                var mon = $scope.weekDays[0].date;
+                mon.setDate(mon.getDate() - 7);
+                monday = mon;
+            } else {
+                var month4 = new Date($scope.year, $scope.month, 4), k;
+                if (month4.getDay() < 4) {
+                    k = (8 - month4.getDay()) % 7;
+                } else {
+                    k = 0 - (month4.getDay() - 1);
+                }
+                month4.setDate(month4.getDate() + k);
+                monday = month4;
             }
         }
 
@@ -102,6 +116,8 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
             });
             monday.setDate(monday.getDate() + 1);
         }
+        $scope.month = result[3].month;
+        $scope.year = result[3].year;
         return result;
     }
 
@@ -162,8 +178,8 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
 
     $scope.changeMonthWeek = function () {
         $scope.isWeekMode = !$scope.isWeekMode;
-        $scope.weekDays = getWeekDays();
         $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year);
+        getEvents();
     }
 
     $scope.showDay = function (index) {
@@ -176,35 +192,26 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         }
     }
 
-    $scope.nextDay = function () {
-        var dayIndex = $scope.monthDays.indexOf($scope.dayToShow);
-        if ($scope.monthDays[dayIndex + 1].month == undefined) {
-            $scope.nextMonth();
-            $scope.dayToShow = $scope.monthDays[(new Date($scope.year, $scope.month, 1).getDay() + 6) % 7];
-        } else {
-            $scope.dayToShow = $scope.monthDays[dayIndex + 1];
-        }
-    }
-
-    $scope.prevDay = function () {
-        var dayIndex = $scope.monthDays.indexOf($scope.dayToShow);
-        if ($scope.monthDays[dayIndex - 1].month == undefined) {
-            $scope.prevMonth();
-            var firstDay = (new Date($scope.year, $scope.month, 1).getDay() + 6) % 7;
-            var days = 33 - new Date($scope.year, $scope.month, 33).getDate();
-            $scope.dayToShow = $scope.monthDays[firstDay + days - 1];
-        } else {
-            $scope.dayToShow = $scope.monthDays[dayIndex - 1];
-        }
-    }
-
     $scope.nextWeek = function () {
-        $scope.week++;
-        getEvents(true);
+        var sun = $scope.weekDays[6];
+        if ((sun.month == 0 && sun.day < 4) || (sun.month == 11 && sun.day > 28)) {
+            $scope.week = 1;
+            $scope.year++;
+        } else {
+            $scope.week++;
+        }
+        getEvents(1);
     }
 
     $scope.prevWeek = function () {
-
+        if ($scope.week == 1) {
+            $scope.year--;
+            $scope.month = 11;
+            $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year, true);
+        } else {
+            $scope.week--;
+        }
+        getEvents(-1);
     }
 
     $scope.showHideMenu = function () {
@@ -279,7 +286,6 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     }
 
     $scope.save = function () {
-        console.log($scope.eventToEdit);
         $http({
             url: '/Event/SaveEvents',
             method: "GET",
