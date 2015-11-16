@@ -10,7 +10,7 @@
     this.rest = { Title: 'Rest', Color: 'btn--green' };
     this.study = { Title: 'Study', Color: 'btn--red' };
     this.additional = { Title: 'Additional', Color: 'btn--grey' };
-    
+
     this.convertEvents = function (data) {
         var deferred = $q.defer();
         var result = [];
