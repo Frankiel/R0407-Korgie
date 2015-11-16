@@ -731,6 +731,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainContext.cs" />
     <Compile Include="Models\Todo.cs" />
+    <Compile Include="Models\Type.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\User_Event.cs" />
     <Compile Include="Models\User_Todo.cs" />

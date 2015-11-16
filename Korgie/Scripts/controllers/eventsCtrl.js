@@ -1,6 +1,6 @@
 ﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
-korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService) {
+korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -11,6 +11,17 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.isWeekMode = false;
     $scope.week;
     $scope.weekDays;
+
+    $scope.eventAdding = false;
+    $scope.eventEditing = false;
+    $scope.eventToEdit;
+    $scope.eventToSave;
+    
+    $scope.types = [{ type: "Sports", color: "" },
+        { type: "Work", color: "" },
+        { type: "Rest", color: "" },
+        { type: "Study", color: "" },
+        { type: "Additional", color: "" }];
 
     function getMonthDays() {
         var result = [];
@@ -36,6 +47,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         }
         var lastDay = 33 - new Date($scope.year, $scope.month, 33).getDate(), i = firstWeekDay;
         for (; i < lastDay + firstWeekDay; i++) {
+            //добавляем в массив лишь те ивенты, которые идут в текущий день
             var evs = $scope.events.filter(function (ev) {
                 var date = ev.Start;
                 return date.getMonth() == $scope.month &&
@@ -68,10 +80,24 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 diff = d.getDate() - day + (day == 0 ? -6 : 1);
             monday = new Date(d.setDate(diff));
         } else {
-            var monday = new Date($scope.year, $scope.month, 1)
-            while (monday.getDay() != 1) {
-                monday.setDate(monday.getDate() - 1);
+            if (isNextPrev > 0) {
+                var sun = $scope.weekDays[6].date;
+                sun.setDate(sun.getDate() + 1);
+                monday = sun;
+            } else if (isNextPrev < 0) {
+                var mon = $scope.weekDays[0].date;
+                mon.setDate(mon.getDate() - 7);
+                monday = mon;
+            } else {
+                var month4 = new Date($scope.year, $scope.month, 4), k;
+                if (month4.getDay() < 4) {
+                    k = (8 - month4.getDay()) % 7;
+                } else {
+                    k = 0 - (month4.getDay() - 1);
             }
+                month4.setDate(month4.getDate() + k);
+                monday = month4;
+        }
         }
 
         for (var i = 0; i < 7; i++) {
@@ -90,12 +116,15 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             });
             monday.setDate(monday.getDate() + 1);
         }
+        $scope.month = result[3].month;
+        $scope.year = result[3].year;
         return result;
     }
 
     function getEvents(isNextPrevWeek) {
         var param, method;
         if (!$scope.isWeekMode) {
+            //метод получения ивентов с использованием функции обращения к серверу
             method = '/Event/GetMonthEvents';
             param = {
                 month: parseInt($scope.month) + 1,
@@ -148,9 +177,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     }
 
     $scope.changeMonthWeek = function () {
-        $scope.weekDays = getWeekDays();
         $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year);
-        console.log($scope.isWeekMode);
+        getEvents();
     }
 
     $scope.showDay = function (index) {
@@ -163,35 +191,26 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     }
     }
 
-    $scope.nextDay = function () {
-        var dayIndex = $scope.monthDays.indexOf($scope.dayToShow);
-        if ($scope.monthDays[dayIndex + 1].month == undefined) {
-            $scope.nextMonth();
-            $scope.dayToShow = $scope.monthDays[(new Date($scope.year, $scope.month, 1).getDay() + 6) % 7];
-        } else {
-            $scope.dayToShow = $scope.monthDays[dayIndex + 1];
-        }
-    }
-
-    $scope.prevDay = function () {
-        var dayIndex = $scope.monthDays.indexOf($scope.dayToShow);
-        if ($scope.monthDays[dayIndex - 1].month == undefined) {
-            $scope.prevMonth();
-            var firstDay = (new Date($scope.year, $scope.month, 1).getDay() + 6) % 7;
-            var days = 33 - new Date($scope.year, $scope.month, 33).getDate();
-            $scope.dayToShow = $scope.monthDays[firstDay + days - 1];
-        } else {
-            $scope.dayToShow = $scope.monthDays[dayIndex - 1];
-        }
-    }
-
     $scope.nextWeek = function () {
-        $scope.week++;
-        getEvents(true);
+        var sun = $scope.weekDays[6];
+        if ((sun.month == 0 && sun.day < 4) || (sun.month == 11 && sun.day > 28)) {
+            $scope.week = 1;
+            $scope.year++;
+        } else {
+            $scope.week++;
         }
+        getEvents(1);
+    }
 
     $scope.prevWeek = function () {
-
+        if ($scope.week == 1) {
+            $scope.year--;
+            $scope.month = 11;
+            $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year, true);
+        } else {
+            $scope.week--;
+        }
+        getEvents(-1);
     }
 
     $scope.showHideMenu = function () {
@@ -205,77 +224,153 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     }
 
     $scope.deleteEvent = function (id) {
-        var date;
+        $http({
+            url: '/Event/DeleteEvents',
+            method: "GET",
+            params: {
+                id: id
+            }
+        });
+        crudEvent(id);
+    };
+
+    var crudEvent = function (oldEventId, newEvent) {
+        var date, d;
+        if (oldEventId != -1) {
+            if ($scope.isWeekMode) {
+                $scope.weekDays.forEach(function (day) {
+                    day.events.forEach(function (ev, i) {
+                        if (ev.EventId == oldEventId) {
+                            date = ev.Start.getDate();
+                            day.events.splice(i, 1);
+                        }
+                    })
+                });
+                d = $scope.weekDays.filter(function (day) {
+                    return day.day == date;
+                })[0];
+            } else {
         $scope.dayToShow.events.forEach(function (ev, i) {
-            if (ev.EventId == id) {
+                    if (ev.EventId == oldEventId) {
                 date = ev.Start.getDate();
                 $scope.dayToShow.events.splice(i, 1);
             }
         });
-        var d = $scope.monthDays.filter(function (day) {
+                d = $scope.monthDays.filter(function (day) {
             return day.day == date && day.month != undefined;
         })[0];
+            }
         d.events.forEach(function (ev, i) {
-            if (ev.EventId == id) {
+                if (ev.EventId == oldEventId) {
                 $scope.dayToShow.events.splice(i, 1);
             }
         });
         d.types = korgieApi.getTypes(d.events);
+        }
+
+        if (newEvent != undefined) {
+            date = newEvent.Start.getDate();
+            if ($scope.isWeekMode) {
+                var i = 0;
+                for (; i < 7 && $scope.weekDays[i].day != newEvent.Start.getDate() ; i++) { }
+                d = $scope.weekDays[i];
+            } else {
+                var i = 0, length = $scope.monthDays.length;
+                for (; i < length && !($scope.monthDays[i].day == newEvent.Start.getDate() && $scope.monthDays[i].month != undefined) ; i++) { }
+                d = $scope.monthDays[i];
+            }
+            d.events.push(newEvent);
+            d.types = korgieApi.getTypes(d.events);
+        }
+    }
+
+    $scope.save = function () {
+        $http({
+            url: '/Event/SaveEvents',
+            method: "GET",
+            params: {
+                EventId: $scope.eventToEdit.EventId || -1,
+                Title: $scope.eventToEdit.Title,
+                Start: $scope.eventToEdit.Start,
+                Type: $scope.eventToEdit.Type,
+                Description: $scope.eventToEdit.Description || '',
+                Period: $scope.eventToEdit.Period || 0,
+                Days: 0,
+                Tags: $scope.eventToEdit.Tags || ''
+            }
+        });
+        crudEvent(!$scope.eventAdding ? $scope.eventToEdit.EventId : -1, $scope.eventToEdit);
+        $scope.eventToSave = angular.copy($scope.eventToEdit);
+        $scope.showHideControlls();
+        $scope.eventAdding = false;
+        $scope.eventEditing = false;
+    }
+
+    $scope.openDialog = function (dialogName, event) {
+        if (event == undefined) {
+            $scope.eventAdding = true;
+            event = {
+                Type: 'Work',
+                Start: new Date($scope.dayToShow.year, $scope.dayToShow.month, $scope.dayToShow.day, 0, 0),
+                Period: 0
+            }
+            $scope.eventToEdit = event;
+            $scope.eventToSave = event;
+            setTimeout(function () {
+                $scope.showHideControlls()
+            }, 200);
+        } else {
+            $scope.eventAdding = false;
+            $scope.eventEditing = false;
+        }
+        $scope.eventToSave = event;
+        LxDialogService.open(dialogName);
     };
 
-    $scope.openDialog = function (dialogId) {
-        LxDialogService.open(dialogId);
-    };
-
-    $scope.closingDialog = function () {
-        LxNotificationService.info('Dialog closed!');
+    $scope.closingDialog = function (dialogName) {
+        LxDialogService.close(dialogName);
     };
 
     /*-------------------------------------------------------------------*/
-    $scope.eventToEdit = {
-        EventId: 5,
-        Title: "Tidghnhdgnhdgngtle",
-        Start: new Date(),
-        Time: new Date(),
-        End: new Date(),
-        Type: "Sport",
-        Description: "gtyjtyjdhy",
-        Notifications: 0,
-        Period: 0,
-        Repeat: [false, false, false, false, false, false, false],
-        Tags: "Tags"
-    };
-    $scope.eventToSave = {
-        EventId: 5,
-        Title: "Tidghnhdgnhdgngtle",
-        Start: new Date(),
-        Time: new Date(),
-        End: new Date(),
-        Type: "",
-        Description: "gtyjtyjdhy",
-        Notifications: 0,
-        Period: 0,
-        Repeat: [false, false, false, false, false, false, false],
-        Tags: "Tags"
+
+    $scope.cancel = function () {
+        $scope.eventToEdit = angular.copy($scope.eventToSave);
+        $scope.showHideControlls();
+        $scope.eventEditing = false;
+        if ($scope.eventAdding) {
+            $scope.closingDialog('test');
+        }
     };
 
-    $scope.save = function () {
-        $scope.eventToEdit = $scope.eventToSave;/*??????????????!!!!!!!!!*/
-        $scope.showHideControlls();
+    $scope.edit = function () {
+        $scope.eventEditing = !$scope.eventEditing;
+        setTimeout(function () {
+            $scope.showHideControlls()
+        }, 200);
     }
-    console.log($scope.eventToEdit);
 
     $scope.showHideControlls = function () {
-        $(".controlls-visible").toggle();
+        /*$(".controlls-visible").toggle();
         $(".controlls-unvisible").toggle();
+        $scope.eventEditing = !$scope.eventEditing;*/
+        $scope.eventToEdit = angular.copy($scope.eventToSave);
+
+        var typeButtons = $('.type-click');
+        $('[etype="' + $scope.eventToEdit.Type + '"').addClass('btn--raised').removeClass('btn--flat');
+        typeButtons.click(function () {
+            typeButtons.removeClass('btn--raised');
+            $(this).removeClass('btn--flat').addClass('btn--raised');
+            $scope.eventToEdit.Type = $(this).attr('etype');
+        });
+
+        var periodButtons = $('.period-click');
+        $('[period="' + $scope.eventToEdit.Period + '"').addClass('btn--raised').removeClass('btn--flat');
+        periodButtons.click(function () {
+            periodButtons.removeClass('btn--raised');
+            $(this).removeClass('btn--flat').addClass('btn--raised');
+            $scope.eventToEdit.Period = $(this).attr('period');
+        });
     }
-    $scope.Types = [
-        { type: "Sport" },
-        { type: "Work" },
-        { type: "Rest" },
-        { type: "Study" },
-        { type: "Additional" }
-    ];
 
     $scope.people = [
     { name: "Adam", email: "adam@email.com", age: 10 },

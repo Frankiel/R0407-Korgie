@@ -1,6 +1,7 @@
 ﻿html, body {
     margin: 0px;
     height: 100%;
+    background-color:#FEFFFF
 }
 
 /* Login */
@@ -146,6 +147,14 @@
     margin: 5px 0px 5px;
 }
 
+.month-container {
+    height: calc(100vh - 160px);
+}
+
+.calendar-container {
+    height: calc(100% - 77px);
+}
+
 .week-days {
     padding-right: 18px;
 }
@@ -164,6 +173,7 @@
     float: left;
     width: calc(14.285714285714285714285714285714% - 2px);
     height: calc((100vw) / 7 - 2px);
+    max-height: 15%;
     margin: 0px 1px 1px 0px;
     cursor: pointer;
 }
@@ -181,6 +191,10 @@
     height: 100%;
     /*border: 1px solid #333;*/
     /*box-shadow: rgba(0, 0, 0, 0.5) 0 0 2px;*/
+}
+
+.some-events {
+    background-color: #feb; /*#ff7d00*/
 }
 
 .day-number {
@@ -209,22 +223,27 @@
 
 .Work {
     background-color: #F44336;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Sports {
     background-color: #2196F3;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Study {
     background-color: #FFEB3B;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Rest {
     background-color: #4CAF50;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 .Additional {
     background-color: #E91E63;
+    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
 #day-mode {
@@ -292,6 +311,109 @@
 .day-mode-todos {
     border-right: none;
 }
+
+
+
+/* event */
+
+#test {
+    max-height: calc(100vh - 60px);
+}
+
+.event {
+    margin : 10%;
+    font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+    font-size: medium;
+}
+
+.event p {
+    margin: 5% 2% 2% 0;
+    font-size: large;
+}
+
+.event p:not(.controlls-visible) {
+    color: #444;
+    font-weight: bold;
+}
+
+.event .event-title, .event .event-title-edit {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.event textarea {
+    resize: none;
+    width: 100%;
+}
+
+.event .buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.event .buttons > * {
+    margin: 2px;
+}
+
+.event .column1 > * {
+    height: 60px;
+}
+
+.event .column1 > *:last-child {
+    height: auto;
+}
+
+.event .event-date {
+    height: 60px;
+}
+
+.event .event-title-edit {
+    width: 100%;
+    margin-top: -6px;
+}
+
+.event .event-date-edit > * {
+    margin-top: -40px;
+}
+
+.event .event-date-edit * {
+    display: inline-block;
+}
+
+.event .event-time {
+    margin-top: 3px;
+}
+
+.event .event-type-edit, .event .event-period-edit {
+    display: inline-block;
+}
+
+.event .column2 {
+    height: 60px;
+}
+
+.event .event-notif-edit {
+    margin-top: -37px;
+}
+
+.event .checkboxes {
+    margin-top: 15px;
+}
+
+.event .checkboxes > *:nth-child(2n) {
+    display: inline-block;
+}
+
+.controlls-visible {
+    display: inline-block;
+}
+
+.controlls-unvisible {
+    display: none;
+}
+
 
 @media (max-width: 310px) {
     .detailed-event {
@@ -406,6 +528,14 @@
         float: right;
     }
 
+    .month-container {
+        height: calc(100vh - 70px);
+    }
+
+    .calendar-container {
+        height: calc(100% - 70px);
+    }
+
     .dark-div {
         position: fixed;
         background: #fff;
@@ -424,10 +554,6 @@
 
     .row {
         margin: 0px !important;
-    }
-
-    .some-events {
-        background-color: #FFE0B2; /*#ff7d00*/
     }
 
     .day-mode-events, .day-mode-todos {
@@ -484,7 +610,8 @@
 
     .month-day {
         width: calc((100vw - 40px) / 8);
-        height: calc((100vw - 30px) / 8);
+        height: calc((100vw - 40px) / 8);
+        max-height: 14%;
         margin: calc((100% - 40px) / 128);
     }
 
@@ -513,6 +640,7 @@
     .month-day {
         width: 94px;
         height: 94px;
+        max-height: 14%;
         margin: 4px;
     }
 
@@ -536,13 +664,18 @@
     .searchfield div{
         width:350px;
     }
-
+    
+    .event .event-title-edit, .event .event-title {
+        width: calc(100% - 70px);
+        overflow: hidden;
+    }
 }
 
 @media (min-width: 992px) {
     .month-day {
         width: 120px;
         height: 120px;
+        max-height: 14%;
         margin: 7px;
     }
 
@@ -561,6 +694,7 @@
     .month-day {
         width: 146px;
         height: 146px;
+        max-height: 14%;
         margin: 8px;
     }
 
@@ -574,50 +708,4 @@
 .footer {
     height: 50px;
     background: #999;
-}
-
-/* event */
-.event {
-    margin : 10%;
-    font-family: 'Times New Roman', 'Helvetica Neue', Arial, sans-serif;
-    font-size: medium;
-}
-
-.event:hover .buttons {
-    display: block !important;
-}
-
-.event p{
-    margin: 5% 2% 2% 0;
-    font-size: large;
-}
-
-.event p:not(.controlls-visible) {
-
-    color: grey;
-    font-weight: bold;
-}
-
-.event h1 {
-    margin: 10% 0 10% 0;
-}
-
-.event textarea {
-    resize: none;
-    width: 100%;
-}
-
-.buttons {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: none !important;
-    }
-
-.controlls-visible {
-    display: inline-block;
-}
-
-.controlls-unvisible {
-    display: none;
 }
