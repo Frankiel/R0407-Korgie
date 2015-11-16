@@ -1,10 +1,10 @@
 ﻿function korgieApi($q) {
-    this.name = 'Frank Martin';
-    this.primaryEmail = 'frankmartin@gmail.com';
+    this.name;
+    this.primaryEmail;
     this.additionalEmail;
-    this.phone = "1234567890";
-    this.country = "Australia";
-    this.city = "Sydney";
+    this.phone;
+    this.country;
+    this.city;
     this.sport = { Title: 'Sport', Color: 'btn--orange' };
     this.work = { Title: 'Work', Color: 'btn--blue' };
     this.rest = { Title: 'Rest', Color: 'btn--green' };

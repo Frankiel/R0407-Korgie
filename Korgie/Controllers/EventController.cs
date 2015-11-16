@@ -196,7 +196,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             Todo[] todoStub = todo.ToArray();
             return todoStub;
         }
-        public User GetProfileInfo()
+        public string GetProfileInfo()
         {
             User result = null;
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
@@ -213,7 +213,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     }
                 }
             }
-            return result;
+            return new JavaScriptSerializer().Serialize(result);
         }
         public void SaveProfileInfo(User user)
         {

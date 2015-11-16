@@ -121,6 +121,32 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         return result;
     }
 
+    function getProfileInfo() { //без параметров, потому что в функции на сервере frank проверит cookies и выдаст инфо для конкретного юзера по мылу
+        var param, method;
+        method = '/Event/GetProfileInfo';//FRANK должен получить экземпляр класса User
+        $http.get(method).then(function successCallback(response) {
+            catchProfileInfo(response.data);
+        }, function errorCallback(response) {
+            console.log('getting profile info failed');
+        });
+    }
+
+    function catchProfileInfo(data) {
+        korgieApi.name = data.Name;
+        korgieApi.primaryEmail = data.PrimaryEmail;
+        korgieApi.additionalEmail = data.AdditionalEmail;
+        korgieApi.phone = data.Phone;
+        korgieApi.country = data.Country;
+        korgieApi.city = data.City;
+        korgieApi.sport = data.Sport;
+        korgieApi.work = data.Work;
+        korgieApi.rest = data.Rest;
+        korgieApi.study = data.Study;
+        korgieApi.additional = data.Additional;
+    }
+
+    getProfileInfo();
+
     function getEvents(isNextPrevWeek) {
         var param, method;
         if (!$scope.isWeekMode) {
