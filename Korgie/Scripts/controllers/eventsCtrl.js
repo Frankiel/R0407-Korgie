@@ -1,6 +1,6 @@
-﻿var korgie = angular.module('korgie', ['lumx']);
+﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
-korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialogService', '$filter', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
+korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -94,10 +94,10 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
                     k = (8 - month4.getDay()) % 7;
                 } else {
                     k = 0 - (month4.getDay() - 1);
-                }
+            }
                 month4.setDate(month4.getDate() + k);
                 monday = month4;
-            }
+        }
         }
 
         for (var i = 0; i < 7; i++) {
@@ -145,13 +145,13 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(response) {
-                korgieApi.convertEvents(response.data).then(function (events) {
-                    $scope.events = events;
+        korgieApi.convertEvents(response.data).then(function (events) {
+            $scope.events = events;
                     $scope.weekDays = getWeekDays(isNextPrevWeek);
-                });
-            }, function errorCallback(response) {
-                console.log("getting events failed");
-            });
+        });
+    }, function errorCallback(response) {
+        console.log("getting events failed");
+    });
         }
     }
     getEvents();
@@ -177,7 +177,6 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     }
 
     $scope.changeMonthWeek = function () {
-        $scope.isWeekMode = !$scope.isWeekMode;
         $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year);
         getEvents();
     }
@@ -186,10 +185,10 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
         if (!$scope.isWeekMode) {
             if ($scope.monthDays[index].month != undefined) {
                 $scope.dayToShow = $scope.monthDays[index];
-            }
+        }
         } else {
             $scope.dayToShow = $scope.weekDays[index];
-        }
+    }
     }
 
     $scope.nextWeek = function () {
@@ -251,22 +250,22 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
                     return day.day == date;
                 })[0];
             } else {
-                $scope.dayToShow.events.forEach(function (ev, i) {
+        $scope.dayToShow.events.forEach(function (ev, i) {
                     if (ev.EventId == oldEventId) {
-                        date = ev.Start.getDate();
-                        $scope.dayToShow.events.splice(i, 1);
-                    }
-                });
-                d = $scope.monthDays.filter(function (day) {
-                    return day.day == date && day.month != undefined;
-                })[0];
+                date = ev.Start.getDate();
+                $scope.dayToShow.events.splice(i, 1);
             }
-            d.events.forEach(function (ev, i) {
+        });
+                d = $scope.monthDays.filter(function (day) {
+            return day.day == date && day.month != undefined;
+        })[0];
+            }
+        d.events.forEach(function (ev, i) {
                 if (ev.EventId == oldEventId) {
-                    $scope.dayToShow.events.splice(i, 1);
-                }
-            });
-            d.types = korgieApi.getTypes(d.events);
+                $scope.dayToShow.events.splice(i, 1);
+            }
+        });
+        d.types = korgieApi.getTypes(d.events);
         }
 
         if (newEvent != undefined) {
@@ -387,4 +386,4 @@ korgie.controller('EventsCtrl', ['$scope', '$http', '$q', 'korgieApi', 'LxDialog
     $scope.selects = {
         selectedPerson: undefined
     };
-}]);
+});

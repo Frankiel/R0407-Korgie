@@ -1,5 +1,5 @@
 ﻿
-korgie.controller('SettingsCtrl', ['$scope', '$http', 'korgieApi', function ($scope , $http, korgieApi) {
+korgie.controller('settingsCtrl', function ($scope , $http, korgieApi) {
     $scope.name;
     $scope.primaryEmail;
     $scope.additionalEmail;
@@ -20,12 +20,12 @@ korgie.controller('SettingsCtrl', ['$scope', '$http', 'korgieApi', function ($sc
     }
 
     //метод для закрытия колорпикера при нажатии на body
-    $(document).on("click", ".color-button", function () {
-        $(this).parent().prev().children().removeClass("btn--blue btn--red btn--purple btn--green btn--yellow btn--orange btn--teal btn--pink btn--grey"); //снимаю все цвета с кнопки типа
-        var className = $(this).attr('class');
-        $(this).parent().prev().children().addClass(className);
-        $(this).parent().prev().children().removeClass("color-button");
-        $(this).parent().addClass('colors-closed');
+$(document).on("click", ".color-button", function () {
+    $(this).parent().prev().children().removeClass("btn--blue btn--red btn--purple btn--green btn--yellow btn--orange btn--teal btn--pink btn--grey"); //снимаю все цвета с кнопки типа
+    var className = $(this).attr('class');
+    $(this).parent().prev().children().addClass(className);
+    $(this).parent().prev().children().removeClass("color-button");
+    $(this).parent().addClass('colors-closed');
         switch ($(this).parent().prev().children().attr('id')) {
             case 'work':
                 korgieApi.work.Color = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
@@ -53,7 +53,7 @@ korgie.controller('SettingsCtrl', ['$scope', '$http', 'korgieApi', function ($sc
                 console.log(korgieApi.additional.Color);
                 break;
         }
-    });
+});
 
     function getProfileInfo() { //без параметров, потому что в функции на сервере frank проверит cookies и выдаст инфо для конкретного юзера по мылу
         var param, method;
@@ -127,6 +127,6 @@ korgie.controller('SettingsCtrl', ['$scope', '$http', 'korgieApi', function ($sc
             $(this).parent().next().toggleClass('colors-closed');
         }
     });
-}]);
+});
 
 
