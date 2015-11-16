@@ -148,7 +148,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     }
 
     $scope.changeMonthWeek = function () {
-        $scope.isWeekMode = !$scope.isWeekMode;
         $scope.weekDays = getWeekDays();
         $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year);
         console.log($scope.isWeekMode);
