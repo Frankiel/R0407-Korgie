@@ -318,6 +318,7 @@
 
 #test {
     max-height: calc(100vh - 60px);
+    overflow: auto;
 }
 
 .event {
@@ -686,6 +687,7 @@
 
 @media (min-width: 1024px) {
     .scrollbar-container {
+        position: fixed !important;
         overflow: auto !important;
     }
 }
