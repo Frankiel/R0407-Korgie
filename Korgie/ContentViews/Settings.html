@@ -1,0 +1,182 @@
+﻿<div class="dark-div" ng-click="showHideMenu()"></div>
+<div class="container content set">
+    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+        <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="showHideMenu()">
+            <i class="mdi mdi-menu"></i>
+        </button>
+        <h2>Settings</h2>
+    </div>  
+                  <div class="settingsarea">
+                        <div layout="column" class="mainsettingsblock">
+                                <div layout="row" layout-align="space-around center" layout-md="column" layout-sm="column">
+                                    <div class="text-align-center">
+                                        <div class="avatar">
+                                        </div>
+                                    </div>
+                                    <div class="text-align-right">
+                                        <button class="btn btn--s btn--blue btn--icon" lx-ripple disabled><i class="mdi mdi-pencil"></i></button>
+                                        <div layout="row" layout-align="space-around center" class="profilelines">
+                                            <div flex="30" class="text-align-left">
+                                                <span class="fs-subhead display-block">Name:</span>
+                                            </div>
+                                            <div flex="70" class="text-align-left">
+                                                <span class="fs-subhead display-block">{{name}}</span>
+                                            </div>
+                                        </div>
+                                        <div layout="row" layout-align="space-around center" class="profilelines">
+                                            <div flex="30" class="text-align-left">
+                                                <span class="fs-subhead display-block">Primary email:</span>
+                                            </div>
+                                            <div flex="70" class="text-align-left">
+                                                <span class="fs-subhead display-block">{{primaryEmail}}</span>
+                                            </div>
+                                        </div>
+                                        <div layout="row" layout-align="space-around center" class="profilelines">
+                                            <div flex="30" class="text-align-left">
+                                                <span class="fs-subhead display-block">Phone:</span>
+                                            </div>
+                                            <div flex="70" class="text-align-left">
+                                                <span class="fs-subhead display-block">{{phone}}</span>
+                                            </div>
+                                        </div>
+                                        <div layout="row" layout-align="space-around center" class="profilelines">
+                                            <div flex="30" class="text-align-left">
+                                                <span class="fs-subhead display-block">Country</span>
+                                            </div>
+                                            <div flex="70" class="text-align-left">
+                                                <span class="fs-subhead display-block">{{country}}</span>
+                                            </div>
+                                        </div>
+                                        <div layout="row" layout-align="space-around center" class="profilelines">
+                                            <div flex="30" class="text-align-left">
+                                                <span class="fs-subhead display-block">City</span>
+                                            </div>
+                                            <div flex="70" class="text-align-left">
+                                                <span class="fs-subhead display-block">{{city}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="settingsheader">
+                                <span class="fs-title display-block">Events</span>
+                            </div>
+                            <div>
+                                <div layout="row" layout-align="center center" class="eventelement">
+                                    <div flex="10" class="eventname" flex-md="20" flex-sm="20">
+                                        <span class="fs-title display-block">{{work.Title}}</span>
+                                    </div>
+                                    <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
+                                        <button class="btn btn--s {{work.Color}} btn--fab type-button" lx-ripple ng-click="slideWorkColors()" id="work"><i class="mdi mdi-briefcase"></i></button>
+                                    </div>
+                                    <div class="selecteventcolor colors-closed" id="workcolors">
+                                        <button class="btn btn--s btn--blue btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--purple btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--orange btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--pink btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--grey btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-align="center center" class="eventelement">
+                                    <div flex="10" class="eventname" flex-md="20" flex-sm="20">
+                                        <span class="fs-title display-block">{{study.Title}}</span>
+                                    </div>
+                                    <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
+                                        <button class="btn btn--s {{study.Color}} btn--fab type-button" lx-ripple ng-click="slideStudyColors()"  id="study"><i class="mdi mdi-book-open"></i></button>
+                                    </div>
+                                    <div class="selecteventcolor colors-closed" id="studycolors">
+                                        <button class="btn btn--s btn--blue btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--purple btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--orange btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--pink btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--grey btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-align="center center" class="eventelement">
+                                    <div flex="10" class="eventname" flex-md="20" flex-sm="20">
+                                        <span class="fs-title display-block">{{sport.Title}}</span>
+                                    </div>
+                                    <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
+                                        <button class="btn btn--s {{sport.Color}} btn--fab type-button" lx-ripple ng-click="slideSportColors()" id="sport"><i class="mdi mdi-dumbbell"></i></button>
+                                    </div>
+                                    <div class="selecteventcolor colors-closed" id="sportcolors">
+                                        <button class="btn btn--s btn--blue btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--purple btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--orange btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--pink btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--grey btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-align="center center" class="eventelement">
+                                    <div flex="10" class="eventname" flex-md="20" flex-sm="20">
+                                        <span class="fs-title display-block">{{rest.Title}}</span>
+                                    </div>
+                                    <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
+                                        <button class="btn btn--s {{rest.Color}} btn--fab type-button" lx-ripple ng-click="slideRestColors()" id="rest"><i class="mdi mdi-beach"></i></button>
+                                    </div>
+                                    <div class="selecteventcolor colors-closed" id="restcolors">
+                                        <button class="btn btn--s btn--blue btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--purple btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--orange btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--pink btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--grey btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-align="center center" class="eventelement">
+                                    <div flex="10" class="eventname" flex-md="20" flex-sm="20">
+                                        <span class="fs-title display-block">{{additional.Title}}</span>
+                                    </div>
+                                    <div flex="10" class="eventicon" flex-md="20" flex-sm="20">
+                                        <button class="btn btn--s {{additional.Color}} btn--fab type-button" lx-ripple ng-click="slideAdditionalColors()"  id="additional"><i class="mdi mdi-plus"></i></button>
+                                    </div>
+                                    <div class="selecteventcolor colors-closed" id="additionalcolors">
+                                        <button class="btn btn--s btn--blue btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--red btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--purple btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--green btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--yellow btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--orange btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--teal btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--pink btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                        <button class="btn btn--s btn--grey btn--fab color-button" lx-ripple><i class="mdi mdi-none"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settingsheader">
+                                <span class="fs-title display-block">Notifications</span>
+                            </div>
+                            <div class="text-align-right">
+                                <button class="btn btn--s btn--blue btn--icon" lx-ripple disabled><i class="mdi mdi-pencil" ></i></button>
+                                <div layout="row" layout-align="center center" layout-md="column" layout-sm="column">
+                                    <div flex="30" flex-md="80" flex-sm="80">
+                                        <div class="switch">
+                                            <input type="checkbox" id="is-notify" class="switch__input" disabled>
+                                            <label for="is-notify" class="switch__label">Notify me about upcoming events.</label>
+                                        </div>
+                                    </div>
+                                    <div flex="10" class="text-align-right">
+                                        <span class="fs-subhead display-block">Email:</span>
+                                    </div>
+                                    <div>
+                                        <span class="fs-subhead display-block">testemail@email.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>

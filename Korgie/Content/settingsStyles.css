@@ -1,0 +1,114 @@
+﻿.mainsettingsblock{
+    width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:10px;
+    text-align:left;
+}
+
+.settingsarea{
+    width:100%;
+    text-align:center;
+}
+
+.avatar{
+    width:200px;
+    height:200px;
+    background-color:#888;
+}
+
+.selecteventcolor{
+       
+    }
+
+.colors-closed{
+    visibility:hidden;
+}
+
+.eventelement{
+    margin-top:10px;
+}
+
+.eventname{
+    text-align:center;
+}
+
+.eventicon{
+    text-align:center;
+}
+
+.bluecolor{
+    background-color:#2196F3 !important;
+    color:#FFF;
+}
+
+.redcolor{
+    background-color:#F44336 !important;
+    color:#FFF;
+}
+
+.purplecolor{
+    background-color:#9C27B0 !important;
+    color:#FFF;
+}
+
+.greencolor{
+    background-color:#4CAF50 !important;
+    color:#FFF;
+}
+
+.yellowcolor{
+    background-color:#FFEB3B !important;
+    color:#FFF;
+}
+
+.orangecolor{
+    background-color:#FF9800 !important;
+    color:#FFF;
+}
+
+.tealcolor{
+    background-color:#009688 !important;
+    color:#FFF;
+}
+
+.pinkcolor{
+    background-color:#E91E63 !important;
+    color:#FFF;
+}
+
+.greycolor{
+    background-color:#9E9E9E !important;
+    color:#FFF;
+}
+
+.text-align-left{
+    text-align:left;
+}
+
+.text-align-right{
+    text-align:right;
+}
+
+.text-align-center{
+    text-align:center;
+}
+
+.profilelines{
+    width:400px;
+}
+
+.settingsheader{
+    margin:10px;
+    margin-top:30px;
+}
+
+@media (max-width: 959px) {
+    .mainsettingsblock{
+        width:400px;
+        height:500px;
+        margin-left:auto;
+        margin-right:auto;
+        margin-bottom:200px;
+    }
+}

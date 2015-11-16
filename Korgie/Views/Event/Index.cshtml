@@ -1,0 +1,48 @@
+﻿@{
+
+}
+
+<div class="header">
+    <div class="logo-keeper">
+        <div class="logo"></div>
+    </div>
+    <nav class="container" ng-controller="HomeCtrl">
+        <div class="navicons" layout-align="end start" layout-gt-sm="row">
+            <div class="email">@ViewBag.Email</div>
+            <div layout="row" layout-align="end start" layout-align-sm="center center">
+                <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" disabled><i class="mdi mdi-bell-outline"></i></button></div>
+                <div><button id="settings" class="btn btn--m btn--blue btn--icon" lx-ripple type="button" ng-click="openSettings()" ui-sref="settings"><i class="mdi mdi-settings"></i></button></div>
+                <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'"><i class="mdi mdi-logout"></i></button></div>
+            </div>
+            <!--Edit signout-button class-->
+        </div>
+        <div layout="row" layout-sm="column" layout-md="column" layout-align-md="end end">
+            <div class="menu" flex="70" flex-order-sm="2" flex-order="1" flex-sm="100" flex-md="100" flex-order-md="2">
+                <ul class="nav">
+                    <li><button id="events" class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="openEvents()" ui-sref="events">Events</button></li>
+                    <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Notes</button></li>
+                    <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Contacts</button></li>
+                    <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Statistics</button></li>
+                </ul>
+            </div>
+            <div class="searchfield" flex="30" flex-order-sm="1" flex-order="2" flex-sm="100" flex-md="100" flex-order-md="1">
+                <div flex-item>
+                    <lx-text-field label="Search">
+                        <input type="text"  ng-model="textFields.lastName" disabled>
+                    </lx-text-field>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div ui-view>
+    @*<section class="section-event-page" ng-include="'../../ContentViews/Events.html'" ng-controller="eventsCtrl"></section>
+    <section class="section-settings-page" ng-include="'../../ContentViews/Settings.html'" ng-controller="settingsCtrl"></section>*@
+</div>
+
+<div class="footer" layout="row" layout-align="space-around center">
+    <div>About</div>
+    <div>copyright</div>
+    <div>socials</div>
+</div>

@@ -1,0 +1,105 @@
+﻿<div class="event" layout="column" layout-align="space-beetwen" layout-margin layout-padding>
+    <div class="buttons" layout="row">
+        <button class="btn btn--m btn--red btn--icon controlls-visible" lx-ripple ng-click="showHideControlls()"><i class="mdi mdi-pencil" disabled></i></button>
+        <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
+    </div>
+    <div class="center-block">
+        <h1>
+            <span class="display-block controlls-visible fs-display-1">{{eventToSave.Title}}</span>
+            <lx-text-field label="Title" fixed-label="true" class="controlls-unvisible">
+                <input type="text" ng-model="eventToEdit.Title">
+            </lx-text-field>
+        </h1>
+    </div>
+    <div class="center-div">
+        <div layout="row" layout-sm="column">
+            <div flex=" 50">
+                <div>
+                    <p>Date:</p>
+                    <span class="display-block controlls-visible"> {{eventToSave.Start | date}}</span>
+                    <input class="controlls-unvisible" type="date" ng-model="eventToEdit.Start">
+                </div>
+                <div>
+                    <p>Time:</p>
+                    <p class="controlls-visible">{{eventToSave.Time}}</p>
+                    <input class="controlls-unvisible" type="time" name="time" ng-model="eventToEdit.Time">
+                </div>
+                <div>
+                    <p>Type:</p>
+                    <p class="controlls-visible">{{eventToSave.Type}}</p>
+                    <!--<lx-select class="controlls-unvisible" ng-model="eventToSave.Type" placeholder="Type" choices="Types" floating-label>
+                        <lx-select-selected>
+                            {{ $selected.name }}
+                        </lx-select-selected>
+
+                        <lx-select-choices>
+                            {{ $choice.name }}
+                        </lx-select-choices>
+                    </lx-select>-->
+
+                    <select class="controlls-unvisible" ng-model="eventToEdit.Type">
+                        <option value="sport">Sport</option>
+                        <option value="work">Work</option>
+                        <option value="study">Study</option>
+                        <option value="rest">Rest</option>
+                    </select>
+                </div>
+            </div>
+            <div flex=" 50">
+                <div layout="row">
+                    <p>Notifications: </p>
+                    <p class="controlls-visible">{{eventToSave.Notifications}}</p>
+                    <input class="controlls-unvisible" type="number" min="0" ng-model="eventToEdit.Notifications">
+                    <p> days</p>
+                </div>
+                <div>
+                    <p>Periodical:</p>
+                    <p class="controlls-visible">{{eventToSave.Period}}</p>
+                    <select class="controlls-unvisible" ng-model="eventToEdit.Period">
+                        <option value="day">Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
+                        <option value="none">None</option>
+                    </select>
+                </div>
+                <div class="checkbox" layout="row">
+                    <input type="checkbox" id="checkbox1" class="checkbox__input">
+                    <label for="checkbox1" class="checkbox__label">Mon</label>
+                    <input type="checkbox" id="checkbox2" class="checkbox__input">
+                    <label for="checkbox2" class="checkbox__label">Tue</label>
+                    <input type="checkbox" id="checkbox3" class="checkbox__input">
+                    <label for="checkbox3" class="checkbox__label">Wed</label>
+                    <input type="checkbox" id="checkbox4" class="checkbox__input">
+                    <label for="checkbox4" class="checkbox__label">Thu</label>
+                    <input type="checkbox" id="checkbox5" class="checkbox__input">
+                    <label for="checkbox5" class="checkbox__label">Fri</label>
+                    <input type="checkbox" id="checkbox6" class="checkbox__input">
+                    <label for="checkbox6" class="checkbox__label">Sut</label>
+                    <input type="checkbox" id="checkbox7" class="checkbox__input">
+                    <label for="checkbox7" class="checkbox__label">Sun</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <p>Description:</p>
+                <p class="controlls-visible">{{eventToSave.Description}}</p>
+                <textarea class="controlls-unvisible">{{eventToSave.Description}}</textarea>
+            </div>
+            <div>
+                <p>Tags:</p>
+                <p class="controlls-visible">{{eventToSave.Tags}}</p>
+                <textarea class="controlls-unvisible">{{eventToSave.Tags}}</textarea>
+            </div>
+            <div>
+                <p>Contacts:</p>
+
+            </div>
+        </div>
+        <div layout="row" layout-align="end">
+            <button class="btn btn--m btn--blue btn--flat" lx-ripple>Save</button>
+            <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close>Close</button>
+        </div>
+    </div>
+</div>
