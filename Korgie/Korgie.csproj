@@ -707,6 +707,7 @@
     <Content Include="Scripts\libs\velocity\velocity.min.js" />
     <Content Include="Scripts\libs\velocity\velocity.ui.js" />
     <Content Include="Scripts\libs\velocity\velocity.ui.min.js" />
+    <Content Include="Scripts\services\configs.js" />
     <Content Include="Scripts\services\directives.js" />
     <Content Include="Scripts\services\filters.js" />
     <Content Include="Scripts\services\services.js" />
@@ -730,6 +731,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainContext.cs" />
     <Compile Include="Models\Todo.cs" />
+    <Compile Include="Models\Type.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\User_Event.cs" />
     <Compile Include="Models\User_Todo.cs" />
