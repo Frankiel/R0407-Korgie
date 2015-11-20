@@ -127,13 +127,14 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         method = '/Event/GetProfileInfo';
         $http.get(method).then(function successCallback(response) {
             catchProfileInfo(response.data);
-            console.log('getProfileInfo done from EventsController');
+            console.log('getProfileInfo done from eventsCtrl');
         }, function errorCallback(response) {
-            console.log('getProfileInfo failed from EventsController');
+            console.log('getProfileInfo failed from eventsCtrl');
         });
     }
 
     function catchProfileInfo(data) {
+        console.log('start catchProfileInfo from eventsCtrl');
         korgieApi.name = data.Name;
         korgieApi.primaryEmail = data.PrimaryEmail;
         korgieApi.additionalEmail = data.AdditionalEmail;
@@ -150,6 +151,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             korgieApi.study = data.Study;
         if (data.Additional.length == 3)
             korgieApi.additional = data.Additional;
+        console.log('end catchProfileInfo from eventsCtrl');
     }
 
     getProfileInfo();

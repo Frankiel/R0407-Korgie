@@ -6,11 +6,16 @@
     this.phone;
     this.country;
     this.city;
-    this.sport = ['Sport', 'btn--blue', '#2196F3'];
-    this.work = ['Work', 'btn--red', '#F44336'];
-    this.rest = ['Rest', 'btn--purple', '#9C27B0'];
-    this.study = ['Study', 'btn--green', '#4CAF50'];
-    this.additional = ['Additional', 'btn--yellow', '#FFEB3B'];
+    this.sport;
+    this.work;
+    this.study;
+    this.additional;
+    this.rest;
+    //this.sport = ['Sport', 'btn--blue', '#2196F3'];
+    //this.work = ['Work', 'btn--red', '#F44336'];
+    //this.rest = ['Rest', 'btn--purple', '#9C27B0'];
+    //this.study = ['Study', 'btn--green', '#4CAF50'];
+    //this.additional = ['Additional', 'btn--yellow', '#FFEB3B'];
 
     this.convertEvents = function (data) {
         var deferred = $q.defer();
