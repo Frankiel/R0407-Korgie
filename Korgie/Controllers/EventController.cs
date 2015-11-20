@@ -215,24 +215,24 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             }
             return new JavaScriptSerializer().Serialize(result);
         }
-        public void SaveProfileInfo(User user)
+        public void SaveProfileInfo(string Name, string PrimaryEmail, string AdditionalEmail, string Phone, string Country, string City, string [] Sport, string[] Work, string[] Rest, string[] Study, string[] Additional)
         {
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
             {
                 conn.Open();
                 var cmd = new SqlCommand(@"UPDATE Users SET Name=@Name,AdditionalEmail=@AdditionalEmail,Phone=@Phone,Country=@Country,City=@City,Sport=@Sport
 ,Work=@Work,Study=@Study,Additional=@Additional,Rest=@Rest WHERE PrimaryEmail=@PrimaryEmail", conn);
-                cmd.Parameters.AddWithValue("@Name", user.Name);
-                cmd.Parameters.AddWithValue("@AdditionalEmail", user.AdditionalEmail);
-                cmd.Parameters.AddWithValue("@Phone", user.Phone);
-                cmd.Parameters.AddWithValue("@Country", user.Country);
-                cmd.Parameters.AddWithValue("@City", user.City);
-                cmd.Parameters.AddWithValue("@Sport", string.Join(" ", user.Sport.ToArray()));
-                cmd.Parameters.AddWithValue("@Work", string.Join(" ", user.Work.ToArray()));
-                cmd.Parameters.AddWithValue("@Study", string.Join(" ", user.Study.ToArray()));
-                cmd.Parameters.AddWithValue("@Additional", string.Join(" ", user.Additional.ToArray()));
-                cmd.Parameters.AddWithValue("@Rest", string.Join(" ", user.Rest.ToArray()));
-                cmd.Parameters.AddWithValue("@PrimaryEmail", user.PrimaryEmail);
+                cmd.Parameters.AddWithValue("@Name", Name);
+                cmd.Parameters.AddWithValue("@AdditionalEmail", AdditionalEmail);
+                cmd.Parameters.AddWithValue("@Phone", Phone);
+                cmd.Parameters.AddWithValue("@Country", Country);
+                cmd.Parameters.AddWithValue("@City", City);
+                cmd.Parameters.AddWithValue("@Sport", string.Join(" ", Sport));
+                cmd.Parameters.AddWithValue("@Work", string.Join(" ", Work));
+                cmd.Parameters.AddWithValue("@Study", string.Join(" ", Study));
+                cmd.Parameters.AddWithValue("@Additional", string.Join(" ", Additional));
+                cmd.Parameters.AddWithValue("@Rest", string.Join(" ", Rest));
+                cmd.Parameters.AddWithValue("@PrimaryEmail", PrimaryEmail);
                 cmd.ExecuteNonQuery();
             }
         }
