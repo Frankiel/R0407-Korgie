@@ -1,15 +1,16 @@
 ﻿function korgieApi($q) {
+    console.log("Initializing korgieApi");
     this.name;
     this.primaryEmail;
     this.additionalEmail;
     this.phone;
     this.country;
     this.city;
-    this.sport = { Title: 'Sport', Color: 'btn--orange' };
-    this.work = { Title: 'Work', Color: 'btn--blue' };
-    this.rest = { Title: 'Rest', Color: 'btn--green' };
-    this.study = { Title: 'Study', Color: 'btn--red' };
-    this.additional = { Title: 'Additional', Color: 'btn--grey' };
+    this.sport = ['Sport', 'btn--blue', '#2196F3'];
+    this.work = ['Work', 'btn--red', '#F44336'];
+    this.rest = ['Rest', 'btn--purple', '#9C27B0'];
+    this.study = ['Study', 'btn--green', '#4CAF50'];
+    this.additional = ['Additional', 'btn--yellow', '#FFEB3B'];
 
     this.convertEvents = function (data) {
         var deferred = $q.defer();

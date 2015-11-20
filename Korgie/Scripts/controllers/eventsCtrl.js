@@ -1,6 +1,7 @@
 ﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
 korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
+    console.log("Initializing eventsCtrl");
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -121,13 +122,14 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         return result;
     }
 
-    function getProfileInfo() { //без параметров, потому что в функции на сервере frank проверит cookies и выдаст инфо для конкретного юзера по мылу
+    function getProfileInfo() {
         var param, method;
-        method = '/Event/GetProfileInfo';//FRANK должен получить экземпляр класса User
+        method = '/Event/GetProfileInfo';
         $http.get(method).then(function successCallback(response) {
             catchProfileInfo(response.data);
+            console.log('getProfileInfo done from EventsController');
         }, function errorCallback(response) {
-            console.log('getting profile info failed');
+            console.log('getProfileInfo failed from EventsController');
         });
     }
 
@@ -138,11 +140,16 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         korgieApi.phone = data.Phone;
         korgieApi.country = data.Country;
         korgieApi.city = data.City;
-        korgieApi.sport = data.Sport;
-        korgieApi.work = data.Work;
-        korgieApi.rest = data.Rest;
-        korgieApi.study = data.Study;
-        korgieApi.additional = data.Additional;
+        if(data.Sport.length == 3)
+            korgieApi.sport = data.Sport;
+        if (data.Work.length == 3)
+            korgieApi.work = data.Work;
+        if (data.Rest.length == 3)
+            korgieApi.rest = data.Rest;
+        if (data.Study.length == 3)
+            korgieApi.study = data.Study;
+        if (data.Additional.length == 3)
+            korgieApi.additional = data.Additional;
     }
 
     getProfileInfo();

@@ -28,27 +28,28 @@ $(document).on("click", ".color-button", function () {
     $(this).parent().addClass('colors-closed');
         switch ($(this).parent().prev().children().attr('id')) {
             case 'work':
-                korgieApi.work.Color = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
+                korgieApi.work[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
+                korgieApi.work[2] = $(this).parent().prev().children().css('background-color');
                 $(this).addClass(className);
-                console.log(korgieApi.work.Color);
+                console.log(korgieApi.work[2]);
                 break;
             case 'study':
-                korgieApi.study.Color = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
+                korgieApi.study[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
                 $(this).addClass(className);
                 console.log(korgieApi.study.Color);
                 break;
             case 'sport':
-                korgieApi.sport.Color = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
+                korgieApi.sport[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
                 $(this).addClass(className);
                 console.log(korgieApi.sport.Color);
                 break;
             case 'rest':
-                korgieApi.rest.Color = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
+                korgieApi.rest[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
                 $(this).addClass(className);
                 console.log(korgieApi.rest.Color);
                 break;
             case 'additional':
-                korgieApi.additional.Color = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
+                korgieApi.additional[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
                 $(this).addClass(className);
                 console.log(korgieApi.additional.Color);
                 break;
@@ -60,8 +61,8 @@ $(document).on("click", ".color-button", function () {
 
     function saveProfileInfo() {
         var param, method;
-        method = '/Event/SaveProfileInfo'; //FRANK
-        param = {//FRANK
+        method = '/Event/SaveProfileInfo';
+        param = {
             Name: korgieApi.name,
             PrimaryEmail: korgieApi.primaryEmail,
             AdditionalEmail: korgieApi.additionalEmail,
