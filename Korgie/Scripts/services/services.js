@@ -1,5 +1,4 @@
 ﻿function korgieApi($q) {
-    console.log("Initializing korgieApi");
     this.name;
     this.primaryEmail;
     this.additionalEmail;
@@ -11,35 +10,15 @@
     this.study;
     this.additional;
     this.rest;
-    //this.sport = ['Sport', 'btn--blue', '#2196F3'];
-    //this.work = ['Work', 'btn--red', '#F44336'];
-    //this.rest = ['Rest', 'btn--purple', '#9C27B0'];
-    //this.study = ['Study', 'btn--green', '#4CAF50'];
-    //this.additional = ['Additional', 'btn--yellow', '#FFEB3B'];
-
-    this.convertEvents = function (data) {
-        var deferred = $q.defer();
-        var result = [];
-        data.forEach(function (element) {
-            result.push({
-                EventId: element.EventId,
-                Title: element.Title,
-                Start: new Date(new Date(parseInt(element.Start.substr(6)))),
-                Type: element.Type,
-                Description: element.Description,
-                Period: element.Period,
-                Tags: element.Tags
-            });
-        });
-        deferred.resolve(result);
-        return deferred.promise;
-    };
 
     this.getTypes = function (events) {
         var result = [];
         events.forEach(function (event) {
             if (!result.some(type => type == event.Type)) {
-                result.push(event.Type);
+                result.push({
+                    name: event.Type,
+                    color: event.Color
+                });
             }
         });
         return result;

@@ -1,7 +1,6 @@
 ﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
 korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
-    console.log("Initializing eventsCtrl");
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -17,13 +16,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.eventEditing = false;
     $scope.eventToEdit;
     $scope.eventToSave;
-    
-    $scope.types = [{ type: "Sports", color: "" },
-        { type: "Work", color: "" },
-        { type: "Rest", color: "" },
-        { type: "Study", color: "" },
-        { type: "Additional", color: "" }];
-
+        
     function getMonthDays() {
         var result = [];
 
@@ -70,6 +63,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 events: []
             };
         }
+        console.log(result[26]);
         return result;
     }
     function getWeekDays(isNextPrev) {
@@ -127,14 +121,11 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         method = '/Event/GetProfileInfo';
         $http.get(method).then(function successCallback(response) {
             catchProfileInfo(response.data);
-            console.log('getProfileInfo done from eventsCtrl');
         }, function errorCallback(response) {
             console.log('getProfileInfo failed from eventsCtrl');
         });
     }
-
     function catchProfileInfo(data) {
-        console.log('start catchProfileInfo from eventsCtrl');
         korgieApi.name = data.Name;
         korgieApi.primaryEmail = data.PrimaryEmail;
         korgieApi.additionalEmail = data.AdditionalEmail;
@@ -151,10 +142,45 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             korgieApi.study = data.Study;
         if (data.Additional.length == 3)
             korgieApi.additional = data.Additional;
-        console.log('end catchProfileInfo from eventsCtrl');
     }
-
     getProfileInfo();
+    
+    $scope.convertEvents = function (data) {
+        var deferred = $q.defer();
+        var result = [];
+        data.forEach(function (element) {
+            var color;
+            switch (element.Type) {
+                case "Sports":
+                    color = korgieApi.sport;
+                    break;
+                case "Work":
+                    color = korgieApi.work;
+                    break;
+                case "Study":
+                    color = korgieApi.study;
+                    break;
+                case "Rest":
+                    color = korgieApi.rest;
+                    break;
+                case "Additional":
+                    color = korgieApi.additional;
+                    break;
+            };
+            result.push({
+                EventId: element.EventId,
+                Title: element.Title,
+                Start: new Date(new Date(parseInt(element.Start.substr(6)))),
+                Type: element.Type,
+                Color: color[2],
+                Description: element.Description,
+                Period: element.Period,
+                Tags: element.Tags
+            });
+        });
+        deferred.resolve(result);
+        return deferred.promise;
+    };
 
     function getEvents(isNextPrevWeek) {
         var param, method;
@@ -166,7 +192,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(response) {
-                korgieApi.convertEvents(response.data).then(function (events) {
+                $scope.convertEvents(response.data).then(function (events) {
                     $scope.events = events;
                     $scope.monthDays = getMonthDays();
                 });
@@ -180,13 +206,13 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(response) {
-        korgieApi.convertEvents(response.data).then(function (events) {
-            $scope.events = events;
+                $scope.convertEvents(response.data).then(function (events) {
+                    $scope.events = events;
                     $scope.weekDays = getWeekDays(isNextPrevWeek);
-        });
-    }, function errorCallback(response) {
-        console.log("getting events failed");
-    });
+                });
+            }, function errorCallback(response) {
+                console.log("getting events failed");
+            });
         }
     }
     getEvents();
@@ -271,6 +297,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
 
     var crudEvent = function (oldEventId, newEvent) {
         var date, d;
+        // Adding
         if (oldEventId != -1) {
             if ($scope.isWeekMode) {
                 $scope.weekDays.forEach(function (day) {
@@ -285,24 +312,25 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                     return day.day == date;
                 })[0];
             } else {
-        $scope.dayToShow.events.forEach(function (ev, i) {
+                $scope.dayToShow.events.forEach(function (ev, i) {
                     if (ev.EventId == oldEventId) {
-                date = ev.Start.getDate();
-                $scope.dayToShow.events.splice(i, 1);
-            }
-        });
+                        date = ev.Start.getDate();
+                        $scope.dayToShow.events.splice(i, 1);
+                    }
+                });
                 d = $scope.monthDays.filter(function (day) {
-            return day.day == date && day.month != undefined;
-        })[0];
+                    return day.day == date && day.month != undefined;
+                })[0];
             }
-        d.events.forEach(function (ev, i) {
+            d.events.forEach(function (ev, i) {
                 if (ev.EventId == oldEventId) {
-                $scope.dayToShow.events.splice(i, 1);
-            }
-        });
-        d.types = korgieApi.getTypes(d.events);
+                    $scope.dayToShow.events.splice(i, 1);
+                }
+            });
+            d.types = korgieApi.getTypes(d.events);
         }
 
+        // Deleting
         if (newEvent != undefined) {
             date = newEvent.Start.getDate();
             if ($scope.isWeekMode) {
@@ -396,6 +424,23 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             typeButtons.removeClass('btn--raised');
             $(this).removeClass('btn--flat').addClass('btn--raised');
             $scope.eventToEdit.Type = $(this).attr('etype');
+            switch ($scope.eventToEdit.Type) {
+                case "Sports":
+                    $scope.eventToEdit.Color = korgieApi.sport[2];
+                    break;
+                case "Work":
+                    $scope.eventToEdit.Color = korgieApi.work[2];
+                    break;
+                case "Study":
+                    $scope.eventToEdit.Color = korgieApi.study[2];
+                    break;
+                case "Rest":
+                    $scope.eventToEdit.Color = korgieApi.rest[2];
+                    break;
+                case "Additional":
+                    $scope.eventToEdit.Color = korgieApi.additional[2];
+                    break;
+            };
         });
 
         var periodButtons = $('.period-click');

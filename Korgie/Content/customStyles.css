@@ -122,6 +122,10 @@
     max-height: calc(100vh - 267px);
 }
 
+.week-mode-days .card {
+    cursor: pointer;
+}
+
 .week-mode-days > * {
     width: 100%;
     height: 100%;
@@ -130,7 +134,6 @@
 .week-mode-day-names {
     text-align: center;
     padding: 4px;
-    cursor: pointer;
 }
 
 .week-mode-event {
@@ -138,9 +141,7 @@
     margin: 10px 5px 0px;
     font-size: 13.5px;
     width: calc(100% - 10px);
-    /*border: 1px solid #000;*/
     overflow: hidden;
-    cursor: pointer;
 }
 
 .week-mode-event > * {
@@ -221,28 +222,7 @@
     height: 100%;
 }
 
-.Work {
-    background-color: #F44336;
-    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
-}
-
-.Sports {
-    background-color: #2196F3;
-    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
-}
-
-.Study {
-    background-color: #FFEB3B;
-    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
-}
-
-.Rest {
-    background-color: #4CAF50;
-    box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
-}
-
-.Additional {
-    background-color: #E91E63;
+.type-color {
     box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
@@ -502,27 +482,30 @@
         height: 50px;
         margin: 5px;
         width: calc(100% - 10px);
-
-        
         border-radius: 2px;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
         background-color: #FFF;
         overflow: hidden;
-        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+    }
+
+    .week-mode-days > * > * {
+        box-shadow: none !important;
+        height: 100%;
     }
 
     .week-mode-day-names {
         text-align: left;
         margin: 5px;
-        height:30px !important;
+        height: 30px !important;
         box-shadow: 0 0px 0px 0px rgba(0,0,0,0),0 0px 0px 0 rgba(0,0,0,0),0 0px 0px 0 rgba(0,0,0,0) !important;
-        border-radius:0px;
+        border-radius: 0px;
     }
 
     .week-mode-day-names > * {
         display: inline-block;
     }
 
-    .week-mode-type > * {
+    .week-mode-type {
         width: 20px;
         height: 20px;
         margin: -15px 5px 0px;
