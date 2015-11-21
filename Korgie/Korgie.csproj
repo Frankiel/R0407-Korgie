@@ -147,19 +147,27 @@
     <Content Include="App_Data\Korgie_log.ldf">
       <DependentUpon>Korgie.mdf</DependentUpon>
     </Content>
+    <Content Include="ContentViews\AddContact.html" />
+    <Content Include="ContentViews\Contacts.html" />
     <Content Include="ContentViews\EventDialog.html" />
     <Content Include="ContentViews\Events.html" />
+    <Content Include="ContentViews\MyContacts.html" />
+    <Content Include="ContentViews\Sent.html" />
     <Content Include="ContentViews\Settings.html" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\contactsStyles.css" />
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\controllers\contactsCtrl.js" />
     <Content Include="Scripts\controllers\eventsCtrl.js" />
     <Content Include="Scripts\controllers\homeCtrl.js" />
+    <Content Include="Scripts\controllers\mycontactsCtrl.js" />
+    <Content Include="Scripts\controllers\sentCtrl.js" />
     <Content Include="Scripts\controllers\settingsCtrl.js" />
     <Content Include="Scripts\libs\angular-mocks.js" />
     <Content Include="Scripts\libs\angular.js" />

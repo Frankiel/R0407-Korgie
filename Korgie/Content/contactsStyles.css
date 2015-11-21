@@ -1,0 +1,57 @@
+﻿.contact-avatar{
+    width:100px;
+    height:100px;
+    background-color:#888;
+}
+
+.contact-card{
+    margin-top:40px; 
+    padding:5px; 
+    padding-bottom:15px;
+}
+
+.contact-nav{
+    width:400px;
+}
+
+.contact-prenav{
+    margin-top:10px;
+}
+
+.add-contact-card{
+    width:60%;
+    margin-top:5%;
+    padding:5px;
+    padding-bottom:15px;
+}
+
+.add-contact-card-search{
+    width:80%;
+}
+
+.sent-card{
+    height:100px;
+    margin-top:40px;
+    padding:5px;
+    padding-bottom:15px;
+}
+
+.sent-card-info{
+    height:100%;
+    width:100%;
+}
+
+@media (max-width: 1199px) {
+    .contact-card{
+        width:100% !important;
+    }
+    .add-contact-card{
+        width:90% !important;
+        margin-top:5%;
+        padding:5px;
+        padding-bottom:15px;
+    }
+    .sent-card{
+        width:100% !important;
+    }
+}
