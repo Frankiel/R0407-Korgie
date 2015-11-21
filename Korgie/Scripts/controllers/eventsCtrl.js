@@ -4,9 +4,18 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
-    $scope.events;
+    var events, todos;
     $scope.monthDays;
     $scope.dayToShow;
+
+    var todo_stub = [{
+        TodoId: 1,
+        Title: '1st todo',
+        Start: new Date(),
+        Color: 'blue',
+        Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
+        Tasks: ['1sjkytgnuytglkjhijnt', '2nd', '3rd', '4th', '5th']
+    }];
 
     $scope.isWeekMode = false;
     $scope.week;
@@ -48,18 +57,25 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         var lastDay = 33 - new Date($scope.year, $scope.month, 33).getDate(), i = firstWeekDay;
         for (; i < lastDay + firstWeekDay; i++) {
             //добавляем в массив лишь те ивенты, которые идут в текущий день
-            var evs = $scope.events.filter(function (ev) {
+            var evs = events.filter(function (ev) {
                 var date = ev.Start;
                 return date.getMonth() == $scope.month &&
                     date.getDate() == i - firstWeekDay + 1;
             });
+            var tds = todos.filter(function (td) {
+                var date = td.Start;
+                return date.getMonth() == $scope.month &&
+                    date.getDate() == i - firstWeekDay + 1;
+            });
+            console.log(tds);
             result.push({
                 id: i,
                 day: i - firstWeekDay + 1,
                 month: $scope.month,
                 year: $scope.year,
                 events: evs,
-                types: korgieApi.getTypes(evs)
+                types: korgieApi.getTypes(evs),
+                todos: tds
             });
         }
         for (; i % 7 != 0; i++) {
@@ -94,15 +110,19 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                     k = (8 - month4.getDay()) % 7;
                 } else {
                     k = 0 - (month4.getDay() - 1);
-            }
+                }
                 month4.setDate(month4.getDate() + k);
                 monday = month4;
-        }
+            }
         }
 
         for (var i = 0; i < 7; i++) {
-            var evs = $scope.events.filter(function (ev) {
+            var evs = events.filter(function (ev) {
                 var date = ev.Start;
+                return date.getMonth() == $scope.month && date.getDate() == monday.getDate();
+            });
+            var tds = todos.filter(function (td) {
+                var date = td.Start;
                 return date.getMonth() == $scope.month && date.getDate() == monday.getDate();
             });
             result.push({
@@ -112,7 +132,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: monday.getFullYear(),
                 date: new Date(monday),
                 events: evs,
-                types: korgieApi.getTypes(evs)
+                types: korgieApi.getTypes(evs),
+                todos: tds
             });
             monday.setDate(monday.getDate() + 1);
         }
@@ -131,8 +152,9 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(response) {
-                korgieApi.convertEvents(response.data).then(function (events) {
-                    $scope.events = events;
+                korgieApi.convertEvents(response.data).then(function (_events) {
+                    events = _events;
+                    todos = todo_stub;
                     $scope.monthDays = getMonthDays();
                 });
             }, function errorCallback(response) {
@@ -145,13 +167,13 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(response) {
-        korgieApi.convertEvents(response.data).then(function (events) {
-            $scope.events = events;
+                korgieApi.convertEvents(response.data).then(function (events) {
+                    events = events;
                     $scope.weekDays = getWeekDays(isNextPrevWeek);
-        });
-    }, function errorCallback(response) {
-        console.log("getting events failed");
-    });
+                });
+            }, function errorCallback(response) {
+                console.log("getting events failed");
+            });
         }
     }
     getEvents();
