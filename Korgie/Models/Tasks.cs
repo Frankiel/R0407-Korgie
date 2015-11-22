@@ -9,7 +9,7 @@ namespace Korgie.Models
     public class Tasks
     {
         public string Name { set; get; }
-        public string State { set; get; }
+        public bool State { set; get; }
         public Tasks() { }
         public Tasks(string _name, string _state)
         {

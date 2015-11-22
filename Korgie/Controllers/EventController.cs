@@ -207,7 +207,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                         List<Tasks> tasks = new List<Tasks>();
                         foreach (string x in temp)
                         {
-                            tasks.Add(new Tasks(x.Split('~')[0], x.Split('~')[1]));
+                            tasks.Add(new Tasks(x.Split('~')[0], Convert.ToBoolean(x.Split('~')[1])));
                         }
                         todo.Add(new Todo(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), tasks));
                     }
