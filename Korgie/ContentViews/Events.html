@@ -36,7 +36,7 @@
                         <div class="time">{{event.Start | getStartTime}}</div>
                         <div class="title" layout="row" layout-align="center center">{{event.Title}}</div>
                         <div class="type" layout="row" layout-align="start center">
-                            <div class={{event.Type}}></div>
+                            <div class="type-color" style="background-color: {{event.Color}}"></div>
                             {{event.Type}}
                         </div>
                     </div>
@@ -90,14 +90,13 @@
                     <div class="day-number">{{calendarDay.day}}</div>
                     <div class="event-container" hide-sm>
                         <div ng-repeat="type in calendarDay.types">
-                            <div class={{type}}>
+                            <div class="type-color" style="background-color: {{type.color}}">
                             </div>
                         </div>
-                        <div class="todo-list" ng-if="calendarDay.todos.length > 0" >
-                            <hr />
-                            <hr />
-                            <hr />
-                            <hr />
+                        <div class="todo-list" ng-if="calendarDay.todos.length > 0" layout="column" layout-align="space-around center">
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div>
                 </div>
@@ -120,10 +119,14 @@
         </div>
         <div class="week-mode-days" layout-gt-sm="row" layout-align="space-between start">
             <div flex ng-repeat="day in weekDays">
-                <div class="week-mode-day-names card" ng-click="showDay(day.id)">
-                    <div hide-sm>{{day.date | date:'EEE,'}}</div>
-                    <div hide-gt-sm>{{day.date | date:'EEEE,'}}</div>
-                    <div>{{day.date | date:'dd.MM.yy'}}</div>
+                <div ng-click="showDay(day.id)" class="card">
+                    <div class="week-mode-day-names">
+                        <div hide-sm>{{day.date | date:'EEE,'}}</div>
+                        <div hide-gt-sm>{{day.date | date:'EEEE,'}}</div>
+                        <div>{{day.date | date:'dd.MM.yy'}}</div>
+                    </div>
+                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}">
+                    </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="event in day.events">
                     <div ng-click="openDialog('event', event)">
@@ -135,11 +138,8 @@
                         </div>
                         <div class="week-mode-type" layout="row" layout-align="end center">
                             {{event.Type}}
-                            <div class="{{event.Type}}"></div>
+                            <div class="type-color" style="background-color: {{event.Color}}"></div>
                         </div>
-                    </div>
-                    <div hide-gt-sm class="week-mode-type" ng-repeat="type in day.types">
-                        <div class="{{type}}"></div>
                     </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="todo in day.todos">
@@ -162,8 +162,8 @@
         </div>
     </div>
 
-    <!-- Dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="test" auto-close="false">
+    <!-- Event dialog mode -->
+    <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div class="controlls-visible">

@@ -1,39 +1,24 @@
 ﻿function korgieApi($q) {
-    this.name = 'Frank Martin';
-    this.primaryEmail = 'frankmartin@gmail.com';
+    this.name;
+    this.primaryEmail;
     this.additionalEmail;
-    this.phone = "1234567890";
-    this.country = "Australia";
-    this.city = "Sydney";
-    this.sport = { Title: 'Sport', Color: 'btn--orange' };
-    this.work = { Title: 'Work', Color: 'btn--blue' };
-    this.rest = { Title: 'Rest', Color: 'btn--green' };
-    this.study = { Title: 'Study', Color: 'btn--red' };
-    this.additional = { Title: 'Additional', Color: 'btn--grey' };
-
-    this.convertEvents = function (data) {
-        var deferred = $q.defer();
-        var result = [];
-        data.forEach(function (element) {
-            result.push({
-                EventId: element.EventId,
-                Title: element.Title,
-                Start: new Date(new Date(parseInt(element.Start.substr(6)))),
-                Type: element.Type,
-                Description: element.Description,
-                Period: element.Period,
-                Tags: element.Tags
-            });
-        });
-        deferred.resolve(result);
-        return deferred.promise;
-    };
+    this.phone;
+    this.country;
+    this.city;
+    this.sport;
+    this.work;
+    this.study;
+    this.additional;
+    this.rest;
 
     this.getTypes = function (events) {
         var result = [];
         events.forEach(function (event) {
             if (!result.some(type => type == event.Type)) {
-                result.push(event.Type);
+                result.push({
+                    name: event.Type,
+                    color: event.Color
+                });
             }
         });
         return result;
