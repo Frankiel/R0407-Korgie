@@ -1,0 +1,25 @@
+﻿<div class="dark-div" ng-click="showHideMenu()"></div>
+<div class="container content set">
+    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+        <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="showHideMenu()">
+            <i class="mdi mdi-menu"></i>
+        </button>
+        <h2>Contacts</h2>
+    </div>
+    <div>
+        <div layout="column">
+            <div class="contact-prenav">
+                <div layout="row" layout-align="space-around center" class="contact-nav">
+                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".mycontacts">My Contacts</button>
+                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".addcontact">Add Contact</button>
+                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".sent">Sent</button>
+                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".recieved" disabled>Recieved</button>
+                </div>
+            </div>
+            <div ui-view autoscroll="false">
+
+            </div>
+            
+        </div>
+    </div>
+</div>

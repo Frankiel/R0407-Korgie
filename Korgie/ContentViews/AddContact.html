@@ -1,0 +1,18 @@
+﻿<div layout="column" layout-align="space-around center">
+    <div class="card add-contact-card" layout="column" layout-align="space-around center">
+        <div class="add-contact-card-search">
+            <lx-text-field label="Enter email">
+                <input type="text" ng-model="textFields.lastName">
+            </lx-text-field>
+        </div>
+        <button class="btn btn--m btn--blue btn--flat" lx-ripple>Add contact</button>
+    </div>
+    <div class="card add-contact-card" layout="column" layout-align="space-around center">
+        <div class="add-contact-card-search">
+            <lx-text-field label="Enter email">
+                <input type="text" ng-model="textFields.lastName" disabled>
+            </lx-text-field>
+        </div>
+        <button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Invite to the app</button>
+    </div>
+</div>

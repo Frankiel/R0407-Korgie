@@ -1,0 +1,41 @@
+﻿<div layout="row" layout-wrap layout-align="space-around center" layout-lg="column" layout-md="column" layout-sm="column" class="contacts-block">
+    <div flex="45" flex-lg="60" flex-md="70" flex-sm="90" class="card contact-card" ng-repeat="contact in contacts">
+        <div layout="column">
+            <div layout="row">
+                <div flex="auto"></div>
+                <div>
+                    <button class="btn btn--xs btn--blue btn--icon" lx-ripple><i class="mdi mdi-delete"></i></button>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column">
+                <div>
+                    <div class="contact-avatar"></div>
+                </div>
+                <div>
+                    <div layout="column">
+                        <div layout="row" layout-sm="column">
+                            <div flex="30">Name: </div>
+                            <div flex="70">{{contact.name}}</div>
+                        </div>
+                        <div layout="row" layout-sm="column">
+                            <div flex="30">Email: </div>
+                            <div flex="70">{{contact.primaryEmail}}</div>
+                        </div>
+                        <div layout="row" layout-sm="column">
+                            <div flex="30">Phone: </div>
+                            <div flex="70">{{contact.phone}}</div>
+                        </div>
+                        <div layout="row" layout-sm="column">
+                            <div flex="30">Country: </div>
+                            <div flex="70">{{contact.country}}</div>
+                        </div>
+                        <div layout="row" layout-sm="column">
+                            <div flex="30">City: </div>
+                            <div flex="70">{{contact.city}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
