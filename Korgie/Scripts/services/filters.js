@@ -26,4 +26,14 @@
                 default: return 'None';
             }
         }
+    })
+    .filter('todoTaskItem', function () {
+        return function (item) {
+            return (item == undefined) ? '' : ' – ' + item;
+        }
+    })
+    .filter('todoElseItems', function () {
+        return function (item) {
+            return (item == undefined) ? '' : '...';
+        }
     });

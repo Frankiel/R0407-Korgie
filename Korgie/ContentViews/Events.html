@@ -42,19 +42,24 @@
                     </div>
                 </div>
             </div>
-            <div class="day-mode-todos" layout="column" layout-align="space-between center">
+            <div class="day-mode-todos" layout="column" layout-align="start center">
                 <div>
                     <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('todo')" disabled><i class="mdi mdi-plus"></i></button>
                 </div>
-                <div class="detailed-event card" ng-repeat="todo in dayToShow.todos">
-                    <div ng-click="openDialog('todo', todo)">
+                <div class="detailed-todo card" ng-repeat="todo in dayToShow.todos">
+                    <div> <!--ng-click="openDialog('todo', todo)"-->
                         <div class="day-mode-delete">
                             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(todo.TodoId, true)"><i class="mdi mdi-delete"></i></button>
                         </div>
-                        <div class="time">{{todo.Start | getStartTime}}</div>
-                        <div class="title" layout="row" layout-align="center center">{{todo.Title}}</div>
-                        <div class="type" layout="row">
-                            Color: <div style="background-color: {{todo.Color}}" class="day-todo-color"></div>
+                        <div class="type" layout="row" layout-align="start center">
+                            <div style="background-color: {{todo.Color}}" class="day-todo-color"></div>
+                            <div class="title">{{todo.Title}}</div>
+                        </div>
+                        <div class="tasks" layout="column" layout-align="start start">
+                            <div>{{todo.Tasks[0] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[1] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[2] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[3] | todoElseItems}}</div>
                         </div>
                     </div>
                 </div>
@@ -125,7 +130,11 @@
                         <div hide-gt-sm>{{day.date | date:'EEEE,'}}</div>
                         <div>{{day.date | date:'dd.MM.yy'}}</div>
                     </div>
-                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}">
+                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}"></div>
+                    <div hide-gt-sm class="todo-list" ng-if="day.todos.length > 0" layout="column" layout-align="space-around center">
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="event in day.events">
@@ -143,15 +152,16 @@
                     </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="todo in day.todos">
-                    <div ng-click="openDialog('todo', todo)">
-                        <div layout="row" layout-align="center center">
-                            {{todo.Title}}
+                    <div> <!--ng-click="openDialog('todo', todo)"-->
+                        <div class="type" layout="row" layout-align="start center">
+                            <div style="background-color: {{todo.Color}}" class="week-mode-todo-color"></div>
+                            <div class="title">{{todo.Title}}</div>
                         </div>
-                        <div>– {{todo.Tasks[0]}}</div>
-                        <div>– {{todo.Tasks[1]}}</div>
-                        <div>– {{todo.Tasks[2]}}</div>
-                        <div class="week-mode-type" layout="row" layout-align="end center">
-                            Color: <div style="background-color: {{todo.Color}}" class="day-todo-color"></div>
+                        <div class="tasks" layout="column" layout-align="start start">
+                            <div>{{todo.Tasks[0] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[1] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[2] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[3] | todoElseItems}}</div>
                         </div>
                     </div>
                     <div hide-gt-sm class="week-mode-type" ng-repeat="type in day.types">
