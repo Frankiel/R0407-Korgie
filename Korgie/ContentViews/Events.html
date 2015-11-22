@@ -26,10 +26,10 @@
         <div layout="row" layout-sm="column">
             <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="center center">
                 <div layout="row" layout-align="center center">
-                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="openDialog('test')"><i class="mdi mdi-plus"></i></button>
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="openDialog('event')"><i class="mdi mdi-plus"></i></button>
                 </div>
                 <div class="detailed-event card" ng-repeat="event in dayToShow.events">
-                    <div ng-click="openDialog('test', event)">
+                    <div ng-click="openDialog('event', event)">
                         <div class="day-mode-delete">
                             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
                         </div>
@@ -42,9 +42,26 @@
                     </div>
                 </div>
             </div>
-            <div class="day-mode-todos" layout="column" layout-align="space-between center">
+            <div class="day-mode-todos" layout="column" layout-align="start center">
                 <div>
-                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('test')" disabled><i class="mdi mdi-plus"></i></button>
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('todo')" disabled><i class="mdi mdi-plus"></i></button>
+                </div>
+                <div class="detailed-todo card" ng-repeat="todo in dayToShow.todos">
+                    <div> <!--ng-click="openDialog('todo', todo)"-->
+                        <div class="day-mode-delete">
+                            <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(todo.TodoId, true)"><i class="mdi mdi-delete"></i></button>
+                        </div>
+                        <div class="type" layout="row" layout-align="start center">
+                            <div style="background-color: {{todo.Color}}" class="day-todo-color"></div>
+                            <div class="title">{{todo.Title}}</div>
+                        </div>
+                        <div class="tasks" layout="column" layout-align="start start">
+                            <div>{{todo.Tasks[0] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[1] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[2] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[3] | todoElseItems}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,12 +91,17 @@
         </div>
         <div class="calendar-container">
             <div class="month-day card" ng-repeat="calendarDay in monthDays">
-                <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0}">
+                <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0 || calendarDay.todos.length > 0}">
                     <div class="day-number">{{calendarDay.day}}</div>
                     <div class="event-container" hide-sm>
                         <div ng-repeat="type in calendarDay.types">
                             <div class="type-color" style="background-color: {{type.color}}">
                             </div>
+                        </div>
+                        <div class="todo-list" ng-if="calendarDay.todos.length > 0" layout="column" layout-align="space-around center">
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div>
                 </div>
@@ -108,11 +130,15 @@
                         <div hide-gt-sm>{{day.date | date:'EEEE,'}}</div>
                         <div>{{day.date | date:'dd.MM.yy'}}</div>
                     </div>
-                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}">
+                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}"></div>
+                    <div hide-gt-sm class="todo-list" ng-if="day.todos.length > 0" layout="column" layout-align="space-around center">
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="event in day.events">
-                    <div ng-click="openDialog('test', event)">
+                    <div ng-click="openDialog('event', event)">
                         <div layout="row" layout-align="center center">
                             {{event.Start | getStartTime}}
                         </div>
@@ -125,18 +151,35 @@
                         </div>
                     </div>
                 </div>
+                <div hide-sm class="week-mode-event card" ng-repeat="todo in day.todos">
+                    <div> <!--ng-click="openDialog('todo', todo)"-->
+                        <div class="type" layout="row" layout-align="start center">
+                            <div style="background-color: {{todo.Color}}" class="week-mode-todo-color"></div>
+                            <div class="title">{{todo.Title}}</div>
+                        </div>
+                        <div class="tasks" layout="column" layout-align="start start">
+                            <div>{{todo.Tasks[0] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[1] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[2] | todoTaskItem}}</div>
+                            <div>{{todo.Tasks[3] | todoElseItems}}</div>
+                        </div>
+                    </div>
+                    <div hide-gt-sm class="week-mode-type" ng-repeat="type in day.types">
+                        <div class="{{type}}"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="test" auto-close="false">
+    <!-- Event dialog mode -->
+    <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div class="controlls-visible">
                     <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
-                <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(eventToSave.EventId); closingDialog('test')"><i class="mdi mdi-delete"></i></button>
+                <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(eventToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>
             </div>
             <div class="center-div">
                 <div class="display-block event-title" ng-if="!eventAdding && !eventEditing">

@@ -169,6 +169,12 @@
     margin-left: 5px;
 }
 
+.week-mode-todo-color {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
 .month-day {
     color:#424242;
     float: left;
@@ -222,10 +228,21 @@
     height: 100%;
 }
 
-.type-color {
+.type-color, .todo-list, .day-todo-color, .week-mode-todo-color {
     box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
+.todo-list {
+    border: #333 solid 1px;
+    overflow: hidden;
+}
+
+.todo-list * {
+    height: 1px;
+    width: 100%;
+    background-color: #000;
+}
+    
 #day-mode {
     z-index: 20;
     width: 100%;
@@ -245,53 +262,68 @@
     width: 50%;
 }
 
-.detailed-event {
-    /*border: 1px solid #000;*/
+.detailed-event, .detailed-todo {
     margin-bottom: 10px;
     width: 95%;
     overflow: hidden;
 }
 
-.detailed-event:hover .day-mode-delete {
+.detailed-event:hover .day-mode-delete, .detailed-todo:hover .day-mode-delete {
     right: 0px;
     transition: right ease 0.3s;
 }
 
-.day-mode-events > * {
+.day-mode-events > *, .day-mode-todos > * {
     margin: 5px;
 }
 
 .day-mode-delete {
     margin: 3px;
+    margin-top: -8px;
     position: relative;
     right: -35px;
     transition: right ease 0.3s;
 }
 
-.detailed-event .time {
+.detailed-event .time, .detailed-todo .time {
     margin: 11px;
 }
 
-.detailed-event .title {
+.detailed-event .title, .detailed-todo .title {
     text-align: center;
     font-weight: bold;
     font: bold 20px 'Times New Roman';
 }
 
-.detailed-event .type {
+.detailed-todo .title {
+    text-align: left;
+}
+
+.detailed-event .type, .detailed-todo .type {
     margin: 11px;
 }
 
-.detailed-event .type *:first-child {
+.detailed-event .type *:first-child, .detailed-todo .type *:first-child {
     width: 20px;
     height: 20px;
     margin-right: 10px;
+}
+
+.detailed-todo .tasks * {
+    padding-left: 25px;
+}
+
+.detailed-todo .tasks *:last-child {
+    margin-bottom: 10px;
 }
 
 .day-mode-todos {
     border-right: none;
 }
 
+.day-todo-color {
+    margin: 0px;
+}
 
 
 /* event */
@@ -397,7 +429,7 @@
 
 
 @media (max-width: 310px) {
-    .detailed-event {
+    .detailed-event, .detailed-todo {
         width: 45% !important;
     }
 }
@@ -493,6 +525,13 @@
         height: 100%;
     }
 
+    .week-mode-days .todo-list {
+        float: right;
+        width: 20px;
+        height: 20px;
+        margin: -15px 5px 0px;
+    }
+
     .week-mode-day-names {
         text-align: left;
         margin: 5px;
@@ -546,7 +585,7 @@
         width: 100%;
     }
 
-    .detailed-event {
+    .detailed-event, .detailed-todo {
         display: inline-block;
         width: 30%;
         cursor: pointer;
