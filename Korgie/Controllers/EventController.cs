@@ -55,10 +55,11 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
             {
                 string resulttasks = "";
-                foreach (string x in _todo.Tasks)
+                for (int i = 0; i < _todo.Tasks.Count; i++)
                 {
-                    resulttasks += x + " ";
+                    resulttasks += _todo.Tasks[i].Name + "~" + _todo.Tasks[i].State + "|";
                 }
+
                 if (todoStub.Length == 0)
                 {
                     //string sql = string.Format(@"INSERT INTO Events VALUES ('{0}',{1},'{2}','{3}','{4}','{5}','{6}')", _event.Title, _event.Start, _event.Type, 
@@ -170,8 +171,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     }
                 }
             }
-            Event[] eventsStub = events.ToArray();
-            return eventsStub;
+            return events.ToArray();
         }
         private Todo[] GetTodoUNI(string sqlcommand, int value1 = 0, int value2 = 0)
         {
@@ -188,13 +188,17 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 {
                     while (dr.Read())
                     {
-                        List<string> tasks = dr.GetString(5).Split(' ').ToList<string>();
+                        List<string> temp = dr.GetString(5).Split('|').ToList<string>();
+                        List<Tasks> tasks = new List<Tasks>();
+                        foreach (string x in temp)
+                        {
+                            tasks.Add(new Tasks(x.Split('~')[0], x.Split('~')[1]));
+                        }
                         todo.Add(new Todo(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), tasks));
                     }
                 }
             }
-            Todo[] todoStub = todo.ToArray();
-            return todoStub;
+            return todo.ToArray();
         }
         #endregion
         #region Profile
@@ -245,10 +249,10 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             return new JavaScriptSerializer().Serialize(GetContactsUNI(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, 
 UserContacts UC WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Accepted'"));
         }
-        public string GetRequest() //Rejected and Send
+        public string GetRequest() //Rejected and sent
         {
             return new JavaScriptSerializer().Serialize(GetContactsUNI(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
-WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Send' AND State='Rejected'"));
+WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Sent' AND State='Rejected'"));
         }
         private Contact[] GetContactsUNI(string sqlcommand)
         {
@@ -269,17 +273,17 @@ WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND S
             }
             return contacts.ToArray();
         }
-        //public void AddContact(string email)
-        //{
-        //    using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
-        //    {
-        //        var cmd = new SqlCommand(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@PrimaryContact)", conn);
-        //        cmd.Parameters.AddWithValue("@PrimaryUser", Request.Cookies["Preferences"]["Email"]);
-        //        cmd.Parameters.AddWithValue("@PrimaryContact", email);
-        //        conn.Open();
-        //        cmd.ExecuteNonQuery();
-        //    }
-        //}
+        public void AddContact(string email)
+        {
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                var cmd = new SqlCommand(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@PrimaryContact,'Sent')", conn);
+                cmd.Parameters.AddWithValue("@PrimaryUser", Request.Cookies["Preferences"]["Email"]);
+                cmd.Parameters.AddWithValue("@PrimaryContact", email);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
         public void DeleteContact(string email)
         {
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
