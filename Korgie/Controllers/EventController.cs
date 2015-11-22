@@ -36,18 +36,26 @@ namespace Korgie.Controllers
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE MONTH(E.Start)=@Value1 AND YEAR(E.Start)=@Value2
 AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
+            return new JavaScriptSerializer().Serialize(eventsStub);
+        }
+        public string GetMonthTodo(int month,int year)
+        {
             Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserTodo UTD,Users U WHERE MONTH(TD.Start)=@Value1 And YEAR(TD.Start)=@VALUE2
 AND TD.Todoid=UTD.Todoid AND UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
-            return new JavaScriptSerializer().Serialize(eventsStub);
+            return new JavaScriptSerializer().Serialize(todoStub);
         }
         public string GetWeekEvents(int week, int year)
         {
             //Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE WEEKOFYEAR(Start)=@Value1 AND YEAR(Start)=@Value2", week, year);
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, Users U, UserEvents UE WHERE DATEPART(iso_week,E.Start)=@Value1 AND YEAR(E.Start)=@Value2 AND
 E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail and U.PrimaryEmail=@Email", week, year);
+            return new JavaScriptSerializer().Serialize(eventsStub);
+        }
+        public string GetWeekTodo(int week,int year)
+        {
             Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserToDo UTD,Users U WHERE DATEPART(iso_week,TD.Start)=@Value1 AND YEAR(TD.Start)=@Value2 AND
 TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", week, year);
-            return new JavaScriptSerializer().Serialize(eventsStub);
+            return new JavaScriptSerializer().Serialize(todoStub);
         }
         public void SaveTodo(Todo _todo)
         {
@@ -72,6 +80,9 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd.Parameters.AddWithValue("@Tasks", resulttasks);
                     conn.Open();
                     cmd.ExecuteNonQuery();
+                    var cmd2 = new SqlCommand(@"INSERT INTO UserTodo Values (@Email,(SELECT MAX(TodoId) FROM ToDo))", conn);
+                    cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                    cmd2.ExecuteNonQuery();
                 }
                 else
                 {
@@ -145,10 +156,14 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
         {
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
             {
-                var cmd = new SqlCommand(@"DELETE FROM ToDo WHERE Todoid=@Todoid", conn);
-                cmd.Parameters.AddWithValue("@Todoid", id);
                 conn.Open();
+                var cmd = new SqlCommand(@"DELETE FROM UserTodo WHERE TodoId=@TodoId AND PrimaryEmail=@Email", conn);
+                cmd.Parameters.AddWithValue("@TodoId", id);
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 cmd.ExecuteNonQuery();
+                var cmd2 = new SqlCommand(@"DELETE FROM ToDo WHERE Todoid=@Todoid", conn);
+                cmd2.Parameters.AddWithValue("@Todoid", id);
+                cmd2.ExecuteNonQuery();
             }
         }
         private Event[] GetEventsUNI(string sqlcommand, int value1 = 0, int value2 = 0)
