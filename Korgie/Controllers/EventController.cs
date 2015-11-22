@@ -31,7 +31,7 @@ namespace Korgie.Controllers
             ViewBag.Email = Request.Cookies["Preferences"]["Email"];
             return View(); // don't return anything
         }
-
+        #region EventsAndTODO
         public string GetMonthEvents(int month, int year)
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE MONTH(E.Start)=@Value1 AND YEAR(E.Start)=@Value2
@@ -43,9 +43,9 @@ AND TD.Todoid=UTD.Todoid AND UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=
         public string GetWeekEvents(int week, int year)
         {
             //Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE WEEKOFYEAR(Start)=@Value1 AND YEAR(Start)=@Value2", week, year);
-            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, Users U, UserEvents UE WHERE DATEPART(week,E.Start)=@Value1 AND YEAR(E.Start)=@Value2 AND
+            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, Users U, UserEvents UE WHERE DATEPART(iso_week,E.Start)=@Value1 AND YEAR(E.Start)=@Value2 AND
 E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail and U.PrimaryEmail=@Email", week, year);
-            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserToDo UTD,Users U WHERE DATEPART(week,TD.Start)=@Value1 AND YEAR(TD.Start)=@Value2 AND
+            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserToDo UTD,Users U WHERE DATEPART(iso_week,TD.Start)=@Value1 AND YEAR(TD.Start)=@Value2 AND
 TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", week, year);
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
@@ -196,6 +196,8 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             Todo[] todoStub = todo.ToArray();
             return todoStub;
         }
+        #endregion
+        #region Profile
         public string GetProfileInfo()
         {
             User result = null;
@@ -236,5 +238,59 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 cmd.ExecuteNonQuery();
             }
         }
+        #endregion
+        #region Contacts
+        public string GetContacts() //Accepted
+        {
+            return new JavaScriptSerializer().Serialize(GetContactsUNI(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, 
+UserContacts UC WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Accepted'"));
+        }
+        public string GetRequest() //Rejected and Send
+        {
+            return new JavaScriptSerializer().Serialize(GetContactsUNI(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
+WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Send' AND State='Rejected'"));
+        }
+        private Contact[] GetContactsUNI(string sqlcommand)
+        {
+            //Get all events for set month and year from DB
+            List<Contact> contacts = new List<Contact>();
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                var cmd = new SqlCommand(sqlcommand, conn);
+                conn.Open();
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        contacts.Add(new Contact(dr.GetString(0), dr.GetString(1), dr.GetString(2), dr.GetString(3)));
+                    }
+                }
+            }
+            return contacts.ToArray();
+        }
+        //public void AddContact(string email)
+        //{
+        //    using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+        //    {
+        //        var cmd = new SqlCommand(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@PrimaryContact)", conn);
+        //        cmd.Parameters.AddWithValue("@PrimaryUser", Request.Cookies["Preferences"]["Email"]);
+        //        cmd.Parameters.AddWithValue("@PrimaryContact", email);
+        //        conn.Open();
+        //        cmd.ExecuteNonQuery();
+        //    }
+        //}
+        public void DeleteContact(string email)
+        {
+            using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+            {
+                var cmd = new SqlCommand(@"DELETE * FROM UserContacts WHERE PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact", conn);
+                cmd.Parameters.AddWithValue("@PrimaryUser", Request.Cookies["Preferences"]["Email"]);
+                cmd.Parameters.AddWithValue("@PrimaryContact", email);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        #endregion
     }
 }

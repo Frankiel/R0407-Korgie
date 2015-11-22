@@ -735,6 +735,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountVIewModels.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainContext.cs" />
