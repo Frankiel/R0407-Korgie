@@ -177,10 +177,10 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     }
     getProfileInfo();
 
-    function convertEvents(data) {
+    function convertEvents(eventData, todoData) {
         var deferred = $q.defer();
-        var result = [];
-        data.forEach(function (element) {
+        var eventResult = [], todoResult = [];
+        eventData.forEach(function (element) {
             var color;
             switch (element.Type) {
                 case "Sports":
@@ -199,7 +199,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                     color = korgieApi.additional;
                     break;
             };
-            result.push({
+            eventResult.push({
                 EventId: element.EventId,
                 Title: element.Title,
                 Start: new Date(new Date(parseInt(element.Start.substr(6)))),
@@ -210,7 +210,11 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Tags: element.Tags
             });
         });
-        deferred.resolve(result);
+        /*todoData.forEach(function (element) {
+
+        });*/
+
+        deferred.resolve(eventResult, todoResult);
         return deferred.promise;
     };
 
@@ -223,12 +227,18 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 month: parseInt($scope.month) + 1,
                 year: $scope.year
             }
-            $http.get(method, { params: param }).then(function successCallback(response) {
-                convertEvents(response.data).then(function (_events) {
-                    events = _events;
-                    todos = todo_stub;
-                    $scope.monthDays = getMonthDays();
-                });
+            $http.get(method, { params: param }).then(function successCallback(eventResponse) {
+                //$http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
+                setTimeout(function () {
+                    convertEvents(eventResponse.data/*, todoResponse.data*/).then(function (_events, _todos) {
+                        events = _events;
+                        todos = todo_stub;
+                        $scope.monthDays = getMonthDays();
+                    })
+                }, 200);
+                /*}, function errorCallback(response) {
+                    console.log('getting todos failed');
+                });*/
             }, function errorCallback(response) {
                 console.log('getting events failed');
             });
@@ -241,6 +251,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $http.get(method, { params: param }).then(function successCallback(response) {
                 convertEvents(response.data).then(function (_events) {
                     events = _events;
+                    todos = todo_stub;
                     $scope.weekDays = getWeekDays(isNextPrevWeek);
                 });
             }, function errorCallback(response) {
@@ -476,23 +487,26 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.eventToSave = angular.copy($scope.eventToEdit);
     };
     function saveTodo() {
-        /*$http({
-            url: '/Event/SaveTodos',
-            method: "GET",
-            params: {
-                EventId: $scope.eventToEdit.EventId || -1,
-                Title: $scope.eventToEdit.Title,
-                Start: $scope.eventToEdit.Start,
-                Type: $scope.eventToEdit.Type,
-                Description: $scope.eventToEdit.Description || '',
-                Period: $scope.eventToEdit.Period || 0,
-                Days: 0,
-                Tags: $scope.eventToEdit.Tags || ''
-            }
-        });*/
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
+        $http({
+            url: '/Event/SaveTodo',
+            method: "GET",
+            params: {
+                TodoId: $scope.todoToEdit.EventId || -1,
+                Title: $scope.todoToEdit.Title,
+                Start: $scope.todoToEdit.Start,
+                Color: $scope.todoToEdit.Color,
+                Description: $scope.todoToEdit.Description || '',
+                States: $scope.todoToEdit.Tasks.map(function (task) {
+                    return task.State;
+                }),
+                Tasks: $scope.todoToEdit.Tasks.map(function (task) {
+                    return task.Name;
+                })
+            }
+        });
     };
 
     $scope.openDialog = function (dialogName, event) {
