@@ -382,7 +382,7 @@
                     <div ng-if="eventAdding || eventEditing" ng-repeat="task in todoToEdit.Tasks">
                         <input type="checkbox" id={{task.Id}} class="checkbox__input controlls-unvisible" ng-model="task.State"><label for={{task.Id}} class="checkbox__label"></label>
                         <div class="activity-name">{{task.Name}}</div>
-                        <button class="btn btn--xs btn--red btn--icon" ng-click="" lx-ripple><i class="mdi mdi-delete"></i></button>
+                        <button class="btn btn--xs btn--red btn--icon" lx-ripple><i class="mdi mdi-delete"></i></button><!-- ng-click="deleteActivity({{task.Id}})"-->
                     </div>
                     <div ng-if="(eventAdding || eventEditing) && addingActivity" layout="row" layout-align="start center">
                         <input type="checkbox" id="newTaskState" class="checkbox__input controlls-unvisible" ng-model="newTask.State"><label for="newTaskState" class="checkbox__label"></label>

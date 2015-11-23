@@ -228,17 +228,17 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(eventResponse) {
-                //$http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
-                setTimeout(function () {
-                    convertEvents(eventResponse.data/*, todoResponse.data*/).then(function (_events, _todos) {
-                        events = _events;
-                        todos = todo_stub;
-                        $scope.monthDays = getMonthDays();
-                    })
-                }, 200);
-                /*}, function errorCallback(response) {
+                $http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
+                    setTimeout(function () {
+                        convertEvents(eventResponse.data, todoResponse.data).then(function (_events, _todos) {
+                            events = _events;
+                            todos = todo_stub;
+                            $scope.monthDays = getMonthDays();
+                        })
+                    }, 200);
+                }, function errorCallback(response) {
                     console.log('getting todos failed');
-                });*/
+                });
             }, function errorCallback(response) {
                 console.log('getting events failed');
             });
@@ -490,7 +490,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
-        $http({
+        /*$http({
             url: '/Event/SaveTodo',
             method: "GET",
             params: {
@@ -506,7 +506,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                     return task.Name;
                 })
             }
-        });
+        });*/
     };
 
     $scope.openDialog = function (dialogName, event) {
@@ -580,6 +580,10 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         };
         $scope.addingActivity = false;
     };
+
+    $scope.deleteActivity = function (id) {
+        $scope.todoToEdit.Tasks.splice(id, 1);
+    }
 
     $scope.showHideControlls = function () {
         /*$(".controlls-visible").toggle();
