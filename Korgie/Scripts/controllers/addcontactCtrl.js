@@ -1,6 +1,6 @@
 ﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService) {
     console.log('addcontactCtrl');
-    $scope.email1 = 'dfgdsgfsdgfsd';
+    $scope.email1;
     $scope.email2;
 
     function addContact(contactEmail) { //продублировать в ивентс контроллер!
