@@ -259,14 +259,18 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 week: $scope.week,
                 year: $scope.year
             }
-            $http.get(method, { params: param }).then(function successCallback(response) {
-                convertEvents(response.data).then(function (_events) {
-                    events = _events;
-                    todos = todo_stub;
-                    $scope.weekDays = getWeekDays(isNextPrevWeek);
+            $http.get(method, { params: param }).then(function successCallback(eventResponse) {
+                $http.get('/Event/GetWeekTodo', { params: param }).then(function successCallback(todoResponse) {
+                    setTimeout(function () {
+                        convertEvents(eventResponse.data, todoResponse.data).then(function () {
+                            $scope.weekDays = getWeekDays(isNextPrevWeek);
+                        })
+                    }, 300);
+                }, function errorCallback(response) {
+                    console.log('getting todos failed');
                 });
             }, function errorCallback(response) {
-                console.log("getting events failed");
+                console.log('getting events failed');
             });
         }
     }
