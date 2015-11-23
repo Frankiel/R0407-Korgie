@@ -36,7 +36,6 @@ namespace Korgie.Controllers
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE MONTH(E.Start)=@Value1 AND YEAR(E.Start)=@Value2
 AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
-            SaveTodo(new Todo(1, "Test", DateTime.Now, "color", "desc", new List<Tasks>()));
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
         public string GetMonthTodo(int month,int year)
