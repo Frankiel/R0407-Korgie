@@ -14,18 +14,18 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         Start: new Date(2015, 10, 23),
         Color: '#2196f3',
         Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
-        Tasks: [{ Id: 1, Name: '1sjkytgnuytglkjhijnt', State: false },
-            { Id: 2, Name: '2nd', State: true },
-            { Id: 3, Name: '3rd', State: false },
-            { Id: 4, Name: '4th', State: false }]
+        Tasks: [{ Id: 0, Name: '1sjkytgnuytglkjhijnt', State: false },
+            { Id: 1, Name: '2nd', State: true },
+            { Id: 2, Name: '3rd', State: false },
+            { Id: 3, Name: '4th', State: false }]
     }, {
         TodoId: 2,
         Title: '2nd todo',
         Start: new Date(2015, 10, 23),
         Color: '#2196f3',
         Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
-        Tasks: [{ Id: 1, Name: '1sjkytgnuytglkjhijnt', State: false },
-            { Id: 2, Name: '2nd', State: true }]
+        Tasks: [{ Id: 0, Name: '1sjkytgnuytglkjhijnt', State: false },
+            { Id: 1, Name: '2nd', State: true }]
     }];
 
     $scope.isWeekMode = false;
@@ -228,17 +228,17 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(eventResponse) {
-                $http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
-                    setTimeout(function () {
-                        convertEvents(eventResponse.data, todoResponse.data).then(function (_events, _todos) {
-                            events = _events;
-                            todos = todo_stub;
-                            $scope.monthDays = getMonthDays();
-                        })
-                    }, 200);
-                }, function errorCallback(response) {
+                //$http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
+                setTimeout(function () {
+                    convertEvents(eventResponse.data/*, todoResponse.data*/).then(function (_events, _todos) {
+                        events = _events;
+                        todos = todo_stub;
+                        $scope.monthDays = getMonthDays();
+                    })
+                }, 200);
+                /*}, function errorCallback(response) {
                     console.log('getting todos failed');
-                });
+                });*/
             }, function errorCallback(response) {
                 console.log('getting events failed');
             });
@@ -571,7 +571,14 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     };
 
     $scope.addActivity = function () {
-        $scope.newTask.Id = $scope.todoToEdit.Tasks.length;
+        var maxId = 0;
+        var l = $scope.todoToEdit.Tasks.length;
+        for (var i = 0; i < l; i++) {
+            if ($scope.todoToEdit.Tasks[i].Id > maxId) {
+                maxId = $scope.todoToEdit.Tasks[i].Id;
+            }
+        }
+        $scope.newTask.Id = maxId + 1;
         $scope.todoToEdit.Tasks.push($scope.newTask);
         $scope.newTask = {
             Id: -1,
@@ -582,7 +589,13 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     };
 
     $scope.deleteActivity = function (id) {
-        $scope.todoToEdit.Tasks.splice(id, 1);
+        var l = $scope.todoToEdit.Tasks.length;
+        for (var i = 0; i < l; i++) {
+            if ($scope.todoToEdit.Tasks[i].Id == id) {
+                $scope.todoToEdit.Tasks.splice(i, 1);
+                break;
+            }
+        }
     }
 
     $scope.showHideControlls = function () {
