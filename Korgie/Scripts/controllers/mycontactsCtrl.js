@@ -1,22 +1,60 @@
-﻿korgie.controller('mycontactsCtrl', function ($scope, $http, korgieApi) {
-    console.log("Initializing mycontactsCtrl");
+﻿korgie.controller('mycontactsCtrl', function ($scope, $http, korgieApi, LxDialogService) {
 
-    $scope.contacts = [
-        { name: "Adam Withouteva", primaryEmail: "adamwithouteva@email.com", phone: "25525361783", country: "Australia", city: "Sydney" },
-        { name: "Carl Ohmygod", primaryEmail: "pleasecarl@email.com", phone: "09347813414", country: "Ukraine", city: "Kiev" },
-        { name: "Anna Kuzochkina", primaryEmail: "annakarenina@email.com", phone: "52935415619", country: "Germany", city: "Frankfurt am Main" },
-        { name: "Robert de Niro", primaryEmail: "robertdeniro@email.com", phone: "53049135315183", country: "China", city: "Beijing" },
-        { name: "Frank Martin", primaryEmail: "frankmartin@email.com", phone: "15478391349", country: "USA", city: "Los-Angeles" },
-        { name: "Maria Eliseeva", primaryEmail: "mariaeliseeva@email.com", phone: "109888563134", country: "Great Britain", city: "London" },
-        { name: "Erlich Bachman", primaryEmail: "urdirtymzfkers@email.com", phone: "151375781399", country: "Poland", city: "Lublin" },
-        { name: "Arthur Anti-Dalai-Lama", primaryEmail: "antidalailama@email.com", phone: "1409535739", country: "France", city: "Paris" },
-        { name: "Adam Withouteva", primaryEmail: "adamwithouteva@email.com", phone: "25525361783", country: "Australia", city: "Sydney" },
-        { name: "Carl Ohmygod", primaryEmail: "pleasecarl@email.com", phone: "09347813414", country: "Ukraine", city: "Kiev" },
-        { name: "Anna Kuzochkina", primaryEmail: "annakarenina@email.com", phone: "52935415619", country: "Germany", city: "Frankfurt am Main" },
-        { name: "Robert de Niro", primaryEmail: "robertdeniro@email.com", phone: "53049135315183", country: "China", city: "Beijing" },
-        { name: "Frank Martin", primaryEmail: "frankmartin@email.com", phone: "15478391349", country: "USA", city: "Los-Angeles" },
-        { name: "Maria Eliseeva", primaryEmail: "mariaeliseeva@email.com", phone: "109888563134", country: "Great Britain", city: "London" },
-        { name: "Erlich Bachman", primaryEmail: "urdirtymzfkers@email.com", phone: "151375781399", country: "Poland", city: "Lublin" },
-        { name: "Arthur Anti-Dalai-Lama", primaryEmail: "antidalailama@email.com", phone: "1409535739", country: "France", city: "Paris" },
-    ]
+    $scope.contacts;
+    $scope.nameToDelete;
+    $scope.emailToDelete;
+
+    function getContacts() {
+        var param, method;
+        method = '/Event/GetContacts';
+        $http.get(method).then(function successCallback(response) {
+            catchContacts(response.data);
+            getContactsFromKorgieAPI();
+        }, function errorCallback(response) {
+            console.log('getContacts failed from mycontactsCtrl');
+        });
+    }
+
+    function catchContacts(data) {
+        korgieApi.contacts = data;
+    }
+
+    function getContactsFromKorgieAPI() {
+        $scope.contacts = korgieApi.contacts;
+    }
+
+    function deleteContact(contactEmail) {
+        var param, method;
+        method = '/Event/DeleteContact';
+        param = {
+            email: contactEmail,
+        }
+        $http.get(method, { params: param }).then(function successCallback(response) {
+
+        }, function errorCallback(response) {
+            console.log('contact deleting failed');
+        });
+    }
+
+    $(document).off("click", ".delete").on("click", ".delete", function () {
+        $scope.nameToDelete = $(this).attr("name");
+        $scope.emailToDelete = $(this).attr("email");
+        LxDialogService.open('delete');
+    });
+
+    $(document).off("click", ".yes").on("click", ".yes", function () {
+        deleteContact($scope.emailToDelete);
+        for (var i = 0; i < korgieApi.contacts.length; i++) {
+            if (korgieApi.contacts[i].PrimaryEmail == $scope.emailToDelete) {
+                korgieApi.contacts.splice(i, 1);
+                break;
+            }
+        }
+        $scope.nameToDelete = '';
+        $scope.emailToDelete = '';
+        LxDialogService.close('delete');
+        //getContactsFromKorgieAPI();
+    });
+
+    getContacts();
 });

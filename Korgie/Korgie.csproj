@@ -163,6 +163,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\controllers\addcontactCtrl.js" />
     <Content Include="Scripts\controllers\contactsCtrl.js" />
     <Content Include="Scripts\controllers\eventsCtrl.js" />
     <Content Include="Scripts\controllers\homeCtrl.js" />
