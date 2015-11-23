@@ -11,7 +11,7 @@ namespace Korgie.Models
         public string Name { set; get; }
         public bool State { set; get; }
         public Tasks() { }
-        public Tasks(string _name, string _state)
+        public Tasks(string _name, bool _state)
         {
             Name = _name;
             State = _state;
