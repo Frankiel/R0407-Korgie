@@ -237,7 +237,7 @@
     height: 100%;
 }
 
-.type-color, .todo-list, .day-todo-color, .week-mode-todo-color {
+.type-color, .todo-list, .day-todo-color, .week-mode-todo-color, .todo-color-edit {
     box-shadow: 0 4px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
 }
 
@@ -335,7 +335,7 @@
 }
 
 
-/* event */
+/* event & todo dialogs */
 
 #test {
     max-height: calc(100vh - 60px);
@@ -391,6 +391,10 @@
     height: 60px;
 }
 
+.event .event-date p {
+    margin-top: 0px;
+}
+
 .event .event-title-edit {
     width: 100%;
     margin-top: -6px;
@@ -413,7 +417,8 @@
 }
 
 .event .column2 {
-    height: 60px;
+    height: 77px;
+    width: 100%;
 }
 
 .event .event-notif-edit {
@@ -428,14 +433,33 @@
     display: inline-block;
 }
 
-.controlls-visible {
-    display: inline-block;
+.todo-color-edit {
+    width: 30px;
+    height: 30px;
 }
 
-.controlls-unvisible {
-    display: none;
+.event .activity-name {
+    display: inline;
+    margin-left: 30px;
 }
 
+.event .new-task {
+    width: 70%;
+}
+
+/*.color-buttons {
+    height: 20px;
+    width: auto;
+}
+
+.color-buttons > * {
+    float: left;
+    margin: 2px !important;
+}*/
+
+.dialog-buttons {
+    margin-top: 15px;
+}
 
 @media (max-width: 310px) {
     .detailed-event, .detailed-todo {
@@ -452,16 +476,16 @@
         text-align: center;
     }
 
-    .navicons{
-        margin-top:0px;
+    .navicons {
+        margin-top: 0px;
         position: fixed;
         bottom: 10px;
         width: 35%;
         text-align: center;
-        overflow:hidden;
+        overflow: hidden;
     }
 
-    .searchfield{
+    .searchfield {
         margin-top: 0px;
     }
 
@@ -484,10 +508,10 @@
         transition: left 0.5s ease-in;
     }
 
-    .header.opened-menu {
-        left: 0px;
-        transition: left 0.5s ease-in;
-    }
+        .header.opened-menu {
+            left: 0px;
+            transition: left 0.5s ease-in;
+        }
 
     .logo-keeper {
         width: 100%;
@@ -511,9 +535,9 @@
         margin-right: 10px;
     }
 
-    .week-switcher + div {
-        margin-left: 0px;
-    }
+        .week-switcher + div {
+            margin-left: 0px;
+        }
 
     .week-mode-scroll {
         max-height: 395px !important;
@@ -529,10 +553,10 @@
         overflow: hidden;
     }
 
-    .week-mode-days > * > * {
-        box-shadow: none !important;
-        height: 100%;
-    }
+        .week-mode-days > * > * {
+            box-shadow: none !important;
+            height: 100%;
+        }
 
     .week-mode-days .todo-list {
         float: right;
@@ -549,9 +573,9 @@
         border-radius: 0px;
     }
 
-    .week-mode-day-names > * {
-        display: inline-block;
-    }
+        .week-mode-day-names > * {
+            display: inline-block;
+        }
 
     .week-mode-type {
         width: 20px;
@@ -578,11 +602,11 @@
         transition: all 0.5s ease-in;
     }
 
-    .dark-div.opened-menu {
-        z-index: 15;
-        background: #000;
-        transition: all 0.5s ease-in;
-    }
+        .dark-div.opened-menu {
+            z-index: 15;
+            background: #000;
+            transition: all 0.5s ease-in;
+        }
 
     .row {
         margin: 0px !important;
@@ -611,22 +635,22 @@
 
     .menu {
         margin-top: 0px;
-        overflow:hidden;
+        overflow: hidden;
     }
 
-    .menu ul{
-        position: static !important;
-        margin-top: 10px;
-    }
+        .menu ul {
+            position: static !important;
+            margin-top: 10px;
+        }
 
-    .menu li button{
-        width:100%;
-        padding:0px !important;
-    }
+        .menu li button {
+            width: 100%;
+            padding: 0px !important;
+        }
 
-    .searchfield div{
-        width:94% !important;
-        margin-left:3% !important;
+    .searchfield div {
+        width: 94% !important;
+        margin-left: 3% !important;
     }
     /*Navbar area finish*/
 }
@@ -658,6 +682,10 @@
 
     .center-div {
         margin: 0 5% 0 5%;
+    }
+
+    .event .column2 {
+        margin-top: -12px;
     }
 }
 

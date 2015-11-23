@@ -20,14 +20,6 @@ korgie.controller('settingsCtrl', function ($scope, $http, korgieApi) {
         $('.dark-div').toggleClass('opened-menu');
     }
 
-    function rgb2hex(rgb) {
-        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-        function hex(x) {
-            return ("0" + parseInt(x).toString(16)).slice(-2);
-        }
-        return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-    }
-
     $(document).off("click", ".color-button").on("click", ".color-button", function () {
         console.log('color button click menu');
         $(this).parent().prev().children().removeClass("btn--blue btn--red btn--purple btn--green btn--yellow btn--orange btn--teal btn--pink btn--grey"); //снимаю все цвета с кнопки типа
@@ -38,35 +30,35 @@ korgie.controller('settingsCtrl', function ($scope, $http, korgieApi) {
         switch ($(this).parent().prev().children().attr('id')) {
             case 'work':
                 korgieApi.work[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
-                korgieApi.work[2] = rgb2hex($(this).parent().prev().children().css('background-color'));
+                korgieApi.work[2] = korgieApi.rgb2hex($(this).parent().prev().children().css('background-color'));
                 $scope.work = korgieApi.work;
                 $(this).addClass(className);
                 console.log(korgieApi.work[1]);
                 break;
             case 'study':
                 korgieApi.study[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
-                korgieApi.study[2] = rgb2hex($(this).parent().prev().children().css('background-color'));
+                korgieApi.study[2] = korgieApi.rgb2hex($(this).parent().prev().children().css('background-color'));
                 $scope.study = korgieApi.study;
                 $(this).addClass(className);
                 console.log(korgieApi.work[1]);
                 break;
             case 'sport':
                 korgieApi.sport[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
-                korgieApi.sport[2] = rgb2hex($(this).parent().prev().children().css('background-color'));
+                korgieApi.sport[2] = korgieApi.rgb2hex($(this).parent().prev().children().css('background-color'));
                 $scope.sport = korgieApi.sport;
                 $(this).addClass(className);
                 console.log(korgieApi.work[1]);
                 break;
             case 'rest':
                 korgieApi.rest[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
-                korgieApi.rest[2] = rgb2hex($(this).parent().prev().children().css('background-color'));
+                korgieApi.rest[2] = korgieApi.rgb2hex($(this).parent().prev().children().css('background-color'));
                 $scope.rest = korgieApi.rest;
                 $(this).addClass(className);
                 console.log(korgieApi.work[1]);
                 break;
             case 'additional':
                 korgieApi.additional[1] = $(this).removeClass('btn btn--s btn--fab color-button').attr('class');
-                korgieApi.additional[2] = rgb2hex($(this).parent().prev().children().css('background-color'));
+                korgieApi.additional[2] = korgieApi.rgb2hex($(this).parent().prev().children().css('background-color'));
                 $scope.additional = korgieApi.additional;
                 $(this).addClass(className);
                 console.log(korgieApi.work[1]);
