@@ -11,17 +11,21 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     var todo_stub = [{
         TodoId: 1,
         Title: '1st todo',
-        Start: new Date(2015, 10, 21),
-        Color: 'blue',
+        Start: new Date(2015, 10, 23),
+        Color: '#2196f3',
         Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
-        Tasks: ['1sjkytgnuytglkjhijnt', '2nd', '3rd', '4th', '5th']
+        Tasks: [{ Id: 1, Name: '1sjkytgnuytglkjhijnt', State: false },
+            { Id: 2, Name: '2nd', State: true },
+            { Id: 3, Name: '3rd', State: false },
+            { Id: 4, Name: '4th', State: false }]
     }, {
         TodoId: 2,
         Title: '2nd todo',
-        Start: new Date(2015, 10, 22),
-        Color: 'blue',
+        Start: new Date(2015, 10, 23),
+        Color: '#2196f3',
         Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
-        Tasks: ['1sjky', '5th']
+        Tasks: [{ Id: 1, Name: '1sjkytgnuytglkjhijnt', State: false },
+            { Id: 2, Name: '2nd', State: true }]
     }];
 
     $scope.isWeekMode = false;
@@ -32,6 +36,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.eventEditing = false;
     $scope.eventToEdit;
     $scope.eventToSave;
+    $scope.todoToEdit;
+    $scope.todoToSave;
 
     function getMonthDays() {
         var result = [];
@@ -374,7 +380,67 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         }
     }
 
-    $scope.save = function () {
+    var crudTodo = function (oldTodoId, newTodo) {
+        var date, newDay;
+        // Editing
+        if (oldTodoId != -1) {
+            if ($scope.isWeekMode) {
+                $scope.weekDays.forEach(function (day) {
+                    day.todos.forEach(function (ev, i) {
+                        if (ev.TodoId == oldTodoId) {
+                            date = ev.Start.getDate();
+                            day.todos.splice(i, 1);
+                        }
+                    })
+                });
+                newDay = $scope.weekDays.filter(function (day) {
+                    return day.day == date;
+                })[0];
+            } else {
+                $scope.dayToShow.todos.forEach(function (ev, i) {
+                    if (ev.TodoId == oldTodoId) {
+                        date = ev.Start.getDate();
+                        $scope.dayToShow.todos.splice(i, 1);
+                    }
+                });
+                newDay = $scope.monthDays.filter(function (day) {
+                    return day.day == date && day.month != undefined;
+                })[0];
+            }
+            newDay.todos.forEach(function (ev, i) {
+                if (ev.TodoId == oldTodoId) {
+                    $scope.dayToShow.todos.splice(i, 1);
+                }
+            });
+        }
+
+        // Deleting
+        if (newTodo != undefined) {
+            date = newTodo.Start.getDate();
+            if ($scope.isWeekMode) {
+                var i = 0;
+                for (; i < 7 && $scope.weekDays[i].day != newTodo.Start.getDate() ; i++) { }
+                newDay = $scope.weekDays[i];
+            } else {
+                var i = 0, length = $scope.monthDays.length;
+                for (; i < length && !($scope.monthDays[i].day == newTodo.Start.getDate() && $scope.monthDays[i].month != undefined) ; i++) { }
+                newDay = $scope.monthDays[i];
+            }
+            newDay.todos.push(newTodo);
+        }
+    }
+
+    $scope.save = function (type) {
+        if (type == 'event') {
+            saveEvent();
+        } else {
+            saveTodo();
+        }
+        $scope.showHideControlls();
+        $scope.eventAdding = false;
+        $scope.eventEditing = false;
+    };
+    function saveEvent() {
         $http({
             url: '/Event/SaveEvents',
             method: "GET",
@@ -408,10 +474,26 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         };
         crudEvent(!$scope.eventAdding ? $scope.eventToEdit.EventId : -1, $scope.eventToEdit);
         $scope.eventToSave = angular.copy($scope.eventToEdit);
-        $scope.showHideControlls();
-        $scope.eventAdding = false;
-        $scope.eventEditing = false;
-    }
+    };
+    function saveTodo() {
+        /*$http({
+            url: '/Event/SaveTodos',
+            method: "GET",
+            params: {
+                EventId: $scope.eventToEdit.EventId || -1,
+                Title: $scope.eventToEdit.Title,
+                Start: $scope.eventToEdit.Start,
+                Type: $scope.eventToEdit.Type,
+                Description: $scope.eventToEdit.Description || '',
+                Period: $scope.eventToEdit.Period || 0,
+                Days: 0,
+                Tags: $scope.eventToEdit.Tags || ''
+            }
+        });*/
+        $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
+        crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
+        $scope.todoToSave = angular.copy($scope.todoToEdit);
+    };
 
     $scope.openDialog = function (dialogName, event) {
         if (event == undefined) {
@@ -419,10 +501,10 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             event = {
                 Type: 'Work',
                 Start: new Date($scope.dayToShow.year, $scope.dayToShow.month, $scope.dayToShow.day, 0, 0),
-                Period: 0
+                Period: 0,
+                Color: '#2196f3',
+                Tasks: []
             }
-            $scope.eventToEdit = event;
-            $scope.eventToSave = event;
             setTimeout(function () {
                 $scope.showHideControlls()
             }, 200);
@@ -431,21 +513,23 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $scope.eventEditing = false;
         }
         $scope.eventToSave = event;
+        $scope.todoToSave = event;
+        $scope.eventToEdit = event;
+        $scope.todoToEdit = event;
         LxDialogService.open(dialogName);
     };
 
     $scope.closingDialog = function (dialogName) {
         LxDialogService.close(dialogName);
     };
-
-    /*-------------------------------------------------------------------*/
-
-    $scope.cancel = function () {
+    
+    $scope.cancel = function (dialogName) {
         $scope.eventToEdit = angular.copy($scope.eventToSave);
+        $scope.todoToEdit = angular.copy($scope.todoToSave);
         $scope.showHideControlls();
         $scope.eventEditing = false;
         if ($scope.eventAdding) {
-            $scope.closingDialog('test');
+            $scope.closingDialog(dialogName);
         }
     };
 
@@ -454,13 +538,41 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         setTimeout(function () {
             $scope.showHideControlls()
         }, 200);
-    }
+    };
+
+    $scope.chooseTodoColor = function (todoId, colorId) {
+        $('.color-buttons').children().empty();
+        $('.color-buttons').children().eq(colorId).append('<i class="mdi mdi-check"></i>');
+    };
+
+    $scope.addingActivity = false;
+    $scope.newTask = {
+        Id: -1,
+        Name: '',
+        State: false
+    };
+
+    $scope.createActivity = function () {
+        $scope.addingActivity = true;
+    };
+
+    $scope.addActivity = function () {
+        $scope.newTask.Id = $scope.todoToEdit.Tasks.length;
+        $scope.todoToEdit.Tasks.push($scope.newTask);
+        $scope.newTask = {
+            Id: -1,
+            Name: '',
+            State: false
+        };
+        $scope.addingActivity = false;
+    };
 
     $scope.showHideControlls = function () {
         /*$(".controlls-visible").toggle();
         $(".controlls-unvisible").toggle();
         $scope.eventEditing = !$scope.eventEditing;*/
         $scope.eventToEdit = angular.copy($scope.eventToSave);
+        $scope.todoToEdit = angular.copy($scope.todoToSave);
 
         var typeButtons = $('.type-click');
         $('[etype="' + $scope.eventToEdit.Type + '"').addClass('btn--raised').removeClass('btn--flat');
@@ -494,6 +606,14 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $(this).removeClass('btn--flat').addClass('btn--raised');
             $scope.eventToEdit.Period = $(this).attr('period');
         });
+
+        var colorButtons = $('.color-buttons').children();
+        var cButtonsLength = colorButtons.length;
+        for (var i = 0; i < cButtonsLength; i++) {
+            if (korgieApi.rgb2hex(colorButtons.eq(i).css('background-color')) == $scope.todoToSave.Color) {
+                colorButtons.eq(i).append('<i class="mdi mdi-check"></i>');
+            }
+        }
     }
 
     $scope.people = [

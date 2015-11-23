@@ -29,7 +29,14 @@
     })
     .filter('todoTaskItem', function () {
         return function (item) {
-            return (item == undefined) ? '' : ' – ' + item;
+            var result;
+            if (item == undefined) {
+                return '';
+            } else if (item.State) {
+                return ' + ' + item.Name;
+            } else {
+                return ' – ' + item.Name;
+            }
         }
     })
     .filter('todoElseItems', function () {

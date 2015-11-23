@@ -24,7 +24,7 @@
             </div>
         </div>
         <div layout="row" layout-sm="column">
-            <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="center center">
+            <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="start center">
                 <div layout="row" layout-align="center center">
                     <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="openDialog('event')"><i class="mdi mdi-plus"></i></button>
                 </div>
@@ -42,12 +42,12 @@
                     </div>
                 </div>
             </div>
-            <div class="day-mode-todos" layout="column" layout-align="start center">
-                <div>
-                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="opendDialog('todo')" disabled><i class="mdi mdi-plus"></i></button>
+            <div class="day-mode-todos" layout-gt-sm="column" layout-align-gt-sm="start center">
+                <div layout="row" layout-align="center center">
+                    <button class="btn btn--m btn--black btn--icon" lx-ripple ng-click="openDialog('todo')"><i class="mdi mdi-plus"></i></button>
                 </div>
                 <div class="detailed-todo card" ng-repeat="todo in dayToShow.todos">
-                    <div> <!--ng-click="openDialog('todo', todo)"-->
+                    <div ng-click="openDialog('todo', todo)">
                         <div class="day-mode-delete">
                             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(todo.TodoId, true)"><i class="mdi mdi-delete"></i></button>
                         </div>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="todo in day.todos">
-                    <div> <!--ng-click="openDialog('todo', todo)"-->
+                    <div ng-click="openDialog('todo', todo)">
                         <div class="type" layout="row" layout-align="start center">
                             <div style="background-color: {{todo.Color}}" class="week-mode-todo-color"></div>
                             <div class="title">{{todo.Title}}</div>
@@ -171,12 +171,12 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Event dialog mode -->
     <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
-                <div class="controlls-visible">
+                <div ng-if="!eventAdding && !eventEditing">
                     <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
                 <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(eventToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>
@@ -202,14 +202,14 @@
                             <div class="event-time" ng-if="!eventAdding && !eventEditing">
                                 {{eventToSave.Start | date:' HH:mm'}}
                             </div>
-                            <input class="" type="time" name="time" ng-model="eventToEdit.Start" ng-if="eventAdding || eventEditing">
+                            <input type="time" name="time" ng-model="eventToEdit.Start" ng-if="eventAdding || eventEditing">
                         </div>
                         <div>
                             <p>Type:</p>
                             <div class="event-type" ng-if="!eventAdding && !eventEditing">
                                 {{eventToSave.Type}}
                             </div>
-                            <div class="" ng-if="eventAdding || eventEditing">
+                            <div ng-if="eventAdding || eventEditing">
                                 <div class="event-type-edit">
                                     <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Sports" lx-ripple>Sports</button>
                                 </div>
@@ -238,15 +238,15 @@
                     <div>
                         <div class="column2">
                             <p>Notifications (days):</p>
-                            <div class="" ng-if="!eventAdding && !eventEditing">{{eventToSave.Notifications}}</div>
+                            <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Notifications}}</div>
                             <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
                                 <input type="text" ng-model="eventToEdit.Notifications" number min="1" max="99">
                             </lx-text-field>
                         </div>
                         <div>
                             <p>Periodical:</p>
-                            <div class="" ng-if="!eventAdding && !eventEditing">{{eventToSave.Period | numToPeriod}}</div>
-                            <div class="" ng-if="eventAdding || eventEditing">
+                            <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Period | numToPeriod}}</div>
+                            <div ng-if="eventAdding || eventEditing">
                                 <div class="event-period-edit">
                                     <button class="period-click btn btn--s btn--blue-grey btn--flat" period="0" lx-ripple>None</button>
                                 </div>
@@ -285,13 +285,13 @@
                 <div>
                     <div>
                         <p>Description:</p>
-                        <div class="" ng-if="!eventAdding && !eventEditing">{{eventToSave.Description}}</div>
-                        <textarea class="" ng-if="eventAdding || eventEditing" ng-model="eventToEdit.Description" ng-maxlength="1000"></textarea>
+                        <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Description}}</div>
+                        <textarea ng-if="eventAdding || eventEditing" ng-model="eventToEdit.Description" ng-maxlength="1000"></textarea>
                     </div>
                     <div>
                         <p>Tags:</p>
-                        <div class="" ng-if="!eventAdding && !eventEditing">{{eventToSave.Tags}}</div>
-                        <textarea class="" ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags"></textarea>
+                        <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Tags}}</div>
+                        <textarea ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags"></textarea>
                     </div>
                     <div class="column2">
                         <p>Contacts:</p>
@@ -307,17 +307,104 @@
                     </div>
                 </div>
                 <div layout="row" layout-align="space-around center">
-                    <div class="" ng-if="eventAdding || eventEditing">
+                    <div ng-if="eventAdding || eventEditing">
                         <button class="btn btn--m btn--blue btn--flat" ng-click="save()" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
                     </div>
-                    <div class="" ng-if="!eventAdding && !eventEditing">
+                    <div ng-if="!eventAdding && !eventEditing">
                         <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
                     </div>
-                    <div class="" ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="cancel()">Cancel</button>
+                    <div ng-if="eventAdding || eventEditing">
+                        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="cancel('event')">Cancel</button>
                     </div>
                 </div>
             </div>
         </form>
-</lx-dialog>
+    </lx-dialog>
+
+    <!-- Todo dialog mode -->
+    <lx-dialog class="dialog dialog--l" id="todo" auto-close="false">
+        <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
+            <div class="buttons" layout="row" ng-if="!eventAdding">
+                <div ng-if="!eventAdding && !eventEditing">
+                    <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
+                </div>
+                <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(todoToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>
+            </div>
+            <div class="center-div">
+                <div class="display-block event-title" ng-if="!eventAdding && !eventEditing">
+                    {{todoToSave.Title}}
+                </div>
+                <lx-text-field label="Title" fixed-label="true" class="event-title-edit" ng-if="eventAdding || eventEditing">
+                    <input type="text" name="title" ng-model="todoToEdit.Title" ng-maxlength="35" required />
+                </lx-text-field>
+                <div layout="row" layout-sm="column">
+                    <div flex-gt-sm="50" class="event-date">
+                        <p>Date:</p>
+                        <div ng-if="!eventAdding && !eventEditing">
+                            {{todoToSave.Start | date:'MMMM d, yyyy'}}
+                        </div>
+                        <lx-date-picker class="event-date-edit" model="todoToEdit.Start" name="date" locale="fr" allow-clear="false" required ng-if="eventAdding || eventEditing"></lx-date-picker>
+                    </div>
+                    <div flex-gt-sm="50" class="column2">
+                        <p>Notifications (days):</p>
+                        <div ng-if="!eventAdding && !eventEditing">{{todoToSave.Notifications}}</div>
+                        <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
+                            <input type="text" ng-model="todoToEdit.Notifications" number min="1" max="99">
+                        </lx-text-field>
+                    </div>
+                </div>
+                <div layout="row" layout-align="start center">
+                    <p>Color:</p>
+                    <div ng-if="!eventAdding && !eventEditing" class="todo-color-edit" style="background-color: {{todoToSave.Color}}" ng-click="(eventEditing || eventAdding) && chooseTodoColor()"></div>
+                </div>
+                <div ng-if="eventAdding || eventEditing" layout="row" layout-align="space-around center" class="color-buttons">
+                    <button class="btn btn--s btn--blue btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 0)" lx-ripple></button>
+                    <button class="btn btn--s btn--red btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 1)" lx-ripple></button>
+                    <button class="btn btn--s btn--purple btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 2)" lx-ripple></button>
+                    <button class="btn btn--s btn--green btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 3)" lx-ripple></button>
+                    <button class="btn btn--s btn--yellow btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 4)" lx-ripple></button>
+                    <button class="btn btn--s btn--orange btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 5)" lx-ripple></button>
+                    <button class="btn btn--s btn--teal btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 6)" lx-ripple></button>
+                    <button class="btn btn--s btn--pink btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 7)" lx-ripple></button>
+                    <button class="btn btn--s btn--grey btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 8)" lx-ripple></button>
+                </div>
+                <div>
+                    <p>Description:</p>
+                    <div ng-if="!eventAdding && !eventEditing"><span>{{todoToSave.Description}}</span></div>
+                    <textarea ng-if="eventAdding || eventEditing" ng-model="todoToEdit.Description" ng-maxlength="1000"></textarea>
+                </div>
+                <div>
+                    <p>Activities:</p>
+                    <div ng-if="!eventAdding && !eventEditing" ng-repeat="task in todoToSave.Tasks">
+                        <input type="checkbox" id="123" class="checkbox__input controlls-unvisible" ng-model="task.State" disabled><label for="123" class="checkbox__label"></label>
+                        <div class="activity-name">{{task.Name}}</div>
+                    </div>
+                    <div ng-if="eventAdding || eventEditing" ng-repeat="task in todoToEdit.Tasks">
+                        <input type="checkbox" id={{task.Id}} class="checkbox__input controlls-unvisible" ng-model="task.State"><label for={{task.Id}} class="checkbox__label"></label>
+                        <div class="activity-name">{{task.Name}}</div>
+                        <button class="btn btn--xs btn--red btn--icon" ng-click="" lx-ripple><i class="mdi mdi-delete"></i></button>
+                    </div>
+                    <div ng-if="(eventAdding || eventEditing) && addingActivity" layout="row" layout-align="start center">
+                        <input type="checkbox" id="newTaskState" class="checkbox__input controlls-unvisible" ng-model="newTask.State"><label for="newTaskState" class="checkbox__label"></label>
+                        <lx-text-field fixed-label="true" class="new-task">
+                            <input type="text" name="newTask" ng-model="newTask.Name" ng-maxlength="100"/>
+                        </lx-text-field>
+                        <button class="btn btn--xs btn--green btn--fab" ng-click="addActivity()" lx-ripple>OK</button>
+                    </div>
+                    <div ng-if="(eventAdding || eventEditing) && !addingActivity"><button class="btn btn--m btn--blue btn--icon" ng-click="createActivity()" lx-ripple><i class="mdi mdi-plus"></i></button></div>
+                </div>
+                <div class="dialog-buttons" layout="row" layout-align="space-around center">
+                    <div ng-if="eventAdding || eventEditing">
+                        <button class="btn btn--m btn--blue btn--flat" ng-click="save()" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
+                    </div>
+                    <div ng-if="!eventAdding && !eventEditing">
+                        <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
+                    </div>
+                    <div ng-if="eventAdding || eventEditing">
+                        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="cancel('todo')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </lx-dialog>
 </div>
