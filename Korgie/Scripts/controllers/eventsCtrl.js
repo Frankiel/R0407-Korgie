@@ -350,6 +350,17 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         crudEvent(id);
     };
 
+    $scope.deleteTodo = function (id) {
+        $http({
+            url: '/Event/DeleteTodo',
+            method: "GET",
+            params: {
+                id: id
+            }
+        });
+        crudTodo(id);
+    };
+
     var crudEvent = function (oldEventId, newEvent) {
         var date, d;
         // Adding
@@ -505,7 +516,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             url: '/Event/SaveTodo',
             method: "GET",
             params: {
-                TodoId: $scope.todoToEdit.EventId || -1,
+                TodoId: $scope.todoToEdit.TodoId || -1,
                 Title: $scope.todoToEdit.Title,
                 Start: $scope.todoToEdit.Start,
                 Color: $scope.todoToEdit.Color,
@@ -541,7 +552,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.todoToSave = event;
         $scope.eventToEdit = event;
         $scope.todoToEdit = event;
-        console.log($scope.todoToEdit.TodoId);
         LxDialogService.open(dialogName);
     };
 

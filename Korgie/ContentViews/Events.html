@@ -49,7 +49,7 @@
                 <div class="detailed-todo card" ng-repeat="todo in dayToShow.todos">
                     <div ng-click="openDialog('todo', todo)">
                         <div class="day-mode-delete">
-                            <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(todo.TodoId, true)"><i class="mdi mdi-delete"></i></button>
+                            <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteTodo(todo.TodoId)"><i class="mdi mdi-delete"></i></button>
                         </div>
                         <div class="type" layout="row" layout-align="start center">
                             <div style="background-color: {{todo.Color}}" class="day-todo-color"></div>
@@ -328,7 +328,7 @@
                 <div ng-if="!eventAdding && !eventEditing">
                     <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
-                <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(todoToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>
+                <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteTodo(todoToSave.TodoId); closingDialog('todo')"><i class="mdi mdi-delete"></i></button>
             </div>
             <div class="center-div">
                 <div class="display-block event-title" ng-if="!eventAdding && !eventEditing">
