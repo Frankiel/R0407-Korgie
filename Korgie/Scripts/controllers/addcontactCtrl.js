@@ -1,6 +1,6 @@
 ﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService) {
-
-    $scope.email1;
+    console.log('addcontactCtrl');
+    $scope.email1 = 'dfgdsgfsdgfsd';
     $scope.email2;
 
     function addContact(contactEmail) { //продублировать в ивентс контроллер!
@@ -15,6 +15,11 @@
         }, function errorCallback(response) {
             LxDialogService.open('add_failed');
         });
+    }
+
+    function openDialog(email, window) {
+        $scope.email1 = email;
+        LxDialogService.open(window);
     }
 
     function getContacts() {
@@ -32,7 +37,7 @@
 
     $(document).off("click", ".add-contact").on("click", ".add-contact", function () {
         addContact($scope.email1);
-        $scope.email1='';
+        console.log($scope.email1);
     });
 
 });

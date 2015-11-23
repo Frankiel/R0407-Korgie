@@ -2,34 +2,31 @@
 @{
     ViewBag.Title = "Register";
 }
-<h3>Associate your @ViewBag.LoginProvider account.</h3>
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
+<div layout="row" layout-align="center center" style="width:100%;height:85%">
+    <div style="width:600px;text-align:center; padding:15px 15px 0px 15px" class="card bgc-light-blue-50">
+        @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
 
-    <h4>Association Form</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <p class="text-info">
-        You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
-        Please enter a user name for this site below and click the Register button to finish
-        logging in.
-    </p>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
-        </div>
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
-        </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <span class="fs-title display-block tc-blue-900">Enter your Name to complete registration!</span>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label login-conf-name-label tc-blue-800" })
+                <div class="col-md-10" style="margin-top:10px;margin-bottom:10px;">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control login-conf-textbox" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label tc-blue-800" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control login-conf-textbox", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group" style="text-align:center">
+                <input type="submit" class="btn btn--s btn--blue btn--raised" value="Register"/>
+            </div>
+        }
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+</div>

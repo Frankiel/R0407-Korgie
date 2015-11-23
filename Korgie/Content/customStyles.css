@@ -6,6 +6,15 @@
 
 /* Login */
 
+.login-conf-name-label{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.login-conf-textbox{
+    width:95% !important;
+}
+
 .background-image {
     /*background: url(../img/header-bg.jpg) center top no-repeat;*/
     min-height: 100%;
