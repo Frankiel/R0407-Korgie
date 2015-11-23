@@ -57,15 +57,15 @@ E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail and U.PrimaryEmail=@Emai
 TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", week, year);
             return new JavaScriptSerializer().Serialize(todoStub);
         }
-        public void SaveTodo(Todo _todo)
+        public void SaveTodo(int TodoId, string Title, DateTime Start, string Color, string Description, bool[] States, string[] Tasks)
         {
-            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo WHERE Todoid=@Value1", _todo.TodoId);
+            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo WHERE Todoid=@Value1", TodoId);
             using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
             {
                 string resulttasks = "";
-                for (int i = 0; i < _todo.Tasks.Count; i++)
+                for (int i = 0; i < Tasks.Length; i++)
                 {
-                    resulttasks += _todo.Tasks[i].Name + "~" + _todo.Tasks[i].State + "|";
+                    resulttasks += Tasks[i] + "~" + States[i] + "|";
                 }
 
                 if (todoStub.Length == 0)
@@ -73,10 +73,10 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     //string sql = string.Format(@"INSERT INTO Events VALUES ('{0}',{1},'{2}','{3}','{4}','{5}','{6}')", _event.Title, _event.Start, _event.Type, 
                     //    _event.Description, _event.Period, _event.Days, _event.Tags);
                     var cmd = new SqlCommand(@"INSERT INTO ToDo VALUES (@Title,@Start,@Color,@Description,@Tasks)", conn);
-                    cmd.Parameters.AddWithValue("@Title", _todo.Title);
-                    cmd.Parameters.AddWithValue("@Start", _todo.Start);
-                    cmd.Parameters.AddWithValue("@Color", _todo.Color);
-                    cmd.Parameters.AddWithValue("@Description", _todo.Description);
+                    cmd.Parameters.AddWithValue("@Title", Title);
+                    cmd.Parameters.AddWithValue("@Start", Start);
+                    cmd.Parameters.AddWithValue("@Color", Color);
+                    cmd.Parameters.AddWithValue("@Description", Description);
                     cmd.Parameters.AddWithValue("@Tasks", resulttasks);
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -89,11 +89,11 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     //string sql = string.Format(@"UPDATE Events Title=@Title, Start=@Start, Type=@Type, Description=@Description, Period=@Period, Days=@Days, Tags=@Tags WHERE EventId='{0}'",_event.EventId,
                     //    _event.Title,_event.Start,_event.Type,_event.Description,_event.Period,_event.Days,_event.Tags);
                     var cmd = new SqlCommand(@"UPDATE ToDo SET Title=@Title, Start=@Start, Color=@Color, Description=@Description, Tasks=@Tasks WHERE Todoid=@Todoid", conn);
-                    cmd.Parameters.AddWithValue("@Todoid", _todo.TodoId);
-                    cmd.Parameters.AddWithValue("@Title", _todo.Title);
-                    cmd.Parameters.AddWithValue("@Start", _todo.Start);
-                    cmd.Parameters.AddWithValue("@Color", _todo.Color);
-                    cmd.Parameters.AddWithValue("@Description", _todo.Description);
+                    cmd.Parameters.AddWithValue("@Todoid", TodoId);
+                    cmd.Parameters.AddWithValue("@Title", Title);
+                    cmd.Parameters.AddWithValue("@Start", Start);
+                    cmd.Parameters.AddWithValue("@Color", Color);
+                    cmd.Parameters.AddWithValue("@Description", Description);
                     cmd.Parameters.AddWithValue("@Tasks", resulttasks);
                     conn.Open();
                     cmd.ExecuteNonQuery();

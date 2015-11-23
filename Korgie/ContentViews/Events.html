@@ -308,7 +308,7 @@
                 </div>
                 <div layout="row" layout-align="space-around center">
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" ng-click="save()" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
+                        <button class="btn btn--m btn--blue btn--flat" ng-click="save('event')" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
                     </div>
                     <div ng-if="!eventAdding && !eventEditing">
                         <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
@@ -395,7 +395,7 @@
                 </div>
                 <div class="dialog-buttons" layout="row" layout-align="space-around center">
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" ng-click="save()" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
+                        <button class="btn btn--m btn--blue btn--flat" ng-click="save('todo')" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
                     </div>
                     <div ng-if="!eventAdding && !eventEditing">
                         <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>

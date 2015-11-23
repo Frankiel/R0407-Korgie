@@ -4,7 +4,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
-    var events, todos;
+    var events = [], todos = [];
     $scope.monthDays;
     $scope.dayToShow;
 
@@ -210,11 +210,24 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Tags: element.Tags
             });
         });
-        /*todoData.forEach(function (element) {
+        todoData.forEach(function (element) {
+            var tasks = [];
+            element.Tasks.forEach(function (task, i) {
+                tasks.push({ Id: i, State: task.State, Name: task.Name });
+            });
+            todoResult.push({
+                TodoId: element.TodoId,
+                Title: element.Title,
+                Start: new Date(new Date(parseInt(element.Start.substr(6)))),
+                Color: element.Color,
+                Description: element.Description,
+                Tasks: tasks
+            });
+        });
+        events = eventResult;
+        todos = todoResult;
 
-        });*/
-
-        deferred.resolve(eventResult, todoResult);
+        deferred.resolve();
         return deferred.promise;
     };
 
@@ -228,17 +241,15 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 year: $scope.year
             }
             $http.get(method, { params: param }).then(function successCallback(eventResponse) {
-                //$http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
-                setTimeout(function () {
-                    convertEvents(eventResponse.data/*, todoResponse.data*/).then(function (_events, _todos) {
-                        events = _events;
-                        todos = todo_stub;
-                        $scope.monthDays = getMonthDays();
-                    })
-                }, 200);
-                /*}, function errorCallback(response) {
+                $http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
+                    setTimeout(function () {
+                        convertEvents(eventResponse.data, todoResponse.data).then(function () {
+                            $scope.monthDays = getMonthDays();
+                        })
+                    }, 300);
+                }, function errorCallback(response) {
                     console.log('getting todos failed');
-                });*/
+                });
             }, function errorCallback(response) {
                 console.log('getting events failed');
             });
@@ -490,7 +501,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
-        /*$http({
+        $http({
             url: '/Event/SaveTodo',
             method: "GET",
             params: {
@@ -506,7 +517,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                     return task.Name;
                 })
             }
-        });*/
+        });
     };
 
     $scope.openDialog = function (dialogName, event) {
@@ -530,6 +541,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.todoToSave = event;
         $scope.eventToEdit = event;
         $scope.todoToEdit = event;
+        console.log($scope.todoToEdit.TodoId);
         LxDialogService.open(dialogName);
     };
 
