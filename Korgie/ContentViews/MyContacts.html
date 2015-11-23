@@ -4,38 +4,54 @@
             <div layout="row">
                 <div flex="auto"></div>
                 <div>
-                    <button class="btn btn--xs btn--blue btn--icon" lx-ripple><i class="mdi mdi-delete"></i></button>
+                    <button class="btn btn--xs btn--red btn--icon delete" email="{{contact.PrimaryEmail}}" name="{{contact.Name}}" lx-ripple><i class="mdi mdi-delete"></i></button>
                 </div>
             </div>
             <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column">
-                <div>
+
                     <div class="contact-avatar"></div>
-                </div>
-                <div>
-                    <div layout="column">
-                        <div layout="row" layout-sm="column">
+
+                    <div layout="column" style="width:60%">
+                        <div layout="row" layout-sm="row">
                             <div flex="30">Name: </div>
-                            <div flex="70">{{contact.name}}</div>
+                            <div flex="70">{{contact.Name}}</div>
                         </div>
-                        <div layout="row" layout-sm="column">
+                        <div layout="row" layout-sm="row">
                             <div flex="30">Email: </div>
-                            <div flex="70">{{contact.primaryEmail}}</div>
+                            <div flex="70">{{contact.PrimaryEmail}}</div>
                         </div>
-                        <div layout="row" layout-sm="column">
+                        <div layout="row" layout-sm="row">
                             <div flex="30">Phone: </div>
-                            <div flex="70">{{contact.phone}}</div>
+                            <div flex="70">{{contact.Phone}}</div>
                         </div>
-                        <div layout="row" layout-sm="column">
+                        <div layout="row" layout-sm="row">
                             <div flex="30">Country: </div>
-                            <div flex="70">{{contact.country}}</div>
+                            <div flex="70">{{contact.Country}}</div>
                         </div>
-                        <div layout="row" layout-sm="column">
+                        <div layout="row" layout-sm="row">
                             <div flex="30">City: </div>
-                            <div flex="70">{{contact.city}}</div>
+                            <div flex="70">{{contact.City}}</div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:calc(50%-200px) !important; top:30% !important;" id="delete" auto-close="true"><!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    Do you want to delete
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    {{nameToDelete}} ?
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--green btn--raised yes" lx-ripple>Yes</button>
+            <button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+        </div>
+    </lx-dialog>
 </div>

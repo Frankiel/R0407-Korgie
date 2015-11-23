@@ -11,6 +11,10 @@
     this.additional;
     this.rest;
 
+    this.contacts;
+
+    this.requests;
+
     this.getTypes = function (events) {
         var result = [];
         events.forEach(function (event) {

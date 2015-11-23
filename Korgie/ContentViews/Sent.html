@@ -1,17 +1,17 @@
 ﻿<div layout="row" layout-wrap layout-align="space-around center" layout-lg="column" layout-md="column" layout-sm="column" class="contacts-block">
-    <div flex="45" class="card sent-card" ng-repeat="contact in contacts" flex-lg="60" flex-md="70" flex-sm="90">
+    <div flex="45" class="card sent-card" ng-repeat="request in requests" flex-lg="60" flex-md="70" flex-sm="90">
         <div layout="column" layout-align="space-around center" class="sent-card-info">
             <div>
-                You sent a request to
+                <span class="fs-body-2 display-block tc-black-1">You sent a request to</span>
             </div>
             <div>
                 <div>
-                    {{contact.name}} ({{contact.primaryEmail}})
+                    <span class="fs-subhead display-block tc-indigo-900">{{request.NameTo}} ({{request.To}})</span>
                 </div>
             </div>
             <div>
                 <div>
-                    Request Rejected
+                    <span ng-attr-class="{{request.State == "Sent" ? 'fs-subhead display-block tc-blue-500' : 'fs-subhead display-block tc-red-500'}}" ><b>{{request.State}}</b></span>
                 </div>
             </div>
         </div>

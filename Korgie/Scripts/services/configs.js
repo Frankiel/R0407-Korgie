@@ -1,6 +1,7 @@
 ﻿korgie.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/Events');
+    $urlRouterProvider.when("/Contacts", "/Contacts/MyContacts");
 
     $stateProvider
 
@@ -33,7 +34,9 @@
         .state('contacts.addcontact', {
             url: '/AddContact',
             templateUrl: '../../ContentViews/AddContact.html',
+            controller: 'addcontactCtrl'
         })
+
         .state('contacts.sent', {
             url: '/Sent',
             templateUrl: '../../ContentViews/Sent.html',

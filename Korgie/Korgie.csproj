@@ -163,6 +163,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\controllers\addcontactCtrl.js" />
     <Content Include="Scripts\controllers\contactsCtrl.js" />
     <Content Include="Scripts\controllers\eventsCtrl.js" />
     <Content Include="Scripts\controllers\homeCtrl.js" />
@@ -739,6 +740,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainContext.cs" />
+    <Compile Include="Models\Tasks.cs" />
     <Compile Include="Models\Todo.cs" />
     <Compile Include="Models\Type.cs" />
     <Compile Include="Models\User.cs" />

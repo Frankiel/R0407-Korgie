@@ -1,18 +1,54 @@
 ﻿<div layout="column" layout-align="space-around center">
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
         <div class="add-contact-card-search">
-            <lx-text-field label="Enter email">
-                <input type="text" ng-model="textFields.lastName">
+            <lx-text-field label="Enter email" >
+                <input type="text" ng-model="email1">
             </lx-text-field>
         </div>
-        <button class="btn btn--m btn--blue btn--flat" lx-ripple>Add contact</button>
+        <button class="btn btn--m btn--blue btn--flat add-contact" lx-ripple>Add contact</button>
     </div>
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
         <div class="add-contact-card-search">
             <lx-text-field label="Enter email">
-                <input type="text" ng-model="textFields.lastName" disabled>
+                <input type="text" ng-model="email2" disabled>
             </lx-text-field>
         </div>
-        <button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Invite to the app</button>
+        <button class="btn btn--m btn--blue btn--flat" id="invite-contact" lx-ripple disabled>Invite to the app</button>
     </div>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:calc(50%-200px) !important; top:30% !important;" id="add_ok" auto-close="true">
+        <!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    You added
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    {{$scope.email1}}
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    to contacts!
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--green btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:calc(50%-200px) !important; top:30% !important;" id="add_failed" auto-close="true">
+        <!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    Adding failed =(
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
 </div>
