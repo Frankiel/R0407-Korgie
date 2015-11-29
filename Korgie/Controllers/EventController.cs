@@ -141,7 +141,8 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     var cmd2 = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@Id", conn);
                     cmd2.Parameters.AddWithValue("@Id", EventId);
                     cmd2.ExecuteNonQuery();
-                    var cmd3 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
+                    var cmd3 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,@Id)", conn);
+                    cmd3.Parameters.AddWithValue("@Id", EventId);
                     for (int i = 0; i < attached.Length; i++)
                     {
                         cmd3.Parameters.AddWithValue("@Email", attached[i].PrimaryEmail);
