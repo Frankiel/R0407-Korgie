@@ -2,8 +2,6 @@
 
 korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter, $state) {
 
-    console.log($state.current.name);
-
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();
@@ -137,7 +135,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     };
 
     function getProfileInfo() {
-        var param, method;
+        var method;
         method = '/Event/GetProfileInfo';
         $http.get(method).then(function successCallback(response) {
             catchProfileInfo(response.data);
@@ -547,7 +545,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Start: new Date($scope.dayToShow.year, $scope.dayToShow.month, $scope.dayToShow.day, 0, 0),
                 Period: 0,
                 Color: '#2196f3',
-                Tasks: []
+                Tasks: [],
+                Contacts: []
             }
             setTimeout(function () {
                 $scope.showHideControlls()
@@ -556,10 +555,20 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $scope.eventAdding = false;
             $scope.eventEditing = false;
         }
-        $scope.eventToSave = event;
-        $scope.todoToSave = event;
-        $scope.eventToEdit = event;
-        $scope.todoToEdit = event;
+        if (dialogName == 'event') {
+            $scope.eventToSave = event;
+            $scope.eventToEdit = event;
+            var method = '/Event/GetEventContacts',
+                param = { id: event.EventId };
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                console.log(response);
+            }, function errorCallback(response) {
+                console.log('getProfileInfo failed from eventsCtrl');
+            });
+        } else {
+            $scope.todoToSave = event;
+            $scope.todoToEdit = event;
+        }
         LxDialogService.open(dialogName);
     };
 
