@@ -7,7 +7,7 @@
     korgieApi.setCurState('contacts.mycontacts');
 
     function getContacts() {
-        var param, method;
+        var method;
         method = '/Event/GetContacts';
         $http.get(method).then(function successCallback(response) {
             catchContacts(response.data);

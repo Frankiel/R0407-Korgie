@@ -4,6 +4,12 @@
     background-color:#FEFFFF
 }
 
+.lx-select__choices {
+   display: block !important;
+   top: calc(100% - 350px) !important;
+   min-height: 250px;
+}
+
 /* Login */
 
 .login-conf-name-label{
@@ -341,7 +347,7 @@
 
 /* event & todo dialogs */
 
-#test {
+#event, #todo {
     max-height: calc(100vh - 60px);
     overflow: auto;
 }
@@ -350,6 +356,10 @@
     margin : 10%;
     font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
     font-size: medium;
+}
+
+.event .scrolling {
+    max-height: 90%;
 }
 
 .event p {
@@ -433,6 +443,28 @@
     margin-top: 15px;
 }
 
+.event .contacts {
+    max-height: 90px;
+    width: 100%;
+}
+
+.event .event-contacts {
+    float: left;
+    padding: 5px;
+    margin: 0px 4% 10px 0px;
+    width: 29%;
+}
+
+.event .event-contacts > * {
+    font-size: 14px;
+    max-height: 20px;
+    overflow: hidden;
+}
+
+.event .event-contacts-edit {
+    margin-top: -35px;
+}
+
 .event .checkboxes > *:nth-child(2n) {
     display: inline-block;
 }
@@ -464,6 +496,11 @@
 .dialog-buttons {
     margin-top: 15px;
 }
+/*
+.dialog-choices {
+    display: block !important;
+    background-color: yellow;
+}*/
 
 @media (max-width: 310px) {
     .detailed-event, .detailed-todo {
@@ -750,7 +787,7 @@
 
 @media (min-width: 1024px) {
     .scrollbar-container {
-        position: fixed !important;
+        /*position: fixed !important;*/
         overflow: auto !important;
     }
 }

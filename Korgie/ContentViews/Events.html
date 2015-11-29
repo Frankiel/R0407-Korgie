@@ -176,7 +176,7 @@
     <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
-                <div ng-if="!eventAdding && !eventEditing">
+                <div ng-if="!eventAdding && !eventEditing && eventToSave.Owner == myPrimaryEmail">
                     <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
                 <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(eventToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>
@@ -226,13 +226,6 @@
                                     <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Additional" lx-ripple>Additional</button>
                                 </div>
                             </div>
-
-                            <!--<select class="controlls-unvisible" ng-model="eventToSave.Type">
-                                <option value="sport">Sport</option>
-                                <option value="work">Work</option>
-                                <option value="study">Study</option>
-                                <option value="rest">Rest</option>
-                        </select>-->
                         </div>
                     </div>
                     <div>
@@ -293,20 +286,30 @@
                         <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Tags}}</div>
                         <textarea ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags"></textarea>
                     </div>
-                    <div class="column2">
-                        <p>Contacts:</p>
-                        <!--lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
-                            <lx-select-selected>
-                                {{ $selected.name }} - {{ $selected.age }}
-                            </lx-select-selected>
+                        <p>Contacts: </p><span ng-if="!eventAdding && !eventEditing && eventToEdit.Contacts.length == 0"> -</span>
+                    <div class="contacts" lx-scrollbar>
+                        <div ng-if="!eventAdding && !eventEditing" ng-repeat="contact in eventToSave.Contacts" class="card event-contacts">
+                            <div>
+                                {{contact.Name}}
+                            </div>
+                            <div>
+                                {{contact.PrimaryEmail}}
+                            </div>
+                        </div>
+                        <div ng-if="eventAdding || eventEditing" class="event-contacts-edit">
+                            <lx-select ng-model="eventToEdit.Contacts" placeholder="Choose people to share event" choices="contacts" multiple floating-label>
+                                <lx-select-selected>
+                                    {{ $selected.Name }}
+                                </lx-select-selected>
 
-                            <lx-select-choices>
-                                {{ $choice.email }}
-                            </lx-select-choices>
-                        </lx-select-->
+                                <lx-select-choices class="dialog-choices">
+                                    {{ $choice.Name }} - {{ $choice.PrimaryEmail }}
+                                </lx-select-choices>
+                            </lx-select>
+                        </div>
                     </div>
                 </div>
-                <div layout="row" layout-align="space-around center">
+                <div layout="row" layout-align="space-around center" class="">
                     <div ng-if="eventAdding || eventEditing">
                         <button class="btn btn--m btn--blue btn--flat" ng-click="save('event')" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
                     </div>
