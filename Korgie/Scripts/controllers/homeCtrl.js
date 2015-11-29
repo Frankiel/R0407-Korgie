@@ -3,7 +3,8 @@
     //if (korgieApi.state == '')
     //    korgieApi.state = $state.current.name;
     //console.log(korgieApi.state);
-    //console.log($state.current.name);
+    setTimeout(function () { console.log($state.current.name);}, 200);
+
     //$('[ui-sref]').click(function () {
     //    $('.header').removeClass('opened-menu');
     //    $('.content').removeClass('opened-menu');

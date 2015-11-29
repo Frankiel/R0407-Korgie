@@ -7,7 +7,12 @@
     this.city;
 
     this.types;
-
+    this.currentstate = [{ state: 'events', isActive: false },
+                            { state: 'settings', isActive: false },
+                            { state: 'contacts.mycontacts', isActive: false },
+                            { state: 'contacts.addcontact', isActive: false },
+                            { state: 'contacts.sent', isActive: false },
+                            { state: 'contacts.recieved', isActive: false }, ];
     this.contacts;
 
     this.requestsSent;

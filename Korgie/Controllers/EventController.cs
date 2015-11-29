@@ -292,7 +292,6 @@ UserContacts UC WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.Pr
         }
         public string GetRequest() //Rejected and Send
         {
-            AcceptRequest("maria97.55ua@gmail.com");
             return new JavaScriptSerializer().Serialize(GetRequestsUni(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
 WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND (State='Sent' OR State='Rejected')"));
         }

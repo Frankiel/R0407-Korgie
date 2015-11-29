@@ -1,6 +1,8 @@
-﻿korgie.controller('sentCtrl', function ($scope, $http, korgieApi) {
+﻿korgie.controller('sentCtrl', function ($scope, $http, korgieApi, $state) {
 
     $scope.requestsSent;
+
+    console.log($state.current.name);
 
     function getRequests() {
         var param, method;

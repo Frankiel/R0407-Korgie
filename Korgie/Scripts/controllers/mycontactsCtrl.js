@@ -1,8 +1,10 @@
-﻿korgie.controller('mycontactsCtrl', function ($scope, $http, korgieApi, LxDialogService) {
+﻿korgie.controller('mycontactsCtrl', function ($scope, $http, korgieApi, LxDialogService, $state) {
 
     $scope.contacts;
     $scope.nameToDelete;
     $scope.emailToDelete;
+
+    console.log($state.current.name);
 
     function getContacts() {
         var param, method;
