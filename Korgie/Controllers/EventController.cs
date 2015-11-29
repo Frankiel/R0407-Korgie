@@ -63,9 +63,12 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             using (var conn = new SqlConnection(_connection))
             {
                 string resulttasks = "";
-                for (int i = 0; i < Tasks.Length; i++)
+                if (Tasks != null)
                 {
-                    resulttasks += Tasks[i] + "~" + States[i] + "|";
+                    for (int i = 0; i < Tasks.Length; i++)
+                    {
+                        resulttasks += Tasks[i] + "~" + States[i] + "|";
+                    }
                 }
 
                 if (todoStub.Length == 0)
@@ -104,7 +107,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             {
                 if (eventsStub.Length == 0)
                 {
-                    var cmd = new SqlCommand(@"INSERT INTO EVENTS VALUES (@Title,@Start,@Type,@Description,@Period,@Days,@Tags)", conn);
+                    var cmd = new SqlCommand(@"INSERT INTO EVENTS VALUES (@Title,@Start,@Type,@Description,@Period,@Days,@Tags,@Owner)", conn);
                     cmd.Parameters.AddWithValue("@Title", Title);
                     cmd.Parameters.AddWithValue("@Start", Start);
                     cmd.Parameters.AddWithValue("@Type", Type);
@@ -112,6 +115,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd.Parameters.AddWithValue("@Period", Period);
                     cmd.Parameters.AddWithValue("@Days", Days);
                     cmd.Parameters.AddWithValue("@Tags", Tags);
+                    cmd.Parameters.AddWithValue("@Owner", Request.Cookies["Preferences"]["Email"]);
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
@@ -136,11 +140,29 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
         }
         public void DeleteEvents(int id)
         {
-            Delete_Todo_Events_UNI(@"DELETE FROM UserEvents WHERE EventId=@Id AND PrimaryEmail=@Email", @"DELETE FROM Events WHERE EventId=@Id", id);
+            using (var conn = new SqlConnection(_connection))
+            {
+                conn.Open();
+                Event[] temp = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Id",0,0,id);
+                if (temp[0].Owner != Request.Cookies["Preferences"]["Email"])
+                {
+                    var sqlcom = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@Id AND PrimaryEmail=@Email", conn);
+                    sqlcom.Parameters.AddWithValue("@Id", id);
+                    sqlcom.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                    sqlcom.ExecuteNonQuery();
+                    return;
+                }
+                var cmd = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@Id", conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.ExecuteNonQuery();
+                var cmd2 = new SqlCommand(@"DELETE FROM Events WHERE EventId=@Id", conn);
+                cmd2.Parameters.AddWithValue("@Id", id);
+                cmd2.ExecuteNonQuery();
+            }
         }
         public void DeleteTodo(int id)
         {
-            Delete_Todo_Events_UNI(@"DELETE FROM UserTodo WHERE TodoId=@Id AND PrimaryEmail=@Email", @"DELETE FROM ToDo WHERE Todoid=@Todoid", id);
+            Delete_Todo_Events_UNI(@"DELETE FROM UserTodo WHERE TodoId=@Id AND PrimaryEmail=@Email", @"DELETE FROM ToDo WHERE Todoid=@Id", id);
         }
         public void Delete_Todo_Events_UNI(string sqlcom,string sqlcom2,int id)
         {
@@ -156,13 +178,14 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 cmd2.ExecuteNonQuery();
             }
         }
-        private Event[] GetEventsUNI(string sqlcommand, int value1 = 0, int value2 = 0)
+        private Event[] GetEventsUNI(string sqlcommand, int value1 = 0, int value2 = 0, int id = 0)
         {
             List<Event> events = new List<Event>();
             using (var conn = new SqlConnection(_connection))
             {
                 var cmd = new SqlCommand(sqlcommand, conn);
                 conn.Open();
+                cmd.Parameters.AddWithValue("@Id", id);
                 cmd.Parameters.AddWithValue("@Value1", value1);
                 cmd.Parameters.AddWithValue("@Value2", value2);
                 cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
@@ -170,7 +193,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 {
                     while (dr.Read())
                     {
-                        events.Add(new Event(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), dr.GetInt32(5), dr.GetString(7)));
+                        events.Add(new Event(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), dr.GetInt32(5), dr.GetString(7),dr.GetString(8)));
                     }
                 }
             }
@@ -269,11 +292,46 @@ UserContacts UC WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.Pr
         }
         public string GetRequest() //Rejected and Send
         {
+            AcceptRequest("maria97.55ua@gmail.com");
+            return new JavaScriptSerializer().Serialize(GetRequestsUni(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
+WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND (State='Sent' OR State='Rejected')"));
+        }
+        public void AcceptRequest(string emailcontact)
+        {
+            Accept_Reject_Contacts(@"UPDATE UserContacts SET State='Accepted' WHERE PrimaryEmailUser=@Email AND PrimaryEmailContact=@Contact", @"UPDATE UserContacts
+SET State='Accepted' WHERE PrimaryEmailUser=@Contact AND PrimaryEmailContact=@Email", emailcontact);
+        }
+        public void RejectRequest(string emailcontact)
+        {
+            Accept_Reject_Contacts(@"UPDATE UserContacts SET State='Rejected' WHERE PrimaryEmailUser=@Email AND PrimaryEmailContact=@Contact",@"UPDATE UserContacts
+SET State='Rejected' WHERE PrimaryEmailUser=@Contact AND PrimaryEmailContact=@Email",emailcontact);
+        }
+        private void Accept_Reject_Contacts(string sqlcom,string sqlcom2,string contact)
+        {
+            using (var conn = new SqlConnection(_connection))
+            {
+                var cmd = new SqlCommand(sqlcom, conn);
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                cmd.Parameters.AddWithValue("@Contact", contact);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                var cmd2 = new SqlCommand(sqlcom2, conn);
+                cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                cmd2.Parameters.AddWithValue("@Contact", contact);
+                cmd2.ExecuteNonQuery();
+            }
+        }
+        public string GetMyRequests()
+        {
+            return new JavaScriptSerializer().Serialize(GetRequestsUni(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC
+WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND State='Sent'"));
+        }
+        private Contact[] GetRequestsUni(string sqlcom)
+        {
             List<Contact> contacts = new List<Contact>();
             using (var conn = new SqlConnection(_connection))
             {
-                var cmd = new SqlCommand(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
-WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND (State='Sent' OR State='Rejected')", conn);
+                var cmd = new SqlCommand(sqlcom, conn);
                 conn.Open();
                 cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
@@ -284,7 +342,7 @@ WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND (
                     }
                 }
             }
-            return new JavaScriptSerializer().Serialize(contacts.ToArray());
+            return contacts.ToArray();
         }
         public void AddContact(string email)
         {
