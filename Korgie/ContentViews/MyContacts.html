@@ -4,7 +4,7 @@
             <div layout="row">
                 <div flex="auto"></div>
                 <div>
-                    <button class="btn btn--xs btn--red btn--icon delete" email="{{contact.PrimaryEmail}}" name="{{contact.Name}}" lx-ripple><i class="mdi mdi-delete"></i></button>
+                    <button class="btn btn--xs btn--red btn--icon" email="{{contact.PrimaryEmail}}" name="{{contact.Name}}" lx-ripple ng-click="delete($event)"><i class="mdi mdi-delete"></i></button>
                 </div>
             </div>
             <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:45% !important; top:30% !important;" id="delete" auto-close="true"><!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; top:30% !important; margin-left:-200px" id="delete" auto-close="true"><!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
                 <span class="toolbar__label tc-black fs-title">
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
-            <button class="btn btn--m btn--green btn--raised yes" lx-ripple>Yes</button>
+            <button class="btn btn--m btn--green btn--raised" lx-ripple ng-click="acceptDeleting($event)">Yes</button>
             <button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
         </div>
     </lx-dialog>

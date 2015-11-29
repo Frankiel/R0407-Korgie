@@ -1,7 +1,8 @@
-﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService) {
-    console.log('addcontactCtrl');
+﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService, $state) {
     $scope.email1;
     $scope.email2;
+
+    console.log($state.current.name);
 
     function addContact(contactEmail) { //продублировать в ивентс контроллер!
         var param, method;
@@ -35,9 +36,8 @@
         korgieApi.contacts = data;
     }
 
-    $(document).off("click", ".add-contact").on("click", ".add-contact", function () {
+    $scope.add = function () {
         addContact($scope.email1);
-        console.log($scope.email1);
-    });
+    }
 
 });

@@ -1,6 +1,9 @@
 ﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
-korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter) {
+korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter, $state) {
+
+    console.log($state.current.name);
+
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();

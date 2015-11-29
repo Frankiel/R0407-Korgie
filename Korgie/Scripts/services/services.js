@@ -5,15 +5,17 @@
     this.phone;
     this.country;
     this.city;
-    this.sport;
-    this.work;
-    this.study;
-    this.additional;
-    this.rest;
 
+    this.types;
+    this.currentstate = [{ state: 'events', isActive: false },
+                            { state: 'settings', isActive: false },
+                            { state: 'contacts.mycontacts', isActive: false },
+                            { state: 'contacts.addcontact', isActive: false },
+                            { state: 'contacts.sent', isActive: false },
+                            { state: 'contacts.recieved', isActive: false }, ];
     this.contacts;
 
-    this.requests;
+    this.requestsSent;
 
     this.getTypes = function (events) {
         var result = [];

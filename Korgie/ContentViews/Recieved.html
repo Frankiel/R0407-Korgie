@@ -1,0 +1,54 @@
+﻿<div layout="row" layout-wrap layout-align="space-around center" layout-lg="column" layout-md="column" layout-sm="column" class="contacts-block">
+    <div flex="45" class="card sent-card" ng-repeat="request in requests" flex-lg="60" flex-md="70" flex-sm="90">
+        <div layout="column" layout-align="space-around center" class="sent-card-info">
+            <div>
+                <span class="fs-subhead display-block tc-indigo-900">{{request.From}}</span>
+            </div>
+            <div>
+                <div>
+                    <span class="fs-body-2 display-block tc-black-1">sent you a request</span>
+                </div>
+            </div>
+            <div class="card__actions" style="width:100%; text-align:center">
+                <button class="btn btn--m btn--green btn--fab" lx-ripple ng-click="accept($index)"><i class="mdi mdi-check"></i></button>
+                <button class="btn btn--m btn--red btn--fab" lx-ripple ng-click="reject($index)"><i class="mdi mdi-close"></i></button>
+            </div>
+        </div>
+    </div>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; top:30% !important; margin-left:-200px" id="accept" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    Do you want to accept the request from
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    {{emailToAccept}} ?
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--green btn--raised" lx-ripple ng-click="accepting()">Yes</button>
+            <button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; top:30% !important; margin-left:-200px" id="reject" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    Do you want to reject the request from
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important">
+                <span class="toolbar__label tc-black fs-title">
+                    {{emailToReject}} ?
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--green btn--raised" lx-ripple ng-click="rejecting()">Yes</button>
+            <button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+        </div>
+    </lx-dialog>
+</div>

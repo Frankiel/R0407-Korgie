@@ -1,10 +1,12 @@
-﻿korgie.controller('sentCtrl', function ($scope, $http, korgieApi) {
+﻿korgie.controller('sentCtrl', function ($scope, $http, korgieApi, $state) {
 
-    $scope.requests;
+    $scope.requestsSent;
+
+    console.log($state.current.name);
 
     function getRequests() {
         var param, method;
-        method = '/Event/GetRequest';
+        method = '/Event/GetRequest'; //GetSentRequests
         $http.get(method).then(function successCallback(response) {
             catchRequests(response.data);
             getRequestsFromKorgieAPI();
@@ -15,11 +17,11 @@
     }
 
     function catchRequests(data) { //продублировать в ивентс контроллер!
-        korgieApi.requests = data;
+        korgieApi.requestsSent = data;
     }
 
     function getRequestsFromKorgieAPI() {
-        $scope.requests = korgieApi.requests;
+        $scope.requests = korgieApi.requestsSent;
     }
 
     getRequests();

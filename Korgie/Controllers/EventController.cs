@@ -100,7 +100,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             }
 
         }
-        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags)
+        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags,User[] attached)
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId);
             using (var conn = new SqlConnection(_connection))
@@ -119,8 +119,11 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
-                    cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
-                    cmd2.ExecuteNonQuery();
+                    for (int i=0;i<attached.Length;i++)
+                    {
+                        cmd2.Parameters.AddWithValue("@Email", attached[i].PrimaryEmail);
+                        cmd2.ExecuteNonQuery();
+                    }
                 }
                 else
                 {
@@ -135,6 +138,16 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd.Parameters.AddWithValue("@Tags", Tags);
                     conn.Open();
                     cmd.ExecuteNonQuery();
+                    var cmd2 = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@Id", conn);
+                    cmd2.Parameters.AddWithValue("@Id", EventId);
+                    cmd2.ExecuteNonQuery();
+                    var cmd3 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,@Id)", conn);
+                    cmd3.Parameters.AddWithValue("@Id", EventId);
+                    for (int i = 0; i < attached.Length; i++)
+                    {
+                        cmd3.Parameters.AddWithValue("@Email", attached[i].PrimaryEmail);
+                        cmd3.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -198,6 +211,25 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 }
             }
             return events.ToArray();
+        }
+        public string GetEventContacts(int id)
+        {
+            List<User> result = new List<User>();
+            using (var conn = new SqlConnection(_connection))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(@"SELECT * FROM Users U, UserEvents UE WHERE U.PrimaryEmail=UE.PrimaryEmail AND UE.UserEventId=@Id", conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        result.Add(new User(dr.GetString(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6).Split(' ').ToList<string>(), dr.GetString(7).Split(' ').ToList<string>(), dr.GetString(8).Split(' ').ToList<string>(),
+                            dr.GetString(9).Split(' ').ToList<string>(), dr.GetString(10).Split(' ').ToList<string>()));
+                    }
+                }
+            }
+            return new JavaScriptSerializer().Serialize(result.ToArray());
         }
         private Todo[] GetTodoUNI(string sqlcommand, int value1 = 0, int value2 = 0)
         {
@@ -292,7 +324,6 @@ UserContacts UC WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.Pr
         }
         public string GetRequest() //Rejected and Send
         {
-            AcceptRequest("maria97.55ua@gmail.com");
             return new JavaScriptSerializer().Serialize(GetRequestsUni(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
 WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND (State='Sent' OR State='Rejected')"));
         }

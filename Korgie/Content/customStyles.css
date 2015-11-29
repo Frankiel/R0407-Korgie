@@ -264,8 +264,12 @@
     height: 100%;
 }
 
-.day-mode-close, .day-mode-delete {
+.day-mode-delete {
     float: right;
+}
+
+.day-mode-close {
+    float: left;
 }
 
 .day-mode-header {

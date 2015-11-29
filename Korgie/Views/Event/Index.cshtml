@@ -11,15 +11,14 @@
             <div class="email">@ViewBag.Email</div>
             <div layout="row" layout-align="end start" layout-align-sm="center center">
                 <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" disabled><i class="mdi mdi-bell-outline"></i></button></div>
-                <div><button id="settings" class="btn btn--m btn--blue btn--icon" lx-ripple type="button" ng-click="openSettings()" ui-sref="settings"><i class="mdi mdi-settings"></i></button></div>
+                <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" ui-sref="settings"><i class="mdi mdi-settings"></i></button></div>
                 <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'"><i class="mdi mdi-logout"></i></button></div>
             </div>
-            <!--Edit signout-button class-->
         </div>
         <div layout="row" layout-sm="column" layout-md="column" layout-align-md="end end">
             <div class="menu" flex="70" flex-order-sm="2" flex-order="1" flex-sm="100" flex-md="100" flex-order-md="2">
                 <ul class="nav">
-                    <li><button id="events" class="btn btn--m btn--blue btn--raised" lx-ripple ng-click="openEvents()" ui-sref="events">Events</button></li>
+                    <li><button class="btn btn--m btn--blue" lx-ripple ui-sref="events" ng-class="{btn--flat:{{}}=='events'}">Events</button></li>
                     <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Notes</button></li>
                     <li><button class="btn btn--m btn--blue btn--flat" lx-ripple ui-sref="contacts">Contacts</button></li>
                     <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Statistics</button></li>
@@ -28,7 +27,7 @@
             <div class="searchfield" flex="30" flex-order-sm="1" flex-order="2" flex-sm="100" flex-md="100" flex-order-md="1">
                 <div flex-item>
                     <lx-text-field label="Search">
-                        <input type="text" ng-model="textFields.lastName" disabled>
+                        <input type="text" ng-model="search" disabled>
                     </lx-text-field>
                 </div>
             </div>
@@ -36,7 +35,7 @@
     </nav>
 </div>
 
-<div ui-view autoscroll="false">
+<div ui-view autoscroll="false" class="div">
     
 </div>
 
