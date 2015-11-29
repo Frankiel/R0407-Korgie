@@ -2,7 +2,7 @@
 
     $scope.requestsSent;
 
-    console.log($state.current.name);
+    korgieApi.setCurState('contacts.sent');
 
     function getRequests() {
         var param, method;

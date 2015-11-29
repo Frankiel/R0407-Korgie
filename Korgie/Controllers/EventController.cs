@@ -276,7 +276,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             using (var conn = new SqlConnection(_connection))
             {
                 var cmd = new SqlCommand(@"SELECT * FROM Users U, 
-UserContacts UC WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Accepted'", conn);
+UserContacts UC WHERE (UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND State='Accepted') OR (UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND State='Accepted')", conn);
                 conn.Open();
                 cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))

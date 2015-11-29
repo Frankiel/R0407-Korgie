@@ -1,7 +1,7 @@
 ﻿korgie.controller('recievedCtrl', function ($scope, $http, korgieApi, LxDialogService, $state) {
     $scope.requests;
 
-    console.log($state.current.name);
+    korgieApi.setCurState('contacts.recieved');
 
     function getRequests() {
         var param, method;

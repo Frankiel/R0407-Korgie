@@ -2,7 +2,7 @@
     $scope.email1;
     $scope.email2;
 
-    console.log($state.current.name);
+    korgieApi.setCurState('contacts.addcontact');
 
     function addContact(contactEmail) { //продублировать в ивентс контроллер!
         var param, method;
