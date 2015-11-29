@@ -226,13 +226,6 @@
                                     <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Additional" lx-ripple>Additional</button>
                                 </div>
                             </div>
-
-                            <!--<select class="controlls-unvisible" ng-model="eventToSave.Type">
-                                <option value="sport">Sport</option>
-                                <option value="work">Work</option>
-                                <option value="study">Study</option>
-                                <option value="rest">Rest</option>
-                        </select>-->
                         </div>
                     </div>
                     <div>
@@ -293,17 +286,24 @@
                         <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Tags}}</div>
                         <textarea ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags"></textarea>
                     </div>
-                    <div class="column2">
+                    <div class="">
                         <p>Contacts:</p>
-                        <!--lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
-                            <lx-select-selected>
-                                {{ $selected.name }} - {{ $selected.age }}
-                            </lx-select-selected>
+                        <div ng-if="!eventAdding && !eventEditing" ng-repeat="contact in eventContacts" class="card">
+                            {{contact.Name}}
+                            {{contact.PrimaryEmail}}
+                            {{contact.Phone}}
+                        </div>
+                        <div ng-if="eventAdding || eventEditing" class="event-contacts-edit">
+                            <lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
+                                <lx-select-selected>
+                                    {{ $selected.name }} - {{ $selected.age }}
+                                </lx-select-selected>
 
-                            <lx-select-choices>
-                                {{ $choice.email }}
-                            </lx-select-choices>
-                        </lx-select-->
+                                <lx-select-choices class="dialog-choices">
+                                    {{ $choice.email }}
+                                </lx-select-choices>
+                            </lx-select>
+                        </div>
                     </div>
                 </div>
                 <div layout="row" layout-align="space-around center">

@@ -8,26 +8,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.monthDays;
     $scope.dayToShow;
 
-    var todo_stub = [{
-        TodoId: 1,
-        Title: '1st todo',
-        Start: new Date(2015, 10, 23),
-        Color: '#2196f3',
-        Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
-        Tasks: [{ Id: 0, Name: '1sjkytgnuytglkjhijnt', State: false },
-            { Id: 1, Name: '2nd', State: true },
-            { Id: 2, Name: '3rd', State: false },
-            { Id: 3, Name: '4th', State: false }]
-    }, {
-        TodoId: 2,
-        Title: '2nd todo',
-        Start: new Date(2015, 10, 23),
-        Color: '#2196f3',
-        Description: 'some_text_some_text_some_text_some_text_some_text_some_text',
-        Tasks: [{ Id: 0, Name: '1sjkytgnuytglkjhijnt', State: false },
-            { Id: 1, Name: '2nd', State: true }]
-    }];
-
     $scope.isWeekMode = false;
     $scope.week;
     $scope.weekDays;
@@ -38,6 +18,20 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.eventToSave;
     $scope.todoToEdit;
     $scope.todoToSave;
+
+    $scope.eventContacts = [{
+        Name: 'Maria Eliseeva',
+        PrimaryEmail: 'maria97.55ua@gmail.com',
+        Phone: '+380963749668'
+    }, {
+        Name: 'Maria Eliseeva',
+        PrimaryEmail: 'maria97.55ua@gmail.com',
+        Phone: '+380963749668'
+    }, {
+        Name: 'Maria Eliseeva',
+        PrimaryEmail: 'maria97.55ua@gmail.com',
+        Phone: '+380963749668'
+    }];
 
     function getMonthDays() {
         var result = [];
@@ -685,6 +679,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     ];
 
     $scope.selects = {
-        selectedPerson: undefined
+        selectedPerson: []
     };
 });

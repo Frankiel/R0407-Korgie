@@ -4,6 +4,10 @@
     background-color:#FEFFFF
 }
 
+.lx-select__choices {
+   display: block !important;
+}
+
 /* Login */
 
 .login-conf-name-label{
@@ -429,6 +433,11 @@
     margin-top: 15px;
 }
 
+.event .event-contacts-edit > * > * {
+    font-size: 12px;
+
+}
+
 .event .checkboxes > *:nth-child(2n) {
     display: inline-block;
 }
@@ -459,6 +468,11 @@
 
 .dialog-buttons {
     margin-top: 15px;
+}
+
+.dialog-choices {
+    display: block !important;
+    background-color: yellow;
 }
 
 @media (max-width: 310px) {
