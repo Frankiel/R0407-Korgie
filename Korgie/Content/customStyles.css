@@ -286,6 +286,7 @@
     margin-bottom: 10px;
     width: 95%;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .day-mode-events > *, .day-mode-todos > * {
