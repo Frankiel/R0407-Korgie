@@ -370,6 +370,7 @@
     font-size: 30px;
     font-weight: 500;
     margin-bottom: 25px;
+    z-index: 1050;
 }
 
 .event textarea {
@@ -408,12 +409,21 @@
     margin-top: -6px;
 }
 
+.event .event-date-edit {
+    z-index: 1050;
+}
+
+.event .lx-date-picker {
+    z-index: 1000 !important;
+}
+
 .event .event-date-edit > * {
     margin-top: -40px;
 }
 
 .event .event-date-edit * {
     display: inline-block;
+    z-index: 1010;
 }
 
 .event .event-time {
@@ -431,6 +441,7 @@
 
 .event .event-notif-edit {
     margin-top: -37px;
+    z-index: 1050;
 }
 
 .event .checkboxes {
