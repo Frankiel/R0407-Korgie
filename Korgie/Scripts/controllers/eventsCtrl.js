@@ -474,6 +474,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.showHideControlls();
         $scope.eventAdding = false;
         $scope.eventEditing = false;
+        $scope.closingDialog(type);
     };
     function saveEvent() {
         var contacts = [korgieApi.primaryEmail];
@@ -494,8 +495,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Tags: $scope.eventToEdit.Tags || '',
                 attached: contacts
             }
-        }).then(function (res) {
-            console.log(res);
         });
         switch ($scope.eventToEdit.Type) {
             case "Sports":
@@ -514,6 +513,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 $scope.eventToEdit.Color = korgieApi.additional[2];
                 break;
         };
+        $scope.eventToEdit.Owner = $scope.myPrimaryEmail;
         crudEvent(!$scope.eventAdding ? $scope.eventToEdit.EventId : -1, $scope.eventToEdit);
         $scope.eventToSave = angular.copy($scope.eventToEdit);
     };
