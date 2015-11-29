@@ -41,6 +41,12 @@
             url: '/Sent',
             templateUrl: '../../ContentViews/Sent.html',
             controller: 'sentCtrl'
+        })
+
+        .state('contacts.recieved', {
+            url: '/Recieved',
+            templateUrl: '../../ContentViews/REcieved.html',
+            controller: 'recievedCtrl'
         });
 
 });

@@ -5,15 +5,12 @@
     this.phone;
     this.country;
     this.city;
-    this.sport;
-    this.work;
-    this.study;
-    this.additional;
-    this.rest;
+
+    this.types;
 
     this.contacts;
 
-    this.requests;
+    this.requestsSent;
 
     this.getTypes = function (events) {
         var result = [];

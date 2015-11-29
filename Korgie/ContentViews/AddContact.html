@@ -5,7 +5,7 @@
                 <input type="text" ng-model="email1">
             </lx-text-field>
         </div>
-        <button class="btn btn--m btn--blue btn--flat add-contact" lx-ripple>Add contact</button>
+        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="add()">Add contact</button>
     </div>
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
         <div class="add-contact-card-search">
@@ -15,7 +15,7 @@
         </div>
         <button class="btn btn--m btn--blue btn--flat" id="invite-contact" lx-ripple disabled>Invite to the app</button>
     </div>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:45% !important; top:30% !important;" id="add_ok" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_ok" auto-close="true">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -37,7 +37,7 @@
             <button class="btn btn--m btn--green btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:calc(50%-200px) !important; top:30% !important;" id="add_failed" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_failed" auto-close="true">
         <!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">

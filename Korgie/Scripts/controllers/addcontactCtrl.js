@@ -1,5 +1,4 @@
 ﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService) {
-    console.log('addcontactCtrl');
     $scope.email1;
     $scope.email2;
 
@@ -35,9 +34,8 @@
         korgieApi.contacts = data;
     }
 
-    $(document).off("click", ".add-contact").on("click", ".add-contact", function () {
+    $scope.add = function () {
         addContact($scope.email1);
-        console.log($scope.email1);
-    });
+    }
 
 });
