@@ -176,7 +176,7 @@
     <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
-                <div ng-if="!eventAdding && !eventEditing">
+                <div ng-if="!eventAdding && !eventEditing && eventToSave.Owner == myPrimaryEmail">
                     <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
                 <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(eventToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>

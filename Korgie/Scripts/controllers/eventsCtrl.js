@@ -24,6 +24,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.eventContacts = [];
 
     $scope.contacts;
+    $scope.myPrimaryEmail;
 
     function getMonthDays() {
         var result = [];
@@ -144,6 +145,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         });
     };
     function catchProfileInfo(data) {
+        $scope.myPrimaryEmail = data.PrimaryEmail;
         korgieApi.name = data.Name;
         korgieApi.primaryEmail = data.PrimaryEmail;
         korgieApi.additionalEmail = data.AdditionalEmail;
@@ -205,7 +207,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Description: element.Description,
                 Period: element.Period,
                 Tags: element.Tags,
-                Contacts: []
+                Contacts: [],
+                Owner: element.Owner
             });
         });
         todoData.forEach(function (element) {
