@@ -100,7 +100,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             }
 
         }
-        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags,string[] attached)
+        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags, string[] attached)
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId);
             using (var conn = new SqlConnection(_connection))
@@ -119,10 +119,11 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
-                    for (int i=0;i<attached.Length;i++)
+                    for (int i = 0; i < attached.Length; i++)
                     {
                         cmd2.Parameters.AddWithValue("@Email", attached[i]);
                         cmd2.ExecuteNonQuery();
+                        cmd2.Parameters.Clear();
                     }
                 }
                 else
@@ -142,11 +143,12 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd2.Parameters.AddWithValue("@Id", EventId);
                     cmd2.ExecuteNonQuery();
                     var cmd3 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,@Id)", conn);
-                    cmd3.Parameters.AddWithValue("@Id", EventId);
                     for (int i = 0; i < attached.Length; i++)
                     {
+                        cmd3.Parameters.AddWithValue("@Id", EventId);
                         cmd3.Parameters.AddWithValue("@Email", attached[i]);
                         cmd3.ExecuteNonQuery();
+                        cmd3.Parameters.Clear();
                     }
                 }
             }
@@ -218,14 +220,17 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             using (var conn = new SqlConnection(_connection))
             {
                 conn.Open();
-                var cmd = new SqlCommand(@"SELECT * FROM Users U, UserEvents UE WHERE U.PrimaryEmail=UE.PrimaryEmail AND UE.UserEventId=@Id", conn);
+                var cmd = new SqlCommand(@"SELECT * FROM Users U, UserEvents UE WHERE U.PrimaryEmail=UE.PrimaryEmail AND UE.EventId=@Id", conn);
                 cmd.Parameters.AddWithValue("@Id", id);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                 {
                     while (dr.Read())
                     {
-                        result.Add(new User(dr.GetString(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6).Split(' ').ToList<string>(), dr.GetString(7).Split(' ').ToList<string>(), dr.GetString(8).Split(' ').ToList<string>(),
+                        if (dr.GetString(0) != Request.Cookies["Preferences"]["Email"])
+                        {
+                            result.Add(new User(dr.GetString(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6).Split(' ').ToList<string>(), dr.GetString(7).Split(' ').ToList<string>(), dr.GetString(8).Split(' ').ToList<string>(),
                             dr.GetString(9).Split(' ').ToList<string>(), dr.GetString(10).Split(' ').ToList<string>()));
+                        }
                     }
                 }
             }

@@ -288,7 +288,7 @@
                     </div>
                         <p>Contacts: </p><span ng-if="!eventAdding && !eventEditing && eventToEdit.Contacts.length == 0"> -</span>
                     <div class="contacts" lx-scrollbar>
-                        <div ng-if="!eventAdding && !eventEditing" ng-repeat="contact in eventContacts" class="card event-contacts">
+                        <div ng-if="!eventAdding && !eventEditing" ng-repeat="contact in eventToSave.Contacts" class="card event-contacts">
                             <div>
                                 {{contact.Name}}
                             </div>

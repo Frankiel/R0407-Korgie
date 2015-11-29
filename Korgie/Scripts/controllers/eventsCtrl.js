@@ -168,7 +168,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         method = '/Event/GetContacts';
         $http.get(method).then(function successCallback(response) {
             $scope.contacts = response.data;
-            console.log($scope.contacts);
         }, function errorCallback(response) {
             console.log('getContacts failed from eventsCtrl');
         });
@@ -477,6 +476,10 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.eventEditing = false;
     };
     function saveEvent() {
+        var contacts = [korgieApi.primaryEmail];
+        for (var i = 0; i < $scope.eventToEdit.Contacts.length; i++) {
+            contacts.push($scope.eventToEdit.Contacts[i].PrimaryEmail);
+        }
         $http({
             url: '/Event/SaveEvents',
             method: "GET",
@@ -488,9 +491,11 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Description: $scope.eventToEdit.Description || '',
                 Period: $scope.eventToEdit.Period || 0,
                 Days: 0,
-                Tags: $scope.eventToEdit.Tags || ''
-                //Contacts: $scope.eventToEdit.Contacts
+                Tags: $scope.eventToEdit.Tags || '',
+                attached: contacts
             }
+        }).then(function (res) {
+            console.log(res);
         });
         switch ($scope.eventToEdit.Type) {
             case "Sports":
@@ -554,17 +559,19 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         } else {
             $scope.eventAdding = false;
             $scope.eventEditing = false;
+            if (dialogName == 'event') {
+                var method = '/Event/GetEventContacts',
+                    param = { id: event.EventId };
+                $http.get(method, { params: param }).then(function successCallback(response) {
+                    $scope.eventToSave.Contacts = response.data;
+                }, function errorCallback(response) {
+                    console.log('getProfileInfo failed from eventsCtrl');
+                });
+            }
         }
         if (dialogName == 'event') {
             $scope.eventToSave = event;
             $scope.eventToEdit = event;
-            var method = '/Event/GetEventContacts',
-                param = { id: event.EventId };
-            $http.get(method, { params: param }).then(function successCallback(response) {
-                console.log(response);
-            }, function errorCallback(response) {
-                console.log('getProfileInfo failed from eventsCtrl');
-            });
         } else {
             $scope.todoToSave = event;
             $scope.todoToEdit = event;
