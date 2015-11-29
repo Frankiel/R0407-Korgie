@@ -100,7 +100,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             }
 
         }
-        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags,User[] attached)
+        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags,string attached)
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId);
             using (var conn = new SqlConnection(_connection))
@@ -121,7 +121,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
                     for (int i=0;i<attached.Length;i++)
                     {
-                        cmd2.Parameters.AddWithValue("@Email", attached[i].PrimaryEmail);
+                        cmd2.Parameters.AddWithValue("@Email", attached[i]);
                         cmd2.ExecuteNonQuery();
                     }
                 }
@@ -145,7 +145,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd3.Parameters.AddWithValue("@Id", EventId);
                     for (int i = 0; i < attached.Length; i++)
                     {
-                        cmd3.Parameters.AddWithValue("@Email", attached[i].PrimaryEmail);
+                        cmd3.Parameters.AddWithValue("@Email", attached[i]);
                         cmd3.ExecuteNonQuery();
                     }
                 }
