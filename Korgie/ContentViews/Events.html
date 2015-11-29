@@ -286,27 +286,30 @@
                         <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Tags}}</div>
                         <textarea ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags"></textarea>
                     </div>
-                    <div class="">
-                        <p>Contacts:</p>
-                        <div ng-if="!eventAdding && !eventEditing" ng-repeat="contact in eventContacts" class="card">
-                            {{contact.Name}}
-                            {{contact.PrimaryEmail}}
-                            {{contact.Phone}}
+                        <p>Contacts: </p><span ng-if="!eventAdding && !eventEditing && eventToEdit.Contacts.length == 0"> -</span>
+                    <div class="contacts" lx-scrollbar>
+                        <div ng-if="!eventAdding && !eventEditing" ng-repeat="contact in eventContacts" class="card event-contacts">
+                            <div>
+                                {{contact.Name}}
+                            </div>
+                            <div>
+                                {{contact.PrimaryEmail}}
+                            </div>
                         </div>
                         <div ng-if="eventAdding || eventEditing" class="event-contacts-edit">
-                            <lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
+                            <lx-select ng-model="eventToEdit.Contacts" placeholder="Choose people to share event" choices="contacts" multiple floating-label>
                                 <lx-select-selected>
-                                    {{ $selected.name }} - {{ $selected.age }}
+                                    {{ $selected.Name }}
                                 </lx-select-selected>
 
                                 <lx-select-choices class="dialog-choices">
-                                    {{ $choice.email }}
+                                    {{ $choice.Name }} - {{ $choice.PrimaryEmail }}
                                 </lx-select-choices>
                             </lx-select>
                         </div>
                     </div>
                 </div>
-                <div layout="row" layout-align="space-around center">
+                <div layout="row" layout-align="space-around center" class="">
                     <div ng-if="eventAdding || eventEditing">
                         <button class="btn btn--m btn--blue btn--flat" ng-click="save('event')" ng-disabled="showingEvent.$invalid" lx-ripple>Save</button>
                     </div>

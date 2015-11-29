@@ -5,7 +5,7 @@
     $scope.emailToDelete;
 
     function getContacts() {
-        var param, method;
+        var method;
         method = '/Event/GetContacts';
         $http.get(method).then(function successCallback(response) {
             catchContacts(response.data);
@@ -13,15 +13,15 @@
         }, function errorCallback(response) {
             console.log('getContacts failed from mycontactsCtrl');
         });
-    }
+    };
 
     function catchContacts(data) {
         korgieApi.contacts = data;
-    }
+    };
 
     function getContactsFromKorgieAPI() {
         $scope.contacts = korgieApi.contacts;
-    }
+    };
 
     function deleteContact(contactEmail) {
         var param, method;
@@ -34,7 +34,7 @@
         }, function errorCallback(response) {
             console.log('contact deleting failed');
         });
-    }
+    };
 
     $(document).off("click", ".delete").on("click", ".delete", function () {
         $scope.nameToDelete = $(this).attr("name");

@@ -19,19 +19,10 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.todoToEdit;
     $scope.todoToSave;
 
-    $scope.eventContacts = [{
-        Name: 'Maria Eliseeva',
-        PrimaryEmail: 'maria97.55ua@gmail.com',
-        Phone: '+380963749668'
-    }, {
-        Name: 'Maria Eliseeva',
-        PrimaryEmail: 'maria97.55ua@gmail.com',
-        Phone: '+380963749668'
-    }, {
-        Name: 'Maria Eliseeva',
-        PrimaryEmail: 'maria97.55ua@gmail.com',
-        Phone: '+380963749668'
-    }];
+    // STUB!
+    $scope.eventContacts = [];
+
+    $scope.contacts;
 
     function getMonthDays() {
         var result = [];
@@ -86,7 +77,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             };
         }
         return result;
-    }
+    };
     function getWeekDays(isNextPrev) {
         var result = [];
         var monday;
@@ -140,7 +131,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.month = result[3].month;
         $scope.year = result[3].year;
         return result;
-    }
+    };
 
     function getProfileInfo() {
         var param, method;
@@ -150,7 +141,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         }, function errorCallback(response) {
             console.log('getProfileInfo failed from eventsCtrl');
         });
-    }
+    };
     function catchProfileInfo(data) {
         korgieApi.name = data.Name;
         korgieApi.primaryEmail = data.PrimaryEmail;
@@ -168,8 +159,20 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             korgieApi.study = data.Study;
         if (data.Additional.length == 3)
             korgieApi.additional = data.Additional;
-    }
+    };
     getProfileInfo();
+
+    function getContacts() {
+        var method;
+        method = '/Event/GetContacts';
+        $http.get(method).then(function successCallback(response) {
+            $scope.contacts = response.data;
+            console.log($scope.contacts);
+        }, function errorCallback(response) {
+            console.log('getContacts failed from eventsCtrl');
+        });
+    };
+    getContacts();
 
     function convertEvents(eventData, todoData) {
         var deferred = $q.defer();
@@ -201,7 +204,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Color: color[2],
                 Description: element.Description,
                 Period: element.Period,
-                Tags: element.Tags
+                Tags: element.Tags,
+                Contacts: []
             });
         });
         todoData.forEach(function (element) {
@@ -267,7 +271,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 console.log('getting events failed');
             });
         }
-    }
+    };
     getEvents();
 
     $scope.nextMonth = function () {
@@ -278,7 +282,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $scope.year++;
         }
         getEvents();
-    }
+    };
 
     $scope.prevMonth = function () {
         if ($scope.month > 0) {
@@ -288,12 +292,12 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $scope.year--;
         }
         getEvents();
-    }
+    };
 
     $scope.changeMonthWeek = function () {
         $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year);
         getEvents();
-    }
+    };
 
     $scope.showDay = function (index) {
         if (!$scope.isWeekMode) {
@@ -303,7 +307,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         } else {
             $scope.dayToShow = $scope.weekDays[index];
         }
-    }
+    };
 
     $scope.nextWeek = function () {
         var sun = $scope.weekDays[6];
@@ -314,7 +318,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $scope.week++;
         }
         getEvents(1);
-    }
+    };
 
     $scope.prevWeek = function () {
         if ($scope.week == 1) {
@@ -325,17 +329,17 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             $scope.week--;
         }
         getEvents(-1);
-    }
+    };
 
     $scope.showHideMenu = function () {
         $('.header').toggleClass('opened-menu');
         $('.content').toggleClass('opened-menu');
         $('.dark-div').toggleClass('opened-menu');
-    }
+    };
 
     $scope.closeDayMode = function () {
         $scope.dayToShow = undefined;
-    }
+    };
 
     $scope.deleteEvent = function (id) {
         $http({
@@ -484,6 +488,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Period: $scope.eventToEdit.Period || 0,
                 Days: 0,
                 Tags: $scope.eventToEdit.Tags || ''
+                //Contacts: $scope.eventToEdit.Contacts
             }
         });
         switch ($scope.eventToEdit.Type) {
@@ -505,6 +510,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         };
         crudEvent(!$scope.eventAdding ? $scope.eventToEdit.EventId : -1, $scope.eventToEdit);
         $scope.eventToSave = angular.copy($scope.eventToEdit);
+        // STUB!
+        $scope.eventContacts = $scope.eventToEdit.Contacts;
     };
     function saveTodo() {
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
@@ -616,7 +623,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 break;
             }
         }
-    }
+    };
 
     $scope.showHideControlls = function () {
         /*$(".controlls-visible").toggle();
@@ -665,20 +672,5 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 colorButtons.eq(i).append('<i class="mdi mdi-check"></i>');
             }
         }
-    }
-
-    $scope.people = [
-    { name: "Adam", email: "adam@email.com", age: 10 },
-    { name: "Amalie", email: "amalie@email.com", age: 12 },
-    { name: "Wladimir", email: "wladimir@email.com", age: 30 },
-    { name: "Samantha", email: "samantha@email.com", age: 31 },
-    { name: "Estefanía", email: "estefanía@email.com", age: 16 },
-    { name: "Natasha", email: "natasha@email.com", age: 54 },
-    { name: "Nicole", email: "nicole@email.com", age: 43 },
-    { name: "Adrian", email: "adrian@email.com", age: 21 }
-    ];
-
-    $scope.selects = {
-        selectedPerson: []
     };
 });
