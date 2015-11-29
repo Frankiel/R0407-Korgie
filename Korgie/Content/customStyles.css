@@ -196,6 +196,7 @@
     width: calc(14.285714285714285714285714285714% - 2px);
     height: calc((100vw) / 7 - 2px);
     max-height: 15%;
+    min-height: 70px;
     margin: 0px 1px 1px 0px;
     cursor: pointer;
 }
@@ -483,24 +484,9 @@
     width: 70%;
 }
 
-/*.color-buttons {
-    height: 20px;
-    width: auto;
-}
-
-.color-buttons > * {
-    float: left;
-    margin: 2px !important;
-}*/
-
 .dialog-buttons {
     margin-top: 15px;
 }
-/*
-.dialog-choices {
-    display: block !important;
-    background-color: yellow;
-}*/
 
 @media (max-width: 310px) {
     .detailed-event, .detailed-todo {
@@ -631,6 +617,10 @@
 
     .calendar-container {
         height: calc(100% - 70px);
+    }
+
+    .month-day {
+        min-height: 30px;
     }
 
     .dark-div {
