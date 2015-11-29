@@ -41,11 +41,66 @@
         </div>
     </lx-dialog>
     <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_failed" auto-close="true">
-        <!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
                 <span class="toolbar__label tc-black fs-title">
                     Adding failed =(
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_sent" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    You've already sent a request to
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    {{email1}}
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_friend" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    You have
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    {{email1}}
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    as a firend!
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_got" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    You've already recieved a request from
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    {{email1}}
                 </span>
             </div>
         </div>
