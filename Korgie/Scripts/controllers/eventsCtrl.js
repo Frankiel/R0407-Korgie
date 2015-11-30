@@ -22,9 +22,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.todoToEdit;
     $scope.todoToSave;
 
-    // STUB!
-    $scope.eventContacts = [];
-
     $scope.contacts;
     $scope.myPrimaryEmail;
 
@@ -114,11 +111,11 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         for (var i = 0; i < 7; i++) {
             var evs = events.filter(function (ev) {
                 var date = ev.Start;
-                return date.getMonth() == $scope.month && date.getDate() == monday.getDate();
+                return date.getDate() == monday.getDate();
             });
             var tds = todos.filter(function (td) {
                 var date = td.Start;
-                return date.getMonth() == $scope.month && date.getDate() == monday.getDate();
+                return date.getDate() == monday.getDate();
             });
             result.push({
                 id: i,
@@ -479,6 +476,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.showHideControlls();
         $scope.eventAdding = false;
         $scope.eventEditing = false;
+        $scope.closingDialog(type);
     };
     function saveEvent() {
         var contacts = [korgieApi.primaryEmail];
@@ -499,8 +497,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 Tags: $scope.eventToEdit.Tags || '',
                 attached: contacts
             }
-        }).then(function (res) {
-            console.log(res);
         });
         switch ($scope.eventToEdit.Type) {
             case "Sports":
@@ -519,10 +515,9 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 $scope.eventToEdit.Color = korgieApi.additional[2];
                 break;
         };
+        $scope.eventToEdit.Owner = $scope.myPrimaryEmail;
         crudEvent(!$scope.eventAdding ? $scope.eventToEdit.EventId : -1, $scope.eventToEdit);
         $scope.eventToSave = angular.copy($scope.eventToEdit);
-        // STUB!
-        $scope.eventContacts = $scope.eventToEdit.Contacts;
     };
     function saveTodo() {
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
@@ -542,7 +537,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 }),
                 Tasks: $scope.todoToEdit.Tasks.map(function (task) {
                     return task.Name;
-                })
+                }) || []
             }
         });
     };
@@ -574,13 +569,10 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
                 });
             }
         }
-        if (dialogName == 'event') {
-            $scope.eventToSave = event;
-            $scope.eventToEdit = event;
-        } else {
-            $scope.todoToSave = event;
-            $scope.todoToEdit = event;
-        }
+        $scope.eventToSave = event;
+        $scope.eventToEdit = event;
+        $scope.todoToSave = event;
+        $scope.todoToEdit = event;
         LxDialogService.open(dialogName);
     };
 

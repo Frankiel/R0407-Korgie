@@ -19,4 +19,9 @@
 
     //setTimeout(function () { console.log($state.current.name);}, 200);
 
+    $('[ui-sref]').click(function () {
+        $('.header').removeClass('opened-menu');
+        $('.content').removeClass('opened-menu');
+        $('.dark-div').removeClass('opened-menu');
+    });
 });

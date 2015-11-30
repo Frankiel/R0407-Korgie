@@ -196,6 +196,7 @@
     width: calc(14.285714285714285714285714285714% - 2px);
     height: calc((100vw) / 7 - 2px);
     max-height: 15%;
+    min-height: 70px;
     margin: 0px 1px 1px 0px;
     cursor: pointer;
 }
@@ -285,11 +286,7 @@
     margin-bottom: 10px;
     width: 95%;
     overflow: hidden;
-}
-
-.detailed-event:hover .day-mode-delete, .detailed-todo:hover .day-mode-delete {
-    right: 0px;
-    transition: right ease 0.3s;
+    cursor: pointer;
 }
 
 .day-mode-events > *, .day-mode-todos > * {
@@ -297,10 +294,7 @@
 }
 
 .day-mode-delete {
-    margin: 3px;
-    margin-top: -8px;
-    position: relative;
-    right: -35px;
+    margin: -8px 3px;
     transition: right ease 0.3s;
 }
 
@@ -376,6 +370,7 @@
     font-size: 30px;
     font-weight: 500;
     margin-bottom: 25px;
+    z-index: 1050;
 }
 
 .event textarea {
@@ -414,12 +409,21 @@
     margin-top: -6px;
 }
 
+.event .event-date-edit {
+    z-index: 1050;
+}
+
+.event .lx-date-picker {
+    z-index: 1000 !important;
+}
+
 .event .event-date-edit > * {
     margin-top: -40px;
 }
 
 .event .event-date-edit * {
     display: inline-block;
+    z-index: 1010;
 }
 
 .event .event-time {
@@ -437,6 +441,7 @@
 
 .event .event-notif-edit {
     margin-top: -37px;
+    z-index: 1050;
 }
 
 .event .checkboxes {
@@ -483,24 +488,9 @@
     width: 70%;
 }
 
-/*.color-buttons {
-    height: 20px;
-    width: auto;
-}
-
-.color-buttons > * {
-    float: left;
-    margin: 2px !important;
-}*/
-
 .dialog-buttons {
     margin-top: 15px;
 }
-/*
-.dialog-choices {
-    display: block !important;
-    background-color: yellow;
-}*/
 
 @media (max-width: 310px) {
     .detailed-event, .detailed-todo {
@@ -631,6 +621,10 @@
 
     .calendar-container {
         height: calc(100% - 70px);
+    }
+
+    .month-day {
+        min-height: 30px;
     }
 
     .dark-div {
