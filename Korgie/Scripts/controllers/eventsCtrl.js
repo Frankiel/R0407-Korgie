@@ -109,11 +109,11 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         for (var i = 0; i < 7; i++) {
             var evs = events.filter(function (ev) {
                 var date = ev.Start;
-                return date.getMonth() == $scope.month && date.getDate() == monday.getDate();
+                return date.getDate() == monday.getDate();
             });
             var tds = todos.filter(function (td) {
                 var date = td.Start;
-                return date.getMonth() == $scope.month && date.getDate() == monday.getDate();
+                return date.getDate() == monday.getDate();
             });
             result.push({
                 id: i,
