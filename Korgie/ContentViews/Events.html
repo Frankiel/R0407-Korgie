@@ -173,7 +173,7 @@
     </div>
     
     <!-- Event dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
+    <lx-dialog class="dialog dialog--l" id="event" auto-close="true">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing && eventToSave.Owner == myPrimaryEmail">
@@ -325,7 +325,7 @@
     </lx-dialog>
 
     <!-- Todo dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="todo" auto-close="false">
+    <lx-dialog class="dialog dialog--l" id="todo" auto-close="true">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing">
