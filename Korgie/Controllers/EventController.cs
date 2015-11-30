@@ -305,6 +305,25 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 cmd.ExecuteNonQuery();
             }
         }
+        public bool IsUser(string email)
+        {
+            User result = null;
+            using (var conn = new SqlConnection(_connection))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(@"SELECT * FROM Users WHERE PrimaryEmail=@Email", conn);
+                cmd.Parameters.AddWithValue("@Email", email);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        result = new User(dr.GetString(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6).Split(' ').ToList<string>(), dr.GetString(7).Split(' ').ToList<string>(), dr.GetString(8).Split(' ').ToList<string>(),
+                            dr.GetString(9).Split(' ').ToList<string>(), dr.GetString(10).Split(' ').ToList<string>());
+                    }
+                }
+            }
+            return result != null;
+        }
         #endregion
         #region Contacts
         public string GetContacts() //Accepted
