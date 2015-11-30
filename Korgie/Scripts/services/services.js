@@ -20,7 +20,7 @@
     this.getTypes = function (events) {
         var result = [];
         events.forEach(function (event) {
-            if (!result.some(type => type == event.Type)) {
+            if (!result.some(type => type.name == event.Type)) {
                 result.push({
                     name: event.Type,
                     color: event.Color
