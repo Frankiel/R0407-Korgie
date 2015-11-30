@@ -405,13 +405,13 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
         }
         public void DeleteContact(string email)
         {
-            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email);
+            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact", email);
         }
         public void Delete_Add_Contact(string sqlcom, string email)
         {
             using (var conn = new SqlConnection(_connection))
             {
-                var cmd = new SqlCommand(@"DELETE FROM UserContacts WHERE PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact", conn);
+                var cmd = new SqlCommand(sqlcom, conn);
                 cmd.Parameters.AddWithValue("@PrimaryUser", Request.Cookies["Preferences"]["Email"]);
                 cmd.Parameters.AddWithValue("@PrimaryContact", email);
                 conn.Open();

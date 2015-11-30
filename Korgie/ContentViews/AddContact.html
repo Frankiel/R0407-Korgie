@@ -1,15 +1,20 @@
 ﻿<div layout="column" layout-align="space-around center">
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
         <div class="add-contact-card-search">
-            <form name="myForm">
-                <lx-text-field label="Enter email">
-                    <input type="email" name="add-email" ng-model="email1" required>
-                </lx-text-field>
-                <span class="error" ng-show="myForm.add-email.$error.required">Email invalid</span>
-            </form>
+            <lx-text-field label="Enter email">
+                <input type="email" name="addemail" ng-model="email1">
+            </lx-text-field>
         </div>
         <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="add()">Add contact</button>
     </div>
+    <!--<form name="myForm">
+        <div class="add-contact-card-search">
+            <lx-text-field label="Enter email">
+                <input type="email" name="addemail" ng-model="email1" required ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@gmail.com$/">
+            </lx-text-field>
+        </div>
+        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="add()" ng-disabled="myForm.addemail.$error.required || myForm.addemail.$error.pattern">Add contact</button>
+    </form>-->
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
         <div class="add-contact-card-search">
             <lx-text-field label="Enter email">

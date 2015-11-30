@@ -1,4 +1,4 @@
-﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService, $state) {
+﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService, $state, $q) {
     $scope.email1;
     $scope.email2;
 
@@ -18,7 +18,7 @@
             getContacts();
             LxDialogService.open('add_ok');
         }, function errorCallback(response) {
-            LxDialogService.open('add_failed');
+            LxDialogService.open('add_failed'); //CRIT
         });
     }
 
@@ -37,7 +37,6 @@
     }
 
     function catchContacts(data) {
-        korgieApi.contacts = data;
         $scope.contacts = data;
     }
 
@@ -80,7 +79,7 @@
 
     function isSent(email) {
         for (var i = 0; i < $scope.requestsSent.length; i++) {
-            if ($scope.requestsSent[i].To == email) {
+            if ($scope.requestsSent[i].To == email && $scope.requestsSent[i].State == 'Sent') {
                 return true;
             }
         }
@@ -97,16 +96,18 @@
     }
 
     function isUser(contactEmail) { //продублировать в ивентс контроллер!
+        var defered = $q.defer();
         var param, method;
         method = '/Event/IsUser';
         param = {
             email: contactEmail,
         }
         $http.get(method, { params: param }).then(function successCallback(response) {
-            return response.data;
+            defered.resolve();
         }, function errorCallback(response) {
-            return false;
+            defered.reject();
         });
+        return defered.promise;
     }
 
     getContacts();
@@ -122,10 +123,10 @@
         }
         else if (isGot($scope.email1)) {
             LxDialogService.open('already_got');
-        } else if (isUser($scope.email1)) {
-            addContact($scope.email1);
         } else {
-            LxDialogService.open('add_failed');
+            isUser($scope.email1).then(function () {
+                addContact($scope.email1);
+            }, function () { LxDialogService.open('add_failed'); });
         }
     }
 
