@@ -25,7 +25,8 @@
         </div>
         <div layout="row" layout-sm="column">
             <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="start center">
-                <div layout="row" layout-align="center center">
+                <div layout="column" layout-align="center center">
+                    Events
                     <button class="btn btn--m btn--green btn--icon" lx-ripple ng-click="openDialog('event')"><i class="icon icon--m icon--green icon--flat mdi mdi-plus"></i></button>
                 </div>
                 <div class="detailed-event card" ng-repeat="event in dayToShow.events">
@@ -43,7 +44,8 @@
                 </div>
             </div>
             <div class="day-mode-todos" layout-gt-sm="column" layout-align-gt-sm="start center">
-                <div layout="row" layout-align="center center">
+                <div layout="column" layout-align="center center">
+                    To-do lists
                     <button class="btn btn--m btn--green btn--icon" lx-ripple ng-click="openDialog('todo')"><i class="icon icon--m icon--green icon--flat mdi mdi-plus"></i></button>
                 </div>
                 <div class="detailed-todo card" ng-repeat="todo in dayToShow.todos">
@@ -173,7 +175,7 @@
     </div>
     
     <!-- Event dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
+    <lx-dialog class="dialog dialog--l" id="event" auto-close="true">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing && eventToSave.Owner == myPrimaryEmail">
@@ -202,7 +204,7 @@
                             <div class="event-time" ng-if="!eventAdding && !eventEditing">
                                 {{eventToSave.Start | date:' HH:mm'}}
                             </div>
-                            <input type="time" name="time" ng-model="eventToEdit.Start" ng-if="eventAdding || eventEditing">
+                            <input type="time" name="time" ng-model="eventToEdit.Start" ng-if="eventAdding || eventEditing" required>
                         </div>
                         <div>
                             <p>Type:</p>
@@ -325,7 +327,7 @@
     </lx-dialog>
 
     <!-- Todo dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="todo" auto-close="false">
+    <lx-dialog class="dialog dialog--l" id="todo" auto-close="true">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing">
