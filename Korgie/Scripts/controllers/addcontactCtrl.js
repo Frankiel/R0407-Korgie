@@ -1,6 +1,7 @@
 ﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService, $state, $q) {
     $scope.email1;
     $scope.email2;
+    $scope.myemail;
 
     $scope.contacts;
     $scope.requestsSent;
@@ -68,6 +69,20 @@
         $scope.myRequests = data;
     }
 
+    function getProfileInfo() {
+        var param, method;
+        method = '/Event/GetProfileInfo';
+        $http.get(method).then(function successCallback(response) {
+            catchProfileInfo(response.data);
+        }, function errorCallback(response) {
+            console.log('getProfileInfo failed from settingsCtrl');
+        });
+    }
+
+    function catchProfileInfo(data) {
+        $scope.myemail = data.PrimaryEmail;
+    }
+
     function isFriend(email) {
         for (var i = 0; i < $scope.contacts.length; i++) {
             if ($scope.contacts[i].PrimaryEmail == email) {
@@ -95,6 +110,13 @@
         return false;
     }
 
+    function isMe(email) {
+        if ($scope.myemail == email) {
+            return true;
+        }
+        return false;
+    }
+
     function isUser(contactEmail) { //продублировать в ивентс контроллер!
         var defered = $q.defer();
         var param, method;
@@ -113,6 +135,7 @@
     getContacts();
     getRequests();
     getRequestsRecieved();
+    getProfileInfo();
 
     $scope.add = function () {
         if (isFriend($scope.email1)) {
@@ -123,7 +146,11 @@
         }
         else if (isGot($scope.email1)) {
             LxDialogService.open('already_got');
-        } else {
+        }
+        else if (isMe($scope.email1)) {
+            LxDialogService.open('add_failed');
+        }
+        else {
             isUser($scope.email1).then(function () {
                 addContact($scope.email1);
             }, function () { LxDialogService.open('add_failed'); });
