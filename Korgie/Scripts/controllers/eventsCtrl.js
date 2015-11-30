@@ -2,6 +2,8 @@
 
 korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService, $filter, $state) {
 
+    korgieApi.setCurState('events');
+
     var today = new Date();
     $scope.month = today.getMonth();
     $scope.year = today.getFullYear();

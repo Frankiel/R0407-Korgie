@@ -4,7 +4,7 @@
     $scope.nameToDelete;
     $scope.emailToDelete;
 
-    console.log($state.current.name);
+    korgieApi.setCurState('contacts.mycontacts');
 
     function getContacts() {
         var method;

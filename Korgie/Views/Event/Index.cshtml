@@ -11,16 +11,16 @@
             <div class="email">@ViewBag.Email</div>
             <div layout="row" layout-align="end start" layout-align-sm="center center">
                 <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" disabled><i class="mdi mdi-bell-outline"></i></button></div>
-                <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" ui-sref="settings"><i class="mdi mdi-settings"></i></button></div>
+                <div><button class="btn btn--m btn--blue" lx-ripple type="button" ui-sref="settings" ng-class="getCurrentState('settings')"><i class="mdi mdi-settings"></i></button></div>
                 <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'"><i class="mdi mdi-logout"></i></button></div>
             </div>
         </div>
         <div layout="row" layout-sm="column" layout-md="column" layout-align-md="end end">
             <div class="menu" flex="70" flex-order-sm="2" flex-order="1" flex-sm="100" flex-md="100" flex-order-md="2">
                 <ul class="nav">
-                    <li><button class="btn btn--m btn--blue btn--flat" lx-ripple ui-sref="events">Events</button></li><!-- ng-class="{btn--flat:{{}}=='events'}"-->
+                    <li><button class="btn btn--m btn--blue" lx-ripple ui-sref="events" ng-class="getCurrentState('events')">Events</button></li>
                     <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Notes</button></li>
-                    <li><button class="btn btn--m btn--blue btn--flat" lx-ripple ui-sref="contacts">Contacts</button></li>
+                    <li><button class="btn btn--m btn--blue" lx-ripple ui-sref="contacts" ng-class="getCurrentState('contacts.mycontacts')">Contacts</button></li>
                     <li><button class="btn btn--m btn--blue btn--flat" lx-ripple disabled>Statistics</button></li>
                 </ul>
             </div>

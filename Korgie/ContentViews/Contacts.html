@@ -10,10 +10,10 @@
         <div layout="column">
             <div class="contact-prenav">
                 <div layout="row" layout-align="space-around center" class="contact-nav">
-                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".mycontacts">My Contacts</button>
-                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".addcontact">Add Contact</button>
-                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".sent">Sent</button>
-                    <button class="btn btn--s bgc-blue-50 btn--raised" lx-ripple ui-sref=".recieved">Recieved</button>
+                    <button class="btn btn--s btn--blue" lx-ripple ui-sref=".mycontacts" ng-class="getCurrentState('contacts.mycontacts')">My Contacts</button>
+                    <button class="btn btn--s btn--blue" lx-ripple ui-sref=".addcontact" ng-class="getCurrentState('contacts.addcontact')">Add Contact</button>
+                    <button class="btn btn--s btn--blue" lx-ripple ui-sref=".sent" ng-class="getCurrentState('contacts.sent')">Sent</button>
+                    <button class="btn btn--s btn--blue" lx-ripple ui-sref=".recieved" ng-class="getCurrentState('contacts.recieved')">Recieved</button>
                 </div>
             </div>
             <div ui-view autoscroll="false">

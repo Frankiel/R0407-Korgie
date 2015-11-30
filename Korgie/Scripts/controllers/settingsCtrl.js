@@ -1,8 +1,7 @@
 ﻿
 korgie.controller('settingsCtrl', function ($scope, $http, korgieApi, $state) {
 
-    console.log($state.current.name);
-    korgieApi.currentstate[1].isActive = true;
+    korgieApi.setCurState('settings');
 
     $scope.name;
     $scope.primaryEmail;

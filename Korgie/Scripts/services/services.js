@@ -70,6 +70,25 @@
         }
         return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
     }
+
+    this.getCurState = function () {
+        for (var i = 0; i < this.currentstate.length; i++) {
+            if (this.currentstate[i].isActive == true) {
+                return this.currentstate[i].state;
+            }
+        }
+    }
+
+    this.setCurState = function (param) {
+        for (var i = 0; i < this.currentstate.length; i++) {
+            if (this.currentstate[i].state == param) {
+                return this.currentstate[i].isActive = true;
+            }
+            else {
+                this.currentstate[i].isActive = false;
+            }
+        }
+    }
 };
 
 angular
