@@ -805,3 +805,7 @@
     height: 50px;
     background: #999;
 }
+
+.validation-error{
+    background-color:#FFCDD2 !important;
+}
