@@ -149,6 +149,7 @@
     </Content>
     <Content Include="ContentViews\AddContact.html" />
     <Content Include="ContentViews\Contacts.html" />
+    <Content Include="ContentViews\Error.html" />
     <Content Include="ContentViews\EventDialog.html" />
     <Content Include="ContentViews\Events.html" />
     <Content Include="ContentViews\MyContacts.html" />
@@ -162,6 +163,7 @@
     <Content Include="Content\contactsStyles.css" />
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\logo.png" />
     <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\addcontactCtrl.js" />

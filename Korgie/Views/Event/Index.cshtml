@@ -4,15 +4,17 @@
 
 <div class="header">
     <div class="logo-keeper">
-        <div class="logo"></div>
+        <div class="logo" ui-sref="events">
+            <div class="title"><span class="title-text">Korgie</span></div>
+        </div>
     </div>
     <nav class="container" ng-controller="HomeCtrl">
         <div class="navicons" layout-align="end start" layout-gt-sm="row">
-            <div class="email">@ViewBag.Email</div>
+            <div class="email"><span class="fs-subhead display-block">@ViewBag.Email</span></div>
             <div layout="row" layout-align="end start" layout-align-sm="center center">
                 <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" disabled><i class="mdi mdi-bell-outline"></i></button></div>
                 <div><button class="btn btn--m btn--blue" lx-ripple type="button" ui-sref="settings" ng-class="getCurrentState('settings')"><i class="mdi mdi-settings"></i></button></div>
-                <div><button class="btn btn--m btn--blue btn--icon" lx-ripple type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'"><i class="mdi mdi-logout"></i></button></div>
+                <div><button class="btn btn--m btn--red btn--icon" lx-ripple type="button" onclick="location.href='@Url.Action("Index", "Home", new { isSignOut = true})'"><i class="mdi mdi-logout"></i></button></div>
             </div>
         </div>
         <div layout="row" layout-sm="column" layout-md="column" layout-align-md="end end">
