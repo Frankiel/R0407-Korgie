@@ -101,6 +101,21 @@
         return false;
     }
 
+    function isInvited(email) {
+        var defered = $q.defer();
+        var param, method;
+        method = '/Event/IsInvited'; //метод Сережи!
+        param = {
+            email: contactEmail,
+        }
+        $http.get(method, { params: param }).then(function successCallback(response) {
+            defered.resolve();
+        }, function errorCallback(response) {
+            defered.reject();
+        });
+        return defered.promise;
+    }
+
     function isGot(email) {
         for (var i = 0; i < $scope.myRequests.length; i++) {
             if ($scope.myRequests[i].From == email) {
@@ -117,7 +132,7 @@
         return false;
     }
 
-    function isUser(contactEmail) { //продублировать в ивентс контроллер!
+    function isUser(contactEmail) {
         var defered = $q.defer();
         var param, method;
         method = '/Event/IsUser';
@@ -154,6 +169,36 @@
             isUser($scope.email1).then(function () {
                 addContact($scope.email1);
             }, function () { LxDialogService.open('add_failed'); });
+        }
+    }
+
+    function inviteContact(contactEmail) {
+        var param, method;
+        method = '/Event/InviteContact'; //метод Сережи!
+        param = {
+            email: contactEmail,
+        }
+        $http.get(method, { params: param }).then(function successCallback(response) {
+            LxDialogService.open('invite_ok');
+        }, function errorCallback(response) {
+            LxDialogService.open('invite_failed');
+        });
+    }
+
+    $scope.invite = function () {
+        if (isFriend($scope.email2)) {
+            LxDialogService.open('invite_friend');
+        }
+        else if (isInvited($scope.email2)) {
+            LxDialogService.open('invite_sent');
+        }
+        else if (isMe($scope.email2)) {
+            LxDialogService.open('invite_failed');
+        }
+        else {
+            (!(isUser($scope.email2))).then(function () {
+                inviteContact($scope.email2);
+            }, function () { LxDialogService.open('invite_isuser'); });
         }
     }
 

@@ -286,7 +286,7 @@
                     <div>
                         <p>Tags:</p>
                         <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Tags}}</div>
-                        <textarea ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags" ng-pattern="/^[a-zA-Z0-9_-\s]+$/" name="tagsarea" ng-class="{'validation-error': showingEvent.tagsarea.$error.maxlength || showingEvent.tagsarea.$error.pattern}"></textarea>
+                        <textarea ng-if="eventAdding || eventEditing" ng-maxlength="255" ng-model="eventToEdit.Tags" ng-pattern="/^[a-zа-яА-ЯA-Z0-9іІїЇєЄёЁ0-9_-\s]+$/" name="tagsarea" ng-class="{'validation-error': showingEvent.tagsarea.$error.maxlength || showingEvent.tagsarea.$error.pattern}"></textarea>
                     </div>
                         <p>Contacts: </p><span ng-if="!eventAdding && !eventEditing && eventToEdit.Contacts.length == 0"> -</span>
                     <div class="contacts" lx-scrollbar>
