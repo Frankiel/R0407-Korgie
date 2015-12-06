@@ -188,7 +188,7 @@
                     {{eventToSave.Title}}
                 </div>
                 <lx-text-field label="Title" fixed-label="true" class="event-title-edit" ng-if="eventAdding || eventEditing">
-                    <input type="text" name="title" ng-model="eventToEdit.Title" ng-maxlength="35" required ng-pattern="/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-\s]+$/" ng-class="{'validation-error': showingEvent.title.$error.pattern || showingEvent.title.$error.maxlength}"/>
+                    <input type="text" name="title" ng-model="eventToEdit.Title" ng-maxlength="35" required ng-pattern="/^[a-zа-яА-ЯA-Z0-9іІїЇєЄёЁ!@#\$%\^\&*\)\(+=._-]+$/" ng-class="{'validation-error': showingEvent.title.$error.pattern || showingEvent.title.$error.maxlength}"/>
                 </lx-text-field>
                 <div layout="row" layout-sm="column">
                     <div flex-gt-sm="50" class="column1">
@@ -343,7 +343,7 @@
                     {{todoToSave.Title}}
                 </div>
                 <lx-text-field label="Title" fixed-label="true" class="event-title-edit" ng-if="eventAdding || eventEditing">
-                    <input type="text" name="title" ng-model="todoToEdit.Title" ng-maxlength="35" required ng-pattern="/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/" ng-class="{'validation-error': showingTodo.title.$error.pattern || showingTodo.title.$error.maxlength}"/>
+                    <input type="text" name="title" ng-model="todoToEdit.Title" ng-maxlength="35" required ng-pattern="/^[a-zа-яА-ЯA-Z0-9іІїЇєЄёЁ!@#\$%\^\&*\)\(+=._-]+$/" ng-class="{'validation-error': showingTodo.title.$error.pattern || showingTodo.title.$error.maxlength}"/>
                 </lx-text-field>
                 <div layout="row" layout-sm="column">
                     <div flex-gt-sm="50" class="event-date">
