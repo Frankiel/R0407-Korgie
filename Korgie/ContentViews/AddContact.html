@@ -13,10 +13,10 @@
         <form name="InviteForm" style="display:block; width:100%; text-align:center">
             <div class="add-contact-card-search">
                 <lx-text-field label="Enter email">
-                    <input type="text" ng-model="email2" disabled>
+                    <input type="text" name="inviteemail" ng-model="email2" required ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@gmail.com$/" ng-maxlength="254">
                 </lx-text-field>
             </div>
-            <button class="btn btn--m btn--blue btn--flat" id="invite-contact" lx-ripple disabled>Invite to the app</button>
+            <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="invite()" ng-disabled="InviteForm.inviteemail.$error.required || InviteForm.inviteemail.$error.pattern || InviteForm.inviteemail.$error.maxlength">Invite to the app</button>
         </form>
     </div>
     <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_ok" auto-close="true">
@@ -107,6 +107,101 @@
         </div>
         <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_friend" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    You already have
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    {{email2}}
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    as a firend!
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_sent" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    The invitation has already been sent to
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    {{email2}}
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_failed" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    Something went wrong,
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    please, try again.
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_isuser" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    {{email2}}
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    is currently a user
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
+        </div>
+    </lx-dialog>
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_ok" auto-close="true">
+        <div class="dialog__header">
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
+                    You invited
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    {{email2}}
+                </span>
+            </div>
+            <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important; padding-top:0px !important;height:40px !important">
+                <span class="toolbar__label tc-black fs-title" style="height:40px !important">
+                    to the app!
+                </span>
+            </div>
+        </div>
+        <div class="dialog__actions" style="text-align:center !important; padding-top:0px !important;">
+            <button class="btn btn--m btn--green btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
 </div>
