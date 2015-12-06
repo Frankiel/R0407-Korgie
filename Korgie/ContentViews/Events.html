@@ -19,7 +19,7 @@
         <div class="day-mode-header" layout-align="center center" layout="row">
             <div class="day-header" layout="row" layout-align="center center">
                 <button hide class="btn btn--m btn--blue btn--icon" ng-click="prevDay()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                {{dayToShow | dayMode}}
+                {{dayToShow.date.format('MMMM Do, YYYY')}}
                 <button hide class="btn btn--m btn--blue btn--icon" ng-click="nextDay()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
@@ -34,7 +34,7 @@
                         <div class="day-mode-delete">
                             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
                         </div>
-                        <div class="time">{{event.Start | getStartTime}}</div>
+                        <div class="time">{{event.Start.format('HH:mm')}}</div>
                         <div class="title" layout="row" layout-align="center center">{{event.Title}}</div>
                         <div class="type" layout="row" layout-align="start center">
                             <div class="type-color" style="background-color: {{event.Color}}"></div>
@@ -78,7 +78,7 @@
         <div layout-align="center center" layout="row">
             <div class="month-header" layout="row" layout-align="space-between center">
                 <button class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                {{month | monthName}}, {{year}}
+                {{current.format('MMMM, YYYY')}}
                 <button class="btn btn--m btn--blue btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
@@ -93,8 +93,8 @@
         </div>
         <div class="calendar-container">
             <div class="month-day card" ng-repeat="calendarDay in monthDays">
-                <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.month == undefined, 'some-events': calendarDay.types.length > 0 || calendarDay.todos.length > 0}">
-                    <div class="day-number">{{calendarDay.day}}</div>
+                <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.date == undefined, 'some-events': calendarDay.types.length > 0 || calendarDay.todos.length > 0}">
+                    <div class="day-number">{{calendarDay.date.get('date') || calendarDay.day}}</div>
                     <div class="event-container" hide-sm>
                         <div ng-repeat="type in calendarDay.types">
                             <div class="type-color" style="background-color: {{type.color}}">
@@ -120,7 +120,7 @@
         <div layout-align="center center" layout="row">
             <div class="week-header" layout="row" layout-align="space-around center">
                 <button class="btn btn--m btn--blue btn--icon" ng-click="prevWeek()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                Week {{week}}
+                Week {{current.week()}}
                 <button class="btn btn--m btn--blue btn--icon" ng-click="nextWeek()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
@@ -128,9 +128,9 @@
             <div flex ng-repeat="day in weekDays">
                 <div ng-click="showDay(day.id)" class="card">
                     <div class="week-mode-day-names">
-                        <div hide-sm>{{day.date | date:'EEE,'}}</div>
-                        <div hide-gt-sm>{{day.date | date:'EEEE,'}}</div>
-                        <div>{{day.date | date:'dd.MM.yy'}}</div>
+                        <div hide-sm>{{day.date.format('ddd')}},</div>
+                        <div hide-gt-sm>{{day.date.format('dddd')}},</div>
+                        <div>{{day.date.format('DD.MM.YYYY')}}</div>
                     </div>
                     <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}"></div>
                     <div hide-gt-sm class="todo-list" ng-if="day.todos.length > 0" layout="column" layout-align="space-around center">
@@ -142,7 +142,7 @@
                 <div hide-sm class="week-mode-event card" ng-repeat="event in day.events">
                     <div ng-click="openDialog('event', event)">
                         <div layout="row" layout-align="center center">
-                            {{event.Start | getStartTime}}
+                            {{event.Start.format('HH:mm')}}
                         </div>
                         <div layout="row" layout-align="start center">
                             {{event.Title}}
@@ -195,16 +195,16 @@
                         <div class="event-date">
                             <p>Date:</p>
                             <div class="display-block" ng-if="!eventAdding && !eventEditing">
-                                {{eventToSave.Start | date:'MMMM d, yyyy'}}
+                                {{eventToSave.Start.format('MMMM DD, YYYY')}}
                             </div>
-                            <lx-date-picker class="event-date-edit" model="eventToEdit.Start" name="date" locale="fr" allow-clear="false" required ng-if="eventAdding || eventEditing"></lx-date-picker>
+                            <lx-date-picker class="event-date-edit" model="eventToEdit.StartJsDate" name="date" locale="en" allow-clear="false" required ng-if="eventAdding || eventEditing"></lx-date-picker>
                         </div>
                         <div>
                             <p>Time:</p>
                             <div class="event-time" ng-if="!eventAdding && !eventEditing">
-                                {{eventToSave.Start | date:' HH:mm'}}
+                                {{eventToSave.Start.format('HH:mm')}}
                             </div>
-                            <input type="time" name="time" ng-model="eventToEdit.Start" ng-if="eventAdding || eventEditing" required>
+                            <input type="time" name="time" ng-model="eventToEdit.StartJsDate" ng-if="eventAdding || eventEditing" required>
                         </div>
                         <div>
                             <p>Type:</p>
@@ -346,7 +346,7 @@
                     <div flex-gt-sm="50" class="event-date">
                         <p>Date:</p>
                         <div ng-if="!eventAdding && !eventEditing">
-                            {{todoToSave.Start | date:'MMMM d, yyyy'}}
+                            {{todoToSave.Start.format('MMMM DD, YYYY')}}
                         </div>
                         <lx-date-picker class="event-date-edit" model="todoToEdit.Start" name="date" locale="fr" allow-clear="false" required ng-if="eventAdding || eventEditing"></lx-date-picker>
                     </div>
