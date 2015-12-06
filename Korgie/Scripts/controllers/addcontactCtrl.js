@@ -19,14 +19,14 @@
             getContacts();
             LxDialogService.open('add_ok');
         }, function errorCallback(response) {
-            LxDialogService.open('add_failed'); //CRIT
+            LxDialogService.open('add_failed');
         });
-    }
+    };
 
     function openDialog(email, window) {
         $scope.email1 = email;
         LxDialogService.open(window);
-    }
+    };
 
     function getContacts() {
         var param, method;
@@ -35,11 +35,11 @@
             catchContacts(response.data);
         }, function errorCallback(response) {
         });
-    }
+    };
 
     function catchContacts(data) {
         $scope.contacts = data;
-    }
+    };
 
     function getRequests() {
         var param, method;
@@ -49,11 +49,11 @@
         }, function errorCallback(response) {
             console.log('getRequests failed from sentCtrl');
         });
-    }
+    };
 
     function catchRequests(data) {
         $scope.requestsSent = data;
-    }
+    };
 
     function getRequestsRecieved() {
         var param, method;
@@ -63,11 +63,11 @@
         }, function errorCallback(response) {
             console.log('getRequests failed from sentCtrl');
         });
-    }
+    };
 
     function catchMyRequests(data) {
         $scope.myRequests = data;
-    }
+    };
 
     function getProfileInfo() {
         var param, method;
@@ -77,11 +77,11 @@
         }, function errorCallback(response) {
             console.log('getProfileInfo failed from settingsCtrl');
         });
-    }
+    };
 
     function catchProfileInfo(data) {
         $scope.myemail = data.PrimaryEmail;
-    }
+    };
 
     function isFriend(email) {
         for (var i = 0; i < $scope.contacts.length; i++) {
@@ -90,7 +90,7 @@
             }
         }
         return false;
-    }
+    };
 
     function isSent(email) {
         for (var i = 0; i < $scope.requestsSent.length; i++) {
@@ -99,22 +99,22 @@
             }
         }
         return false;
-    }
+    };
 
-    function isInvited(email) {
+    function isInvited(contactEmail) {
         var defered = $q.defer();
         var param, method;
-        method = '/Event/IsInvited'; //метод Сережи!
+        method = '/Event/IsInvited';
         param = {
             email: contactEmail,
         }
         $http.get(method, { params: param }).then(function successCallback(response) {
-            defered.resolve();
+            defered.resolve(response.data);
         }, function errorCallback(response) {
-            defered.reject();
+            defered.reject(false);
         });
         return defered.promise;
-    }
+    };
 
     function isGot(email) {
         for (var i = 0; i < $scope.myRequests.length; i++) {
@@ -123,14 +123,14 @@
             }
         }
         return false;
-    }
+    };
 
     function isMe(email) {
         if ($scope.myemail == email) {
             return true;
         }
         return false;
-    }
+    };
 
     function isUser(contactEmail) {
         var defered = $q.defer();
@@ -140,12 +140,12 @@
             email: contactEmail,
         }
         $http.get(method, { params: param }).then(function successCallback(response) {
-            defered.resolve();
+            defered.resolve(response.data);
         }, function errorCallback(response) {
-            defered.reject();
+            defered.reject(false);
         });
         return defered.promise;
-    }
+    };
 
     getContacts();
     getRequests();
@@ -166,15 +166,20 @@
             LxDialogService.open('add_failed');
         }
         else {
-            isUser($scope.email1).then(function () {
-                addContact($scope.email1);
-            }, function () { LxDialogService.open('add_failed'); });
+            isUser($scope.email1).then(function (result) {
+                if (result == "True") {
+                    addContact($scope.email1);
+                }
+                else {
+                    LxDialogService.open('add_failed');
+                }
+            });
         }
-    }
+    };
 
     function inviteContact(contactEmail) {
         var param, method;
-        method = '/Event/InviteContact'; //метод Сережи!
+        method = '/Event/InviteContact';
         param = {
             email: contactEmail,
         }
@@ -183,23 +188,32 @@
         }, function errorCallback(response) {
             LxDialogService.open('invite_failed');
         });
-    }
+    };
 
     $scope.invite = function () {
         if (isFriend($scope.email2)) {
             LxDialogService.open('invite_friend');
         }
-        else if (isInvited($scope.email2)) {
-            LxDialogService.open('invite_sent');
-        }
         else if (isMe($scope.email2)) {
             LxDialogService.open('invite_failed');
         }
         else {
-            (!(isUser($scope.email2))).then(function () {
-                inviteContact($scope.email2);
-            }, function () { LxDialogService.open('invite_isuser'); });
+            isUser($scope.email2).then(function (result) {
+                if (result == "True") {
+                    LxDialogService.open('invite_isuser');
+                }
+                else {
+                    isInvited($scope.email2).then(function (result) {
+                        if (result == "True") {
+                            LxDialogService.open('invite_sent');
+                        }
+                        else {
+                            inviteContact($scope.email2);
+                        }
+                    });
+                }
+            });
         }
-    }
+    };
 
 });
