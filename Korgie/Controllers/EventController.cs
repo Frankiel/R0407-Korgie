@@ -418,6 +418,36 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
                 cmd.ExecuteNonQuery();
             }
         }
+        public void InviteContact(string email)
+        {
+            using (var conn = new SqlConnection(_connection))
+            {
+                var cmd = new SqlCommand(@"INSERT INTO Invites VALUES (@PrimaryUser,@InvitedContact)", conn);
+                cmd.Parameters.AddWithValue("@PrimaryUser", Request.Cookies["Preferences"]["Email"]);
+                cmd.Parameters.AddWithValue("@InvitedContact", email);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            //Вставка кода отправки письма
+        }
+        public bool IsInvited(string email)
+        {
+            bool result = false;
+            using (var conn = new SqlConnection(_connection))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(@"SELECT * FROM Invites WHERE InvitedEmailUser=@Email", conn);
+                cmd.Parameters.AddWithValue("@Email", email);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
         #endregion
     }
 }

@@ -69,7 +69,7 @@ namespace Korgie.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(Korgie.Models.LoginViewModel model, string returnUrl)
         {
-            
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -120,7 +120,7 @@ namespace Korgie.Controllers
                 case SignInStatus.Success:
                     //ARTHUR: THERE WAS RedirectToLocal WHEN U HAVE AN ACC AND LOGIN U WILL GO WITH THIS LINK!!! WITHOUT REDIRECTING to REGISTER Buttonzz
                     HttpCookie cookie = Request.Cookies["Preferences"];
-                    if (cookie== null)
+                    if (cookie == null)
                     {
                         cookie = new HttpCookie("Preferences");
                     }
@@ -182,6 +182,26 @@ namespace Korgie.Controllers
                             cmd.Parameters.AddWithValue("@Name", user.UserName);
                             conn.Open();
                             cmd.ExecuteNonQuery();
+                            bool resultInvite = false;
+                            var cmd2 = new SqlCommand(@"SELECT * FROM Invites WHERE InvitedEmailUser=@Email", conn);
+                            cmd2.Parameters.AddWithValue("@Email", user.Email);
+                            string usertoadd = "";
+                            using (SqlDataReader dr = cmd2.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                            {
+                                while (dr.Read())
+                                {
+                                    usertoadd = dr.GetString(1);
+                                    resultInvite = true;
+                                }
+                            }
+                            if (resultInvite)
+                            {
+                                new SqlCommand(@"DELETE FROM Invites WHERE InvitedEmailUser=@Email", conn).ExecuteNonQuery();
+                                var cmd3 = new SqlCommand(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@Invited,'Sent')", conn);
+                                cmd3.Parameters.AddWithValue("@PrimaryUser", usertoadd);
+                                cmd3.Parameters.AddWithValue("@Invited", Request.Cookies["Preferences"]["Email"]);
+                                cmd3.ExecuteNonQuery();
+                            }
                         }
                         return RedirectToAction("Index", "Event"); //RedirectToLocal(returnUrl) //THERE WE WILL GO AFTER PRESSING BUTTON REGISTER IF U DIDNT HAVE AN ACC!!!
                     }
