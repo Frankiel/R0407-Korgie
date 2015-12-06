@@ -405,7 +405,7 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
         }
         public void DeleteContact(string email)
         {
-            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact", email);
+            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email); //добавить проверку на статус и сделать обратку
         }
         public void Delete_Add_Contact(string sqlcom, string email)
         {

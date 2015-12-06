@@ -11,18 +11,13 @@
         method = '/Event/GetContacts';
         $http.get(method).then(function successCallback(response) {
             catchContacts(response.data);
-            getContactsFromKorgieAPI();
         }, function errorCallback(response) {
             console.log('getContacts failed from mycontactsCtrl');
         });
     };
 
     function catchContacts(data) {
-        korgieApi.contacts = data;
-    };
-
-    function getContactsFromKorgieAPI() {
-        $scope.contacts = korgieApi.contacts;
+        $scope.contacts = data;
     };
 
     function deleteContact(contactEmail) {
@@ -38,22 +33,20 @@
         });
     };
 
-    $scope.delete = function (event) {
-        $scope.nameToDelete = $(event.target).attr("name");
-        $scope.emailToDelete = $(event.target).attr("email");
+    $scope.delete = function (index) {
+        $scope.nameToDelete = $scope.contacts[index].Name;
+        $scope.emailToDelete = $scope.contacts[index].PrimaryEmail;
         LxDialogService.open('delete');
     };
 
     $scope.acceptDeleting = function (event) {
         deleteContact($scope.emailToDelete);
-        for (var i = 0; i < korgieApi.contacts.length; i++) {
-            if (korgieApi.contacts[i].PrimaryEmail == $scope.emailToDelete) {
-                korgieApi.contacts.splice(i, 1);
+        for (var i = 0; i < $scope.contacts.length; i++) {
+            if ($scope.contacts[i].PrimaryEmail == $scope.emailToDelete) {
+                $scope.contacts.splice(i, 1);
                 break;
             }
         }
-        $scope.nameToDelete = '';
-        $scope.emailToDelete = '';
         LxDialogService.close('delete');
     };
 

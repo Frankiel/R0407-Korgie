@@ -1,27 +1,23 @@
 ﻿<div layout="column" layout-align="space-around center">
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
-        <div class="add-contact-card-search">
-            <lx-text-field label="Enter email">
-                <input type="email" name="addemail" ng-model="email1">
-            </lx-text-field>
-        </div>
-        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="add()">Add contact</button>
+        <form name="AddForm" style="display:block; width:100%; text-align:center">
+            <div class="add-contact-card-search">
+                <lx-text-field label="Enter email">
+                    <input type="email" name="addemail" ng-model="email1" required ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@gmail.com$/" ng-maxlength="254">
+                </lx-text-field>
+            </div>
+            <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="add()" ng-disabled="AddForm.addemail.$error.required || AddForm.addemail.$error.pattern || AddForm.addemail.$error.maxlength">Add contact</button>
+        </form>
     </div>
-    <!--<form name="myForm">
-        <div class="add-contact-card-search">
-            <lx-text-field label="Enter email">
-                <input type="email" name="addemail" ng-model="email1" required ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@gmail.com$/">
-            </lx-text-field>
-        </div>
-        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="add()" ng-disabled="myForm.addemail.$error.required || myForm.addemail.$error.pattern">Add contact</button>
-    </form>-->
     <div class="card add-contact-card" layout="column" layout-align="space-around center">
-        <div class="add-contact-card-search">
-            <lx-text-field label="Enter email">
-                <input type="text" ng-model="email2" disabled>
-            </lx-text-field>
-        </div>
-        <button class="btn btn--m btn--blue btn--flat" id="invite-contact" lx-ripple disabled>Invite to the app</button>
+        <form name="InviteForm" style="display:block; width:100%; text-align:center">
+            <div class="add-contact-card-search">
+                <lx-text-field label="Enter email">
+                    <input type="text" ng-model="email2" disabled>
+                </lx-text-field>
+            </div>
+            <button class="btn btn--m btn--blue btn--flat" id="invite-contact" lx-ripple disabled>Invite to the app</button>
+        </form>
     </div>
     <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_ok" auto-close="true">
         <div class="dialog__header">
