@@ -1,6 +1,6 @@
 ﻿html, body {
     margin: 0px;
-    height: 100%;
+    height: auto !important;
     background-color:#FEFFFF;
 }
 
@@ -848,7 +848,7 @@
     background-color:#FFCDD2 !important;
 }
 
-.div{
-    padding-bottom:15px;
-    height:auto;
+.div {
+    padding-bottom: 15px;
+    height: auto !important;
 }
