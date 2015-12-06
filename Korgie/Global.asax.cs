@@ -14,5 +14,15 @@ namespace Korgie
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new OutputCacheAttribute
+            {
+                VaryByParam = "*",
+                Duration = 0,
+                NoStore = true,
+            });
+            // the rest of your global filters here
+        }
     }
 }
