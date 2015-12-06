@@ -196,7 +196,11 @@ namespace Korgie.Controllers
                             }
                             if (resultInvite)
                             {
-                                new SqlCommand(@"DELETE FROM Invites WHERE InvitedEmailUser=@Email", conn).ExecuteNonQuery();
+                                conn.Open();
+                                var cmd4 = new SqlCommand(@"DELETE FROM Invites WHERE InvitedEmailUser=@Email", conn);
+                                cmd4.Parameters.AddWithValue("@Email", usertoadd);
+                                cmd4.ExecuteNonQuery();
+
                                 var cmd3 = new SqlCommand(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@Invited,'Sent')", conn);
                                 cmd3.Parameters.AddWithValue("@PrimaryUser", usertoadd);
                                 cmd3.Parameters.AddWithValue("@Invited", Request.Cookies["Preferences"]["Email"]);
