@@ -91,15 +91,15 @@
     cursor: pointer;
 }
 
-.title{
+.korgie-title {
     position: absolute;
-    bottom:0px;
-    right:0px;
-    color:#E65100; /**#F57F17*/
+    bottom: 0px;
+    right: 0px;
+    color: #E65100; /**#F57F17*/
     overflow: hidden;
 }
 
-.title-text{
+.title-text {
     font-size: 45px;
     font-size: 2.8125rem;
     font-weight: 400;
