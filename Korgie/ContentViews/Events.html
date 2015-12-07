@@ -175,7 +175,7 @@
     </div>
     
     <!-- Event dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="event" auto-close="true">
+    <lx-dialog class="dialog dialog--l" id="event" auto-close="false">
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing && eventToSave.Owner == myPrimaryEmail">
@@ -235,7 +235,7 @@
                             <p>Notifications (days):</p>
                             <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Notifications}}</div>
                             <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
-                                <input type="text" ng-model="eventToEdit.Notifications" number min="1" max="99">
+                                <input type="text" ng-model="eventToEdit.Notifications" number min="1" max="99" disabled>
                             </lx-text-field>
                         </div>
                         <div>
@@ -330,7 +330,7 @@
     </lx-dialog>
 
     <!-- Todo dialog mode -->
-    <lx-dialog class="dialog dialog--l" id="todo" auto-close="true">
+    <lx-dialog class="dialog dialog--l" id="todo" auto-close="false">
         <form name="showingTodo" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing">
@@ -357,7 +357,7 @@
                         <p>Notifications (days):</p>
                         <div ng-if="!eventAdding && !eventEditing">{{todoToSave.Notifications}}</div>
                         <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
-                            <input type="text" ng-model="todoToEdit.Notifications" number min="1" max="99">
+                            <input type="text" ng-model="todoToEdit.Notifications" number min="1" max="99" disabled>
                         </lx-text-field>
                     </div>
                 </div>
