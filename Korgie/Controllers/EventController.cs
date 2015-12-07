@@ -434,11 +434,11 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("EMAIL", "PASSWORD"); //SET EMAIL AND PASSWORD
+            client.Credentials = new NetworkCredential("princeartik@gmail.com", "arthurvasilyev96"); //SET EMAIL AND PASSWORD
             client.EnableSsl = true;
             client.Timeout = 3000;
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("EMAIL"); //SET EMAIL
+            mail.From = new MailAddress("princeartik@gmail.com"); //SET EMAIL
             mail.Subject = "Invitation to the Korgie!!!";
             mail.Body = "Hi there!\n" + Request.Cookies["Preferences"]["Email"] + " has invited you to join the new web-organizer Korgie!\nFollow the link www.korgie.net to sign up =)";
             mail.To.Add(new MailAddress(email));
