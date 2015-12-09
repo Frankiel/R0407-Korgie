@@ -29,7 +29,7 @@
                     Events
                     <button class="btn btn--m btn--green btn--icon" lx-ripple ng-click="openDialog('event')"><i class="icon icon--m icon--green icon--flat mdi mdi-plus"></i></button>
                 </div>
-                <div class="detailed-event card" ng-repeat="event in dayToShow.events">
+                <div class="detailed-event card" ng-repeat="event in dayToShow.events | orderBy:'Start'">
                     <div ng-click="openDialog('event', event)">
                         <div class="day-mode-delete">
                             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(event.EventId)"><i class="mdi mdi-delete"></i></button>
@@ -139,7 +139,7 @@
                         <div></div>
                     </div>
                 </div>
-                <div hide-sm class="week-mode-event card" ng-repeat="event in day.events">
+                <div hide-sm class="week-mode-event card" ng-repeat="event in day.events | orderBy:'Start'">
                     <div ng-click="openDialog('event', event)">
                         <div layout="row" layout-align="center center">
                             {{event.Start.format('HH:mm')}}
