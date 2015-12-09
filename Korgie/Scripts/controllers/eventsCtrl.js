@@ -1,6 +1,6 @@
 ﻿var korgie = angular.module('korgie', ['lumx', 'ui.router']);
 
-korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialogService) {
+korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService) {
 
     korgieApi.setCurState('events');
 
@@ -20,7 +20,15 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     $scope.todoToSave;
 
     $scope.contacts;
+    korgieApi.getContacts().then(function () {
+        $scope.contacts = korgieApi.contacts;
+    });
+
     $scope.myPrimaryEmail;
+    korgieApi.getProfileInfo().then(function () {
+        $scope.myPrimaryEmail = korgieApi.primaryEmail;
+        getEvents();
+    });
 
     function getMonthDays() {
         var result = [];
@@ -113,168 +121,25 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         }
         return result;
     };
-
-    function getProfileInfo() {
-        var method;
-        method = '/Event/GetProfileInfo';
-        $http.get(method).then(function successCallback(response) {
-            catchProfileInfo(response.data);
-        }, function errorCallback(response) {
-            console.log('getProfileInfo failed from eventsCtrl');
-        });
-    };
-    function catchProfileInfo(data) {
-        $scope.myPrimaryEmail = data.PrimaryEmail;
-        korgieApi.name = data.Name;
-        korgieApi.primaryEmail = data.PrimaryEmail;
-        korgieApi.additionalEmail = data.AdditionalEmail;
-        korgieApi.phone = data.Phone;
-        korgieApi.country = data.Country;
-        korgieApi.city = data.City;
-        if (data.Sport.length == 3)
-            korgieApi.sport = data.Sport;
-        if (data.Work.length == 3)
-            korgieApi.work = data.Work;
-        if (data.Rest.length == 3)
-            korgieApi.rest = data.Rest;
-        if (data.Study.length == 3)
-            korgieApi.study = data.Study;
-        if (data.Additional.length == 3)
-            korgieApi.additional = data.Additional;
-    };
-    getProfileInfo();
-
-    function getContacts() {
-        var method;
-        method = '/Event/GetContacts';
-        $http.get(method).then(function successCallback(response) {
-            $scope.contacts = response.data;
-        }, function errorCallback(response) {
-            console.log('getContacts failed from eventsCtrl');
-        });
-    };
-    getContacts();
-
-    function convertEvents(eventData, todoData) {
-        var deferred = $q.defer();
-        var eventResult = [], todoResult = [];
-        eventData.forEach(function (element) {
-            var color;
-            switch (element.Type) {
-                case "Sports":
-                    color = korgieApi.sport;
-                    break;
-                case "Work":
-                    color = korgieApi.work;
-                    break;
-                case "Study":
-                    color = korgieApi.study;
-                    break;
-                case "Rest":
-                    color = korgieApi.rest;
-                    break;
-                case "Additional":
-                    color = korgieApi.additional;
-                    break;
-            };
-            eventResult.push({
-                EventId: element.EventId,
-                Title: element.Title,
-                Start: moment.utc(element.Start),
-                Type: element.Type,
-                Color: color[2],
-                Description: element.Description,
-                Period: element.Period,
-                Tags: element.Tags,
-                Contacts: [],
-                Owner: element.Owner
-            });
-        });
-        todoData.forEach(function (element) {
-            var tasks = [];
-            element.Tasks.forEach(function (task, i) {
-                tasks.push({ Id: i, State: task.State, Name: task.Name });
-            });
-            todoResult.push({
-                TodoId: element.TodoId,
-                Title: element.Title,
-                Start: moment.utc(element.Start),
-                Color: element.Color,
-                Description: element.Description,
-                Tasks: tasks
-            });
-        });
-        events = eventResult;
-        todos = todoResult;
-        
-        deferred.resolve();
-        return deferred.promise;
-    };
-
-    function getEvents(isNextPrevWeek) {
-        var param, method;
-        if (!$scope.isWeekMode) {
-            //метод получения ивентов с использованием функции обращения к серверу
-            method = '/Event/GetMonthEvents';
-            param = {
-                month: parseInt($scope.current.month()) + 1,
-                year: $scope.current.year()
+    function getEvents(isNextPrev) {
+        korgieApi.getEvents($scope.isWeekMode, $scope.current.clone()).then(function (result) {
+            events = result.events;
+            todos = result.todos;
+            if (!$scope.isWeekMode) {
+                $scope.monthDays = getMonthDays();
+            } else {
+                $scope.weekDays = getWeekDays(isNextPrev);
             }
-            $http.get(method, { params: param }).then(function successCallback(eventResponse) {
-                $http.get('/Event/GetMonthTodo', { params: param }).then(function successCallback(todoResponse) {
-                    setTimeout(function () {
-                        convertEvents(eventResponse.data, todoResponse.data).then(function () {
-                            $scope.monthDays = getMonthDays();
-                        })
-                    }, 300);
-                }, function errorCallback(response) {
-                    console.log('getting todos failed');
-                });
-            }, function errorCallback(response) {
-                console.log('getting events failed');
-            });
-        } else {
-            method = '/Event/GetWeekEvents',
-            param = {
-                week: $scope.current.week(),
-                year: $scope.current.year()
-            }
-            $http.get(method, { params: param }).then(function successCallback(eventResponse) {
-                $http.get('/Event/GetWeekTodo', { params: param }).then(function successCallback(todoResponse) {
-                    setTimeout(function () {
-                        convertEvents(eventResponse.data, todoResponse.data).then(function () {
-                            $scope.weekDays = getWeekDays(isNextPrevWeek);
-                        })
-                    }, 300);
-                }, function errorCallback(response) {
-                    console.log('getting todos failed');
-                });
-            }, function errorCallback(response) {
-                console.log('getting events failed');
-            });
-        }
+        });
     };
-    getEvents();
 
     $scope.nextMonth = function () {
         $scope.current.add(1, 'month');
-        /*if ($scope.month < 11) {
-            $scope.month++;
-        } else {
-            $scope.month = 0;
-            $scope.year++;
-        }*/
         getEvents();
     };
 
     $scope.prevMonth = function () {
         $scope.current.subtract(1, 'month');
-        /*if ($scope.month > 0) {
-            $scope.month--;
-        } else {
-            $scope.month = 11;
-            $scope.year--;
-        }*/
         getEvents();
     };
 
@@ -295,32 +160,16 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
 
     $scope.nextWeek = function () {
         $scope.current.add(1, 'week');
-        /*var sun = $scope.weekDays[6];
-        if ((sun.month == 0 && sun.day < 4) || (sun.month == 11 && sun.day > 28)) {
-            $scope.week = 1;
-            $scope.year++;
-        } else {
-            $scope.week++;
-        }*/
         getEvents(1);
     };
 
     $scope.prevWeek = function () {
         $scope.current.subtract(1, 'week');
-        /*if ($scope.week == 1) {
-            $scope.year--;
-            $scope.month = 11;
-            $scope.week = korgieApi.getWeekNumber($scope.month, $scope.year, true);
-        } else {
-            $scope.week--;
-        }*/
         getEvents(-1);
     };
 
     $scope.showHideMenu = function () {
-        $('.header').toggleClass('opened-menu');
-        $('.content').toggleClass('opened-menu');
-        $('.dark-div').toggleClass('opened-menu');
+        korgieApi.showHideMenu();
     };
 
     $scope.closeDayMode = function () {
@@ -328,24 +177,12 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     };
 
     $scope.deleteEvent = function (id) {
-        $http({
-            url: '/Event/DeleteEvents',
-            method: "GET",
-            params: {
-                id: id
-            }
-        });
+        korgieApi.deleteEvent(id);
         crudEvent(id);
     };
 
     $scope.deleteTodo = function (id) {
-        $http({
-            url: '/Event/DeleteTodo',
-            method: "GET",
-            params: {
-                id: id
-            }
-        });
+        korgieApi.deleteTodo(id);
         crudTodo(id);
     };
 
@@ -490,25 +327,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     function saveEvent() {
         var startDate = $scope.eventToEdit.StartJsDate;
         $scope.eventToEdit.Start = moment.utc(startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60));
-        var contacts = [korgieApi.primaryEmail];
-        for (var i = 0; i < $scope.eventToEdit.Contacts.length; i++) {
-            contacts.push($scope.eventToEdit.Contacts[i].PrimaryEmail);
-        }
-        $http({
-            url: '/Event/SaveEvents',
-            method: "GET",
-            params: {
-                EventId: $scope.eventToEdit.EventId || -1,
-                Title: $scope.eventToEdit.Title,
-                Start: $scope.eventToEdit.Start.toDate(),
-                Type: $scope.eventToEdit.Type,
-                Description: $scope.eventToEdit.Description || '',
-                Period: $scope.eventToEdit.Period || 0,
-                Days: 0,
-                Tags: $scope.eventToEdit.Tags || '',
-                attached: contacts
-            }
-        });
+        korgieApi.saveEvent($scope.eventToEdit);
         switch ($scope.eventToEdit.Type) {
             case "Sports":
                 $scope.eventToEdit.Color = korgieApi.sport[2];
@@ -535,23 +354,7 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
-        $http({
-            url: '/Event/SaveTodo',
-            method: "GET",
-            params: {
-                TodoId: $scope.todoToEdit.TodoId || -1,
-                Title: $scope.todoToEdit.Title,
-                Start: $scope.todoToEdit.Start.toDate(),
-                Color: $scope.todoToEdit.Color,
-                Description: $scope.todoToEdit.Description || '',
-                States: $scope.todoToEdit.Tasks.map(function (task) {
-                    return task.State;
-                }),
-                Tasks: $scope.todoToEdit.Tasks.map(function (task) {
-                    return task.Name;
-                }) || []
-            }
-        });
+        korgieApi.saveTodo($scope.todoToEdit);
     };
 
     $scope.openDialog = function (dialogName, event) {
@@ -576,12 +379,8 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
             var startDate = event.Start.clone().toDate()
             event.StartJsDate = new Date(startDate.setHours(startDate.getHours() + startDate.getTimezoneOffset() / 60));
             if (dialogName == 'event') {
-                var method = '/Event/GetEventContacts',
-                    param = { id: event.EventId };
-                $http.get(method, { params: param }).then(function successCallback(response) {
-                    $scope.eventToSave.Contacts = response.data;
-                }, function errorCallback(response) {
-                    console.log('getProfileInfo failed from eventsCtrl');
+                korgieApi.getEventContacts(event.EventId).then(function (contacts) {
+                    $scope.eventToSave.Contacts = contacts;
                 });
             }
         }
@@ -658,9 +457,6 @@ korgie.controller('eventsCtrl', function ($scope, $http, $q, korgieApi, LxDialog
     };
 
     $scope.showHideControlls = function () {
-        /*$(".controlls-visible").toggle();
-        $(".controlls-unvisible").toggle();
-        $scope.eventEditing = !$scope.eventEditing;*/
         $scope.eventToEdit = angular.copy($scope.eventToSave);
         $scope.todoToEdit = angular.copy($scope.todoToSave);
 
