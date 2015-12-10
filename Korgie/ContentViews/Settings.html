@@ -1,57 +1,59 @@
 ﻿<div class="dark-div" ng-click="showHideMenu()"></div>
 <div class="container content set">
-    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+    <div class="mobile-header" layout="row" layout-align="space-between center" hide-gt-sm>
         <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="showHideMenu()">
             <i class="mdi mdi-menu"></i>
         </button>
         <h2>Settings</h2>
+        <div style="width:41px"></div>
     </div>
-                  <div class="settingsarea">
                         <div layout="column" class="mainsettingsblock">
+                            <div class="settingsheader" style="margin-top:0px;">
+                                <span class="fs-title display-block">Profile</span>
+                            </div>
                                 <div layout="row" layout-align="space-around center" layout-md="column" layout-sm="column">
                                     <div class="text-align-center">
                                         <div class="avatar">
                                         </div>
                                     </div>
                                     <div class="text-align-right">
-                                        <button class="btn btn--s btn--blue btn--icon" lx-ripple disabled><i class="mdi mdi-pencil"></i></button>
                                         <div layout="row" layout-align="space-around center" class="profilelines">
-                                            <div flex="30" class="text-align-left">
+                                            <div flex="30" class="text-align-left label-setting-list">
                                                 <span class="fs-subhead display-block">Name:</span>
                                             </div>
-                                            <div flex="70" class="text-align-left">
+                                            <div flex="70" class="text-align-left settings-field-value">
                                                 <span class="fs-subhead display-block">{{name}}</span>
                                             </div>
                                         </div>
                                         <div layout="row" layout-align="space-around center" class="profilelines">
-                                            <div flex="30" class="text-align-left">
+                                            <div flex="30" class="text-align-left label-setting-list">
                                                 <span class="fs-subhead display-block">Primary email:</span>
                                             </div>
-                                            <div flex="70" class="text-align-left">
+                                            <div flex="70" class="text-align-left settings-field-value">
                                                 <span class="fs-subhead display-block">{{primaryEmail}}</span>
                                             </div>
                                         </div>
                                         <div layout="row" layout-align="space-around center" class="profilelines">
-                                            <div flex="30" class="text-align-left">
+                                            <div flex="30" class="text-align-left label-setting-list">
                                                 <span class="fs-subhead display-block">Phone:</span>
                                             </div>
-                                            <div flex="70" class="text-align-left">
+                                            <div flex="70" class="text-align-left settings-field-value">
                                                 <span class="fs-subhead display-block">{{phone}}</span>
                                             </div>
                                         </div>
                                         <div layout="row" layout-align="space-around center" class="profilelines">
-                                            <div flex="30" class="text-align-left">
+                                            <div flex="30" class="text-align-left label-setting-list">
                                                 <span class="fs-subhead display-block">Country:</span>
                                             </div>
-                                            <div flex="70" class="text-align-left">
+                                            <div flex="70" class="text-align-left settings-field-value">
                                                 <span class="fs-subhead display-block">{{country}}</span>
                                             </div>
                                         </div>
                                         <div layout="row" layout-align="space-around center" class="profilelines">
-                                            <div flex="30" class="text-align-left">
+                                            <div flex="30" class="text-align-left label-setting-list">
                                                 <span class="fs-subhead display-block">City:</span>
                                             </div>
-                                            <div flex="70" class="text-align-left">
+                                            <div flex="70" class="text-align-left settings-field-value">
                                                 <span class="fs-subhead display-block">{{city}}</span>
                                             </div>
                                         </div>
@@ -73,26 +75,5 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="settingsheader">
-                                <span class="fs-title display-block">Notifications</span>
-                            </div>
-                            <div class="text-align-right">
-                                <button class="btn btn--s btn--blue btn--icon" lx-ripple disabled><i class="mdi mdi-pencil" ></i></button>
-                                <div layout="row" layout-align="center center" layout-md="column" layout-sm="column">
-                                    <div flex="30" flex-md="80" flex-sm="80">
-                                        <div class="switch">
-                                            <input type="checkbox" id="is-notify" class="switch__input" disabled>
-                                            <label for="is-notify" class="switch__label">Notify me about upcoming events.</label>
-                                        </div>
-                                    </div>
-                                    <div flex="10" class="text-align-right">
-                                        <span class="fs-subhead display-block">Email: </span>
-                                    </div>
-                                    <div>
-                                        <span class="fs-subhead display-block">{{additionalEmail}}</span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
 </div>

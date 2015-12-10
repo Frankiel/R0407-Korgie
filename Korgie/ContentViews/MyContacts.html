@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; top:30% !important; margin-left:-200px" id="delete" auto-close="true"><!--style="width:auto !important; left:auto !important ; margin-left:auto !important; margin-right:auto !important; overflow: auto; top:30% !important; "-->
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; top:30% !important; margin-left:-200px" id="delete" auto-close="true">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
                 <span class="toolbar__label tc-black fs-title">
@@ -54,4 +54,5 @@
             <button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
         </div>
     </lx-dialog>
+    <div ng-if="contacts.length == 0" class="no-data-ng-if">You don't have any contacts yet</div>
 </div>

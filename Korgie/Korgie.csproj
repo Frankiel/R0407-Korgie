@@ -157,6 +157,7 @@
     <Content Include="ContentViews\Recieved.html" />
     <Content Include="ContentViews\Sent.html" />
     <Content Include="ContentViews\Settings.html" />
+    <Content Include="Content\avatar.png" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
@@ -739,6 +740,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KorgieUserValidator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

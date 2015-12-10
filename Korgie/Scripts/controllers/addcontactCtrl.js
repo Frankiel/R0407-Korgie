@@ -1,6 +1,8 @@
 ﻿korgie.controller('addcontactCtrl', function ($scope, $http, korgieApi, LxDialogService, $state, $q) {
     $scope.email1;
     $scope.email2;
+    $scope.tempemail1;
+    $scope.tempemail2;
     $scope.myemail;
 
     $scope.contacts;
@@ -21,11 +23,7 @@
         }, function errorCallback(response) {
             LxDialogService.open('add_failed');
         });
-    };
-
-    function openDialog(email, window) {
-        $scope.email1 = email;
-        LxDialogService.open(window);
+        $scope.email1 = '';
     };
 
     function getContacts() {
@@ -188,6 +186,7 @@
         }, function errorCallback(response) {
             LxDialogService.open('invite_failed');
         });
+        $scope.email2 = '';
     };
 
     $scope.invite = function () {
@@ -215,5 +214,10 @@
             });
         }
     };
+
+    $scope.closingDialog = function () {
+        $scope.email2 = '';
+        $scope.email1 = '';
+    }
 
 });

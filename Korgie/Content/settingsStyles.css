@@ -8,18 +8,16 @@
 
 .settingsarea{
     width:100%;
-    text-align:center;
+    
 }
 
 .avatar{
     width:200px;
     height:200px;
     background-color:#888;
+    background: url(../Content/avatar.png) no-repeat;
+    background-size: auto 100%;
 }
-
-.selecteventcolor{
-       
-    }
 
 .colors-closed{
     visibility:hidden;
@@ -31,6 +29,7 @@
 
 .eventname{
     text-align:center;
+    color:#00897B;
 }
 
 .eventicon{
@@ -100,15 +99,53 @@
 
 .settingsheader{
     margin:10px;
-    margin-top:30px;
+    margin-top:20px;
+}
+
+.label-setting-list span{
+    color: #00695C;
+    font-size: 1.0rem !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.settings-field-value{
+    color: #004D40;
+    font-size: 1.0rem !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.settingsheader span{
+    color: #F57C00;
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
 @media (max-width: 959px) {
     .mainsettingsblock{
         width:400px;
-        height:500px;
+        height:auto!important;
         margin-left:auto;
         margin-right:auto;
-        margin-bottom:200px;
+    }
+    .selecteventcolor{
+        width:150px !important;
+        text-align:center;
+    }
+
+    .settingsheader{
+        margin-bottom:0px;
+        margin-top:10px;
+    }
+    .eventelement{
+        margin-top:0px !important;
+    }
+
+    .label-setting-list{
+        padding-left:6px;
+    }
+
+    .avatar{
+        margin-bottom:10px;
     }
 }

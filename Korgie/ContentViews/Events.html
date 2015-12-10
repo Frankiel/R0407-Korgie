@@ -7,7 +7,7 @@
         <h2>Events</h2>
         <div class="week-switcher">
             <input type="checkbox" id="switch1" class="switch__input" ng-model="weekSwitcher" ng-click="changeMonthWeek()">
-            <label for="switch1" class="switch__label">Week</label>
+            <label for="switch1" class="switch__label"><span>Week</span></label>
         </div>
     </div>
 
@@ -19,14 +19,14 @@
         <div class="day-mode-header" layout-align="center center" layout="row">
             <div class="day-header" layout="row" layout-align="center center">
                 <button hide class="btn btn--m btn--blue btn--icon" ng-click="prevDay()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                {{dayToShow.date.format('MMMM Do, YYYY')}}
+                <span>{{dayToShow.date.format('MMMM Do, YYYY')}}</span>
                 <button hide class="btn btn--m btn--blue btn--icon" ng-click="nextDay()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
         <div layout="row" layout-sm="column">
             <div class="day-mode-events" layout-gt-sm="column" layout-align-gt-sm="start center">
-                <div layout="column" layout-align="center center">
-                    Events
+                <div layout="column" layout-align="center center" class="day-mode-title-column">
+                    <span>Events</span>
                     <button class="btn btn--m btn--green btn--icon" lx-ripple ng-click="openDialog('event')"><i class="icon icon--m icon--green icon--flat mdi mdi-plus"></i></button>
                 </div>
                 <div class="detailed-event card" ng-repeat="event in dayToShow.events | orderBy:'Start'">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="day-mode-todos" layout-gt-sm="column" layout-align-gt-sm="start center">
-                <div layout="column" layout-align="center center">
+                <div layout="column" layout-align="center center" class="day-mode-title-column">
                     To-do lists
                     <button class="btn btn--m btn--green btn--icon" lx-ripple ng-click="openDialog('todo')"><i class="icon icon--m icon--green icon--flat mdi mdi-plus"></i></button>
                 </div>
@@ -73,13 +73,13 @@
     <div class="month-container" ng-if="!dayToShow && isMonthMode">
         <div class="week-switcher" hide-sm>
             <input type="checkbox" id="switch1" class="switch__input" ng-model="weekSwitcher" ng-click="changeMonthWeek()">
-            <label for="switch1" class="switch__label">Week</label>
+            <label for="switch1" class="switch__label"><span>Week</span></label>
         </div>
         <div layout-align="center center" layout="row">
             <div class="month-header" layout="row" layout-align="space-between center">
-                <button class="btn btn--m btn--blue btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                {{current.format('MMMM, YYYY')}}
-                <button class="btn btn--m btn--blue btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+                <button class="btn btn--m btn--teal btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
+                <span>{{current.format('MMMM, YYYY')}}</span>
+                <button class="btn btn--m btn--teal btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
         <div layout="row" layout-align="space-around center" class="week-days">
@@ -115,13 +115,13 @@
     <div ng-if="!dayToShow && !isMonthMode">
         <div class="week-switcher" hide-sm>
             <input type="checkbox" id="switch1" class="switch__input" ng-model="weekSwitcher" ng-click="changeMonthWeek()">
-            <label for="switch1" class="switch__label">Week</label>
+            <label for="switch1" class="switch__label"><span>Week</span></label>
         </div>
         <div layout-align="center center" layout="row">
             <div class="week-header" layout="row" layout-align="space-around center">
-                <button class="btn btn--m btn--blue btn--icon" ng-click="prevWeek()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                Week {{current.week()}}
-                <button class="btn btn--m btn--blue btn--icon" ng-click="nextWeek()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
+                <button class="btn btn--m btn--teal btn--icon" ng-click="prevWeek()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
+                <span>Week {{current.week()}}</span>
+                <button class="btn btn--m btn--teal btn--icon" ng-click="nextWeek()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
         <div class="week-mode-days" layout-gt-sm="row" layout-align="space-between start">
