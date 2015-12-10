@@ -23,7 +23,6 @@
         }, function errorCallback(response) {
             LxDialogService.open('add_failed');
         });
-        $scope.email1 = '';
     };
 
     function getContacts() {
@@ -186,7 +185,6 @@
         }, function errorCallback(response) {
             LxDialogService.open('invite_failed');
         });
-        $scope.email2 = '';
     };
 
     $scope.invite = function () {

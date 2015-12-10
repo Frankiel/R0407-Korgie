@@ -8,6 +8,8 @@ using Korgie.Models;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Net;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace Korgie.Controllers
 {
@@ -430,15 +432,15 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-
+            Configuration config = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("princeartik@gmail.com", "arthurvasilyev96"); //SET EMAIL AND PASSWORD
+            client.Credentials = new NetworkCredential(config.AppSettings.Settings["MailBoxEmail"].Value, config.AppSettings.Settings["MailBoxPassword"].Value);
             client.EnableSsl = true;
             client.Timeout = 3000;
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("princeartik@gmail.com"); //SET EMAIL
+            mail.From = new MailAddress(config.AppSettings.Settings["MailBoxEmail"].Value);
             mail.Subject = "Invitation to the Korgie!!!";
             mail.Body = "Hi there!\n" + Request.Cookies["Preferences"]["Email"] + " has invited you to join the new web-organizer Korgie!\nFollow the link www.korgie.net to sign up =)";
             mail.To.Add(new MailAddress(email));

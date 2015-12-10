@@ -133,10 +133,6 @@
     margin-top: 5px;
 }
 
-.footer{
-    display:none !important;
-}
-
 .background-image h1 {
     margin-top: 0px;
 }
@@ -918,18 +914,10 @@
     }
 }
 
-/* footer */
-
-.footer {
-    height: 50px;
-    background: #999;
-}
-
 .validation-error{
     background-color:#FFCDD2 !important;
 }
 
 .div {
 
-    height: auto !important;
 }
