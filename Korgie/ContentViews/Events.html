@@ -204,7 +204,7 @@
                             <div class="event-time" ng-if="!eventAdding && !eventEditing">
                                 {{eventToSave.Start.format('HH:mm')}}
                             </div>
-                            <input type="time" name="time" ng-model="eventToEdit.StartJsDate" ng-if="eventAdding || eventEditing" required>
+                            <input type="time" name="time" ng-model="eventToEdit.StartJsTime" ng-if="eventAdding || eventEditing" required>
                         </div>
                         <div>
                             <p>Type:</p>

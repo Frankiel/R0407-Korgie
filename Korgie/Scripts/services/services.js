@@ -129,10 +129,10 @@
             return deferred.promise;
         };
 
-        korgieApi.getEvents = function (isMonthMode, current) {
+        korgieApi.getEvents = function (isWeekMode, current) {
             var deferred = $q.defer();
             var param, method;
-            if (isMonthMode) {
+            if (!isWeekMode) {
                 method = '/Event/GetMonth';
                 param = {
                     month: parseInt(current.month()) + 1,

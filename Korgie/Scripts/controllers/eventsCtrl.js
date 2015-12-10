@@ -124,7 +124,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         return result;
     };
     function getEvents(isNextPrev) {
-        korgieApi.getEvents($scope.isMonthMode, $scope.current.clone()).then(function (result) {
+        korgieApi.getEvents($scope.weekSwitcher, $scope.current.clone()).then(function (result) {
             events = result.events;
             todos = result.todos;
             if (!$scope.weekSwitcher) {
@@ -292,7 +292,9 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     };
     function saveEvent() {
         var startDate = $scope.eventToEdit.StartJsDate;
-        $scope.eventToEdit.Start = moment.utc(startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60));
+        var startTime = $scope.eventToEdit.StartJsTime;
+        $scope.eventToEdit.Start = moment.utc([startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes()]);
+        //$scope.eventToEdit.Start = moment.utc(startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60));
         korgieApi.saveEvent($scope.eventToEdit);
         switch ($scope.eventToEdit.Type) {
             case "Sports":
@@ -330,7 +332,8 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
             event = {
                 Type: 'Work',
                 Start: $scope.dayToShow.date.clone(),
-                StartJsDate: new Date(startDate.setHours(startDate.getHours() + startDate.getTimezoneOffset() / 60)),
+                StartJsDate: startDate,
+                StartJsTime: startDate,
                 Period: 0,
                 Color: '#2196f3',
                 Tasks: [],
@@ -342,8 +345,10 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         } else {
             $scope.eventAdding = false;
             $scope.eventEditing = false;
-            var startDate = event.Start.clone().toDate()
-            event.StartJsDate = new Date(startDate.setHours(startDate.getHours() + startDate.getTimezoneOffset() / 60));
+            var startDate = event.Start.clone();//.toDate();
+            event.StartJsDate = new Date(startDate.year(), startDate.month(), startDate.date());
+            event.StartJsTime = new Date(startDate.year(), startDate.month(), startDate.date(), startDate.hours(), startDate.minutes());
+            //event.StartJsDate = new Date(startDate.setHours(startDate.getHours() + startDate.getTimezoneOffset() / 60));
             if (dialogName == 'event') {
                 korgieApi.getEventContacts(event.EventId).then(function (contacts) {
                     $scope.eventToSave.Contacts = contacts;
