@@ -6,7 +6,7 @@
         </button>
         <h2>Events</h2>
         <div class="week-switcher">
-            <input type="checkbox" id="switch1" class="switch__input" ng-model="isWeekMode" ng-click="changeMonthWeek()">
+            <input type="checkbox" id="switch1" class="switch__input" ng-model="weekSwitcher" ng-click="changeMonthWeek()">
             <label for="switch1" class="switch__label">Week</label>
         </div>
     </div>
@@ -70,9 +70,9 @@
     </div>
 
     <!-- Month mode -->
-    <div class="month-container" ng-if="!dayToShow && !isWeekMode">
+    <div class="month-container" ng-if="!dayToShow && isMonthMode">
         <div class="week-switcher" hide-sm>
-            <input type="checkbox" id="switch1" class="switch__input" ng-model="isWeekMode" ng-click="changeMonthWeek()">
+            <input type="checkbox" id="switch1" class="switch__input" ng-model="weekSwitcher" ng-click="changeMonthWeek()">
             <label for="switch1" class="switch__label">Week</label>
         </div>
         <div layout-align="center center" layout="row">
@@ -92,7 +92,7 @@
             <div>Sun</div>
         </div>
         <div class="calendar-container">
-            <div class="month-day card" ng-repeat="calendarDay in monthDays">
+            <div class="month-day card" ng-repeat="calendarDay in days">
                 <div ng-click="showDay(calendarDay.id)" ng-class="{'disabled-month-day': calendarDay.date == undefined, 'some-events': calendarDay.types.length > 0 || calendarDay.todos.length > 0}">
                     <div class="day-number">{{calendarDay.date.get('date') || calendarDay.day}}</div>
                     <div class="event-container" hide-sm>
@@ -112,9 +112,9 @@
     </div>
 
     <!-- Week mode -->
-    <div ng-if="!dayToShow && isWeekMode">
+    <div ng-if="!dayToShow && !isMonthMode">
         <div class="week-switcher" hide-sm>
-            <input type="checkbox" id="switch1" class="switch__input" ng-model="isWeekMode" ng-click="changeMonthWeek()">
+            <input type="checkbox" id="switch1" class="switch__input" ng-model="weekSwitcher" ng-click="changeMonthWeek()">
             <label for="switch1" class="switch__label">Week</label>
         </div>
         <div layout-align="center center" layout="row">
@@ -125,7 +125,7 @@
             </div>
         </div>
         <div class="week-mode-days" layout-gt-sm="row" layout-align="space-between start">
-            <div flex ng-repeat="day in weekDays">
+            <div flex ng-repeat="day in days">
                 <div ng-click="showDay(day.id)" class="card">
                     <div class="week-mode-day-names">
                         <div hide-sm>{{day.date.format('ddd')}},</div>

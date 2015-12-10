@@ -6,11 +6,11 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
 
     $scope.current = moment.utc();
     var events = [], todos = [];
-    $scope.monthDays;
+    $scope.days;
     $scope.dayToShow;
 
-    $scope.isWeekMode = false;
-    $scope.weekDays;
+    $scope.isMonthMode = true;
+    $scope.weekSwitcher;
 
     $scope.eventAdding = false;
     $scope.eventEditing = false;
@@ -27,10 +27,10 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     $scope.myPrimaryEmail;
     korgieApi.getProfileInfo().then(function () {
         $scope.myPrimaryEmail = korgieApi.primaryEmail;
-        getEvents();
+        getEvents(0);
     });
 
-    function getMonthDays() {
+    function getMonthDays(isNextPrev) {
         var result = [];
 
         // Найти день недели первого числа текущего месяца
@@ -79,6 +79,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
                 events: []
             });
         }
+        if (isNextPrev == undefined) $scope.isMonthMode = true;
         return result;
     };
     function getWeekDays(isNextPrev) {
@@ -119,42 +120,38 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
             });
             monday = monday.add(1, 'day');
         }
+        if (isNextPrev == undefined) $scope.isMonthMode = false;
         return result;
     };
     function getEvents(isNextPrev) {
-        korgieApi.getEvents($scope.isWeekMode, $scope.current.clone()).then(function (result) {
+        korgieApi.getEvents($scope.isMonthMode, $scope.current.clone()).then(function (result) {
             events = result.events;
             todos = result.todos;
-            if (!$scope.isWeekMode) {
-                $scope.monthDays = getMonthDays();
+            if (!$scope.weekSwitcher) {
+                $scope.days = getMonthDays(isNextPrev);
             } else {
-                $scope.weekDays = getWeekDays(isNextPrev);
+                $scope.days = getWeekDays(isNextPrev);
             }
         });
     };
 
     $scope.nextMonth = function () {
         $scope.current.add(1, 'month');
-        getEvents();
+        getEvents(1);
     };
 
     $scope.prevMonth = function () {
         $scope.current.subtract(1, 'month');
-        getEvents();
+        getEvents(-1);
     };
 
     $scope.changeMonthWeek = function () {
-        $scope.week = korgieApi.getWeekNumber($scope.current.month(), $scope.current.year());
         getEvents();
     };
 
     $scope.showDay = function (index) {
-        if (!$scope.isWeekMode) {
-            if ($scope.monthDays[index].date != undefined) {
-                $scope.dayToShow = $scope.monthDays[index];
-            }
-        } else {
-            $scope.dayToShow = $scope.weekDays[index];
+        if ($scope.days[index].date != undefined) {
+            $scope.dayToShow = $scope.days[index];
         }
     };
 
@@ -191,41 +188,27 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         // Updating & Deleting
         if (oldEventId != -1) {
 
-            // Для недели прохожу ПО СТОРУ и, найдя событие со старым ид, запоминаю старую дату, удаляю его
-            if ($scope.isWeekMode) {
-                $scope.weekDays.forEach(function (day) {
-                    day.events.forEach(function (ev, i) {
-                        if (ev.EventId == oldEventId) {
-                            date = ev.Start;
-                            day.events.splice(i, 1);
-                        }
-                    })
-                });
-
-                // Получаю день ИЗ СТОРА, куда запишу событие
-                d = $scope.weekDays.filter(function (day) {
-                    return day.date.format('DD-MM-YYYY') == date.format('DD-MM-YYYY');
-                })[0];
-            } else {
-
-                // Для месяца прохожу по ОТКРЫТОМУ ДНЮ и, найдя событие со старым ид, запоминаю старую дату, удаляю его
+            // Прохожу по открытому дню, удаляю событие
+            if ($scope.dayToShow != undefined) {
                 $scope.dayToShow.events.forEach(function (ev, i) {
                     if (ev.EventId == oldEventId) {
                         date = ev.Start;
                         $scope.dayToShow.events.splice(i, 1);
                     }
                 });
-
-                // Получаю день ИЗ СТОРА, куда запишу событие
-                d = $scope.monthDays.filter(function (day) {
-                    return day.date != undefined && day.date.format('DD-MM-YYYY') == date.format('DD-MM-YYYY');
-                })[0];
+            } else {
+                date = $scope.eventToSave.Start;
             }
+
+            // Получаю день ИЗ СТОРА, откуда удалю событие
+            d = $scope.days.filter(function (day) {
+                return day.date != undefined && day.date.format('DD-MM-YYYY') == date.format('DD-MM-YYYY');
+            })[0];
 
             // Удаляю старое событие из полученного дня
             d.events.forEach(function (ev, i) {
                 if (ev.EventId == oldEventId) {
-                    $scope.dayToShow.events.splice(i, 1);
+                    d.events.splice(i, 1);
                 }
             });
 
@@ -239,20 +222,11 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
             // Получаю новую дату события
             date = newEvent.Start;
 
-            // Для недели найти день с новой датой
-            if ($scope.isWeekMode) {
-                var i = 0;
-                for (; i < 7 && $scope.weekDays[i].date.format('DD-MM-YYYY') != newEvent.Start.format('DD-MM-YYYY'); i++) { }
-                d = $scope.weekDays[i];
-            }
-
-            // Для месяца найти день с новой датой
-            else {
-                var i = 0, length = $scope.monthDays.length;
-                for (; i < length && !($scope.monthDays[i].date != undefined && $scope.monthDays[i].date.format('DD-MM-YYYY') == newEvent.Start.format('DD-MM-YYYY')); i++) { }
-                d = $scope.monthDays[i];
-            }
-
+            // Нахожу день с новой датой
+            var i = 0, length = $scope.days.length;
+            for (; i < length && !($scope.days[i].date != undefined && $scope.days[i].date.format('DD-MM-YYYY') == newEvent.Start.format('DD-MM-YYYY')); i++) { }
+            d = $scope.days[i];
+            
             // Добавить в найденный день событие, обновить типы
             if (d != undefined) {
                 d.events.push(newEvent);
@@ -265,48 +239,40 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         var date, newDay;
         // Updating & Deleting
         if (oldTodoId != -1) {
-            if ($scope.isWeekMode) {
-                $scope.weekDays.forEach(function (day) {
-                    day.todos.forEach(function (ev, i) {
-                        if (ev.TodoId == oldTodoId) {
-                            date = ev.Start;
-                            day.todos.splice(i, 1);
-                        }
-                    })
-                });
-                newDay = $scope.weekDays.filter(function (day) {
-                    return day.date.format('DD-MM-YYYY') == date.format('DD-MM-YYYY');
-                })[0];
-            } else {
-                $scope.dayToShow.todos.forEach(function (ev, i) {
-                    if (ev.TodoId == oldTodoId) {
-                        date = ev.Start;
+            // Прохожу по открытому дню, удаляю событие
+            if ($scope.dayToShow != undefined) {
+                $scope.dayToShow.todos.forEach(function (td, i) {
+                    if (td.TodoId == oldTodoId) {
+                        date = td.Start;
                         $scope.dayToShow.todos.splice(i, 1);
                     }
                 });
-                newDay = $scope.monthDays.filter(function (day) {
-                    return day.date != undefined && day.date.format('DD-MM-YYYY') == date.format('DD-MM-YYYY');
-                })[0];
+            } else {
+                date = $scope.todoToSave.Start;
             }
+
+            // Получаю день ИЗ СТОРА, куда запишу событие
+            newDay = $scope.days.filter(function (day) {
+                return day.date != undefined && day.date.format('DD-MM-YYYY') == date.format('DD-MM-YYYY');
+            })[0];
+
+            // Удаляю старый туду-лист из полученного дня
             newDay.todos.forEach(function (ev, i) {
                 if (ev.TodoId == oldTodoId) {
-                    $scope.dayToShow.todos.splice(i, 1);
+                    newDay.todos.splice(i, 1);
                 }
             });
         }
 
         // Updating & Adding
         if (newTodo != undefined) {
+
             date = newTodo.Start;
-            if ($scope.isWeekMode) {
-                var i = 0;
-                for (; i < 7 && $scope.weekDays[i].date.format('DD-MM-YYYY') != newTodo.Start.format('DD-MM-YYYY'); i++) { }
-                newDay = $scope.weekDays[i];
-            } else {
-                var i = 0, length = $scope.monthDays.length;
-                for (; i < length && !($scope.monthDays[i].date != undefined && $scope.monthDays[i].date.format('DD-MM-YYYY') == newTodo.Start.format('DD-MM-YYYY')); i++) { }
-                newDay = $scope.monthDays[i];
-            }
+
+            var i = 0, length = $scope.days.length;
+            for (; i < length && !($scope.days[i].date != undefined && $scope.days[i].date.format('DD-MM-YYYY') == newTodo.Start.format('DD-MM-YYYY')); i++) { }
+            newDay = $scope.days[i];
+
             if (newDay != undefined) {
                 newDay.todos.push(newTodo);
             }
