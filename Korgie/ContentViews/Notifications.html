@@ -1,0 +1,47 @@
+﻿<div class="dark-div" ng-click="showHideMenu()"></div>
+<div class="container content set">
+    <div class="mobile-header" layout="row" layout-align="start center" hide-gt-sm>
+        <button type="button" class="btn btn--m btn--blue btn--icon" ng-click="showHideMenu()">
+            <i class="mdi mdi-menu"></i>
+        </button>
+        <h2>Notifications</h2>
+    </div>
+    <div>
+        <div layout="column" layout-wrap layout-align="start center">
+            <div class="card notific-card" ng-repeat="not in nots">
+                <div layout="column">
+                    <div layout="row">
+                        <div flex="auto"></div>
+                        <div>
+                            <button class="btn btn--xs btn--red btn--icon" lx-ripple ng-click="uncheck($index)"><i class="mdi mdi-delete"></i></button>
+                        </div>
+                    </div>
+                    <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column" ng-click="redirect($index)">
+
+                        <div layout="column" style="width:60%">
+                            <div layout="row">
+                                <div>{{not.data}}</div>
+                            </div>
+                            <div layout="row">
+                                <div>{{not.date}}</div>
+                            </div>
+                            <div layout="row">
+                                <div flex="30">{{data}}: </div>
+                                <div flex="70">{{date}}</div>
+                            </div>
+                            <div layout="row">
+                                <div flex="30">Country: </div>
+                                <div flex="70">{contact.Country}}</div>
+                            </div>
+                            <div layout="row">
+                                <div flex="30">City: </div>
+                                <div flex="70">{contact.City}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

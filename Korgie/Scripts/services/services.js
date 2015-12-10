@@ -12,7 +12,8 @@
                             { state: 'contacts.mycontacts', isActive: false },
                             { state: 'contacts.addcontact', isActive: false },
                             { state: 'contacts.sent', isActive: false },
-                            { state: 'contacts.recieved', isActive: false }, ];
+                            { state: 'contacts.recieved', isActive: false },
+                            { state: 'notifications', isActive: false }, ];
     this.contacts;
 
     this.requestsSent;
