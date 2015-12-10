@@ -173,7 +173,7 @@
                         eventResult.push({
                             EventId: eventData[i].EventId,
                             Title: eventData[i].Title,
-                            Start: moment.utc(eventData[i].Start),
+                            Start: moment.utc(eventData[i].Start).local(),
                             Type: eventData[i].Type,
                             Color: color[2],
                             Description: eventData[i].Description,
@@ -196,7 +196,7 @@
                         todoResult.push({
                             TodoId: todoData[i].TodoId,
                             Title: todoData[i].Title,
-                            Start: moment.utc(todoData[i].Start),
+                            Start: moment(todoData[i].Start),
                             Color: todoData[i].Color,
                             Description: todoData[i].Description,
                             Tasks: tasks
@@ -239,7 +239,7 @@
                 params: {
                     EventId: event.EventId || -1,
                     Title: event.Title,
-                    Start: event.Start.toDate(),
+                    Start: event.Start.utc().toDate(),
                     Type: event.Type,
                     Description: event.Description || '',
                     Period: event.Period || 0,

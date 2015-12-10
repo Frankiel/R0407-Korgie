@@ -4,7 +4,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
 
     korgieApi.setCurState('events');
 
-    $scope.current = moment.utc();
+    $scope.current = moment();
     var events = [], todos = [];
     $scope.days;
     $scope.dayToShow;
@@ -34,7 +34,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         var result = [];
 
         // Найти день недели первого числа текущего месяца
-        var firstWeekDay = (moment.utc({ year: $scope.current.year(), month: $scope.current.month(), date: 1 }).day() + 6) % 7;
+        var firstWeekDay = (moment({ year: $scope.current.year(), month: $scope.current.month(), date: 1 }).day() + 6) % 7;
 
         // Найти последний день предыдущего месяца
         var lastDayPrev = $scope.current.clone().subtract(1, 'month').endOf('month').date();
@@ -50,7 +50,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
 
         // Найти последний день текущего месяца
         var lastDay = $scope.current.clone().endOf('month').date();
-        var day = moment.utc({ year: $scope.current.year(), month: $scope.current.month(), day: 1 });
+        var day = moment({ year: $scope.current.year(), month: $scope.current.month(), day: 1 });
         // Заполнить ивенты на месяц
         for (var i = 1; i <= lastDay; i++) {
 
@@ -87,15 +87,15 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         var monday;
 
         // Переключение с текущего месяца
-        if (moment.utc().format('MMMM-YYYY') == $scope.current.format('MMMM-YYYY')) {
+        if (moment().format('MMMM-YYYY') == $scope.current.format('MMMM-YYYY')) {
             if (isNextPrev == undefined) {
-                $scope.current = moment.utc();
+                $scope.current = moment();
             }
             monday = $scope.current.clone().day(1);
         } else
             // Переключение с другого месяца
             if (isNextPrev == undefined) {
-                $scope.current = moment.utc({ year: $scope.current.year(), month: $scope.current.month(), date: 4 });
+                $scope.current = moment({ year: $scope.current.year(), month: $scope.current.month(), date: 4 });
                 while ($scope.current.day() != 1) {
                     $scope.current.subtract(1, 'day');
                 }
@@ -293,7 +293,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     function saveEvent() {
         var startDate = $scope.eventToEdit.StartJsDate;
         var startTime = $scope.eventToEdit.StartJsTime;
-        $scope.eventToEdit.Start = moment.utc([startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes()]);
+        $scope.eventToEdit.Start = moment.utc([startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes()]).local();
         //$scope.eventToEdit.Start = moment.utc(startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60));
         korgieApi.saveEvent($scope.eventToEdit);
         switch ($scope.eventToEdit.Type) {
@@ -318,7 +318,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         $scope.eventToSave = angular.copy($scope.eventToEdit);
     };
     function saveTodo() {
-        $scope.todoToEdit.Start = moment.utc($scope.todoToEdit.Start);
+        $scope.todoToEdit.Start = moment($scope.todoToEdit.Start);
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
@@ -345,9 +345,11 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         } else {
             $scope.eventAdding = false;
             $scope.eventEditing = false;
+            console.log(event.Start.format());
             var startDate = event.Start.clone();//.toDate();
             event.StartJsDate = new Date(startDate.year(), startDate.month(), startDate.date());
             event.StartJsTime = new Date(startDate.year(), startDate.month(), startDate.date(), startDate.hours(), startDate.minutes());
+            console.log(event.StartJsTime);
             //event.StartJsDate = new Date(startDate.setHours(startDate.getHours() + startDate.getTimezoneOffset() / 60));
             if (dialogName == 'event') {
                 korgieApi.getEventContacts(event.EventId).then(function (contacts) {
