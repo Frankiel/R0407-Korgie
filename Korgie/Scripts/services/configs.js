@@ -17,6 +17,12 @@
             controller: 'settingsCtrl'
         })
 
+        .state('notifications', {
+            url: '/Notifications',
+            templateUrl: '../../ContentViews/Notifications.html',
+            controller: 'notificationsCtrl'
+        })
+
         .state('contacts', {
             url: '/Contacts',
             templateUrl: '../../ContentViews/Contacts.html',

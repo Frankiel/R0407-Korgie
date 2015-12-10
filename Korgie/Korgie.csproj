@@ -153,6 +153,7 @@
     <Content Include="ContentViews\EventDialog.html" />
     <Content Include="ContentViews\Events.html" />
     <Content Include="ContentViews\MyContacts.html" />
+    <Content Include="ContentViews\Notifications.html" />
     <Content Include="ContentViews\Recieved.html" />
     <Content Include="ContentViews\Sent.html" />
     <Content Include="ContentViews\Settings.html" />
@@ -164,6 +165,7 @@
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\logo.png" />
+    <Content Include="Content\notificationStyles.css" />
     <Content Include="Content\settingsStyles.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\addcontactCtrl.js" />
@@ -171,6 +173,7 @@
     <Content Include="Scripts\controllers\eventsCtrl.js" />
     <Content Include="Scripts\controllers\homeCtrl.js" />
     <Content Include="Scripts\controllers\mycontactsCtrl.js" />
+    <Content Include="Scripts\controllers\notificationsCtrl.js" />
     <Content Include="Scripts\controllers\recievedCtrl.js" />
     <Content Include="Scripts\controllers\sentCtrl.js" />
     <Content Include="Scripts\controllers\settingsCtrl.js" />
