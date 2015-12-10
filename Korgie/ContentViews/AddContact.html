@@ -19,7 +19,7 @@
             <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="invite()" ng-disabled="InviteForm.inviteemail.$error.required || InviteForm.inviteemail.$error.pattern || InviteForm.inviteemail.$error.maxlength">Invite to the app</button>
         </form>
     </div>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_ok" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_ok" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -41,7 +41,7 @@
             <button class="btn btn--m btn--green btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_failed" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="add_failed" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important">
                 <span class="toolbar__label tc-black fs-title">
@@ -53,7 +53,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_sent" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_sent" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -70,7 +70,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_friend" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_friend" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -92,7 +92,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_got" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="already_got" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -109,7 +109,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_friend" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_friend" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -131,7 +131,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_sent" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_sent" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -148,7 +148,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_failed" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_failed" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -165,7 +165,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_isuser" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_isuser" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
@@ -182,7 +182,7 @@
             <button class="btn btn--m btn--red btn--raised ok" lx-ripple lx-dialog-close>OK</button>
         </div>
     </lx-dialog>
-    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_ok" auto-close="true">
+    <lx-dialog class="card dialog dialog--m" style="width:400px !important; left:50% !important; top:30% !important; margin-left:-200px" id="invite_ok" auto-close="true" onclose="closingDialog()">
         <div class="dialog__header">
             <div class="toolbar pl++" style="text-align:center !important; padding-bottom:0px !important;height:40px !important;margin-bottom:20px">
                 <span class="toolbar__label tc-black fs-title" style="height:40px !important; margin-bottom:20px">
