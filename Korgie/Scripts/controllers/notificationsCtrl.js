@@ -10,8 +10,6 @@
                     { id: 1, type: 1, actual: true, data: 'azazazaz', date: '10.12.2015' }, ];
 
     $scope.showHideMenu = function () {
-        $('.header').toggleClass('opened-menu');
-        $('.content').toggleClass('opened-menu');
-        $('.dark-div').toggleClass('opened-menu');
+        korgieApi.showHideMenu();
     }
 });
