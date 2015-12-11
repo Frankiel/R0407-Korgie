@@ -326,7 +326,7 @@
 }
 
 .some-events {
-    background-color: #E0F2F1;
+    background-color: #FFECB3;
 }
 
 .day-number {
@@ -641,10 +641,6 @@
 
     .mobile-header .btn--icon {
         color: #FFFFFF !important;
-    }
-
-    .mobile-header h2 {
-
     }
 
     .header {
