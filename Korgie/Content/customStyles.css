@@ -133,10 +133,6 @@
     margin-top: 5px;
 }
 
-.footer{
-    display:none !important;
-}
-
 .background-image h1 {
     margin-top: 0px;
 }
@@ -330,7 +326,7 @@
 }
 
 .some-events {
-    background-color: #E0F2F1;
+    background-color: #FFECB3;
 }
 
 .day-number {
@@ -648,10 +644,6 @@
         color: #FFFFFF !important;
     }
 
-    .mobile-header h2 {
-
-    }
-
     .header {
         position: fixed;
         left: -100%;
@@ -919,18 +911,13 @@
     }
 }
 
-/* footer */
-
-.footer {
-    height: 50px;
-    background: #999;
-}
-
 .validation-error{
     background-color:#FFCDD2 !important;
 }
 
-.div {
-
-    height: auto !important;
+.error-logo{
+    width: 362px;
+    height:auto;
+    background: url(../Content/logo.png) no-repeat;
+    background-size: auto 100%;
 }

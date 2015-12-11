@@ -3,45 +3,45 @@
 
     korgieApi.setCurState('contacts.recieved');
 
-    function getRequests() {
-        var param, method;
-        method = '/Event/GetMyRequests';
-        $http.get(method).then(function successCallback(response) {
-            catchRequests(response.data);
-        }, function errorCallback(response) {
-            console.log('getRequests failed from sentCtrl');
-        });
-    }
+    //function getRequests() {
+    //    var param, method;
+    //    method = '/Event/GetMyRequests';
+    //    $http.get(method).then(function successCallback(response) {
+    //        catchRequests(response.data);
+    //    }, function errorCallback(response) {
+    //        console.log('getRequests failed from sentCtrl');
+    //    });
+    //}
 
-    function catchRequests(data) {
-        $scope.requests = data;
-    }
+    //function catchRequests(data) {
+    //    $scope.requests = data;
+    //}
 
-    function acceptContact(email) {
-        var param, method;
-        method = '/Event/AcceptRequest';
-        param = {
-            emailcontact: email,
-        }
-        $http.get(method, { params: param }).then(function successCallback(response) {
+    //function acceptContact(email) {
+    //    var param, method;
+    //    method = '/Event/AcceptRequest';
+    //    param = {
+    //        emailcontact: email,
+    //    }
+    //    $http.get(method, { params: param }).then(function successCallback(response) {
 
-        }, function errorCallback(response) {
-            console.log('accepting failed');
-        });
-    }
+    //    }, function errorCallback(response) {
+    //        console.log('accepting failed');
+    //    });
+    //}
 
-    function rejectContact(email) {
-        var param, method;
-        method = '/Event/RejectRequest';
-        param = {
-            emailcontact: email,
-        }
-        $http.get(method, { params: param }).then(function successCallback(response) {
+    //function rejectContact(email) {
+    //    var param, method;
+    //    method = '/Event/RejectRequest';
+    //    param = {
+    //        emailcontact: email,
+    //    }
+    //    $http.get(method, { params: param }).then(function successCallback(response) {
 
-        }, function errorCallback(response) {
-            console.log('rejecting failed');
-        });
-    }
+    //    }, function errorCallback(response) {
+    //        console.log('rejecting failed');
+    //    });
+    //}
 
     $scope.accept = function (index) {
         $scope.emailToAccept = $scope.requests[index].From;
@@ -54,27 +54,35 @@
     };
 
     $scope.accepting = function (event) {
-        acceptContact($scope.emailToAccept);
-        for (var i = 0; i < $scope.requests.length; i++) {
-            if ($scope.requests[i].From == $scope.emailToAccept) {
-                $scope.requests.splice(i, 1);
-                break;
+        korgieApi.acceptContact($scope.emailToAccept).then(function (res) {
+            if (res == 'ok') {
+                for (var i = 0; i < $scope.requests.length; i++) {
+                    if ($scope.requests[i].From == $scope.emailToAccept) {
+                        $scope.requests.splice(i, 1);
+                        break;
+                    }
+                }
+                LxDialogService.close('accept');
             }
-        }
-        LxDialogService.close('accept');
+        });
     };
 
     $scope.rejecting = function (event) {
-        acceptContact($scope.emailToReject);
-        for (var i = 0; i < $scope.requests.length; i++) {
-            if ($scope.requests[i].From == $scope.emailToReject) {
-                $scope.requests.splice(i, 1);
-                break;
+        korgieApi.rejectContact($scope.emailToReject).then(function (res) {
+            if (res == 'ok') {
+                for (var i = 0; i < $scope.requests.length; i++) {
+                    if ($scope.requests[i].From == $scope.emailToReject) {
+                        $scope.requests.splice(i, 1);
+                        break;
+                    }
+                }
+                LxDialogService.close('reject');
             }
-        }
-        LxDialogService.close('reject');
+        });
     };
 
-    getRequests();
+    korgieApi.getRequestsRecieved().then(function (res) {
+        $scope.requests = res;
+    });
 
 });

@@ -8,6 +8,8 @@ using Korgie.Models;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Net;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace Korgie.Controllers
 {
@@ -404,10 +406,13 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
         public void AddContact(string email)
         {
             Delete_Add_Contact(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@PrimaryContact,'Sent')", email);
+            AddNotify(email, 2, Request.Cookies["Preferences"]["Email"]);
         }
         public void DeleteContact(string email)
         {
-            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email); //добавить проверку на статус и сделать обратку
+            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) 
+OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email); //добавить проверку на статус и сделать обратку
+            AddNotify(email, 3, Request.Cookies["Preferences"]["Email"]);
         }
         public void Delete_Add_Contact(string sqlcom, string email)
         {
@@ -430,15 +435,15 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-
+            Configuration config = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("princeartik@gmail.com", "arthurvasilyev96"); //SET EMAIL AND PASSWORD
+            client.Credentials = new NetworkCredential(config.AppSettings.Settings["MailBoxEmail"].Value, config.AppSettings.Settings["MailBoxPassword"].Value);
             client.EnableSsl = true;
             client.Timeout = 3000;
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("princeartik@gmail.com"); //SET EMAIL
+            mail.From = new MailAddress(config.AppSettings.Settings["MailBoxEmail"].Value);
             mail.Subject = "Invitation to the Korgie!!!";
             mail.Body = "Hi there!\n" + Request.Cookies["Preferences"]["Email"] + " has invited you to join the new web-organizer Korgie!\nFollow the link www.korgie.net to sign up =)";
             mail.To.Add(new MailAddress(email));
@@ -461,6 +466,57 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
                 }
             }
             return result;
+        }
+        #endregion
+        #region Notifications
+        private void AddNotify(string user,int type,string data)
+        {
+            using (var conn = new SqlConnection(_connection))
+            {
+                var cmd = new SqlCommand(@"INSERT INTO Notifications VALUES (@User,@Type,'True',@Data,@Date)", conn);
+                cmd.Parameters.AddWithValue("@User", user);
+                cmd.Parameters.AddWithValue("@Type", type);
+                cmd.Parameters.AddWithValue("@Data", data);
+                cmd.Parameters.AddWithValue("@Date", DateTime.UtcNow);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public bool CheckNotify(int id)
+        {
+            bool result = false;
+            using (var conn = new SqlConnection(_connection))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(@"SELECT * FROM Notifications WHERE NotId=@Id", conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
+        public string GetNotifications()
+        {
+            List<Notifications> notifications = new List<Notifications>();
+            using (var conn = new SqlConnection(_connection))
+            {
+                var cmd = new SqlCommand(@"SELECT * FROM Notifications WHERE UserEmail=@Email", conn);
+                conn.Open();
+                cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
+                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        notifications.Add(new Notifications(dr.GetInt32(0), dr.GetString(1), dr.GetInt32(2), Convert.ToBoolean(dr.GetString(3)), dr.GetString(4), dr.GetDateTime(5)));
+                    }
+                }
+            }
+            return new JavaScriptSerializer().Serialize(notifications.ToArray());
         }
         #endregion
     }

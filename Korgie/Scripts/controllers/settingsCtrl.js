@@ -1,5 +1,5 @@
 ﻿
-korgie.controller('settingsCtrl', function ($scope, $http, korgieApi, $state) {
+korgie.controller('settingsCtrl', function ($scope, korgieApi, $state) {
 
     korgieApi.setCurState('settings');
 
@@ -47,50 +47,19 @@ korgie.controller('settingsCtrl', function ($scope, $http, korgieApi, $state) {
         saveProfileInfo();
     }
 
-    function getProfileInfo() {
-        var param, method;
-        method = '/Event/GetProfileInfo';
-        $http.get(method).then(function successCallback(response) {
-            catchProfileInfo(response.data);
-        }, function errorCallback(response) {
-            console.log('getProfileInfo failed from settingsCtrl');
-        });
-    }
-
-    function catchProfileInfo(data) {
-        $scope.name = data.Name;
-        $scope.primaryEmail = data.PrimaryEmail;
-        $scope.additionalEmail = data.AdditionalEmail;
-        $scope.phone = data.Phone;
-        $scope.country = data.Country;
-        $scope.city = data.City;
-        $scope.types = [data.Work, data.Study, data.Sport, data.Rest, data.Additional];
-    }
-
-
     function saveProfileInfo() {
-        var param, method;
-        method = '/Event/SaveProfileInfo';
-        param = {
-            Name: $scope.name,
-            PrimaryEmail: $scope.primaryEmail,
-            AdditionalEmail: $scope.additionalEmail,
-            Phone: $scope.phone,
-            Country: $scope.country,
-            City: $scope.city,
-            Sport: $scope.types[2],
-            Work: $scope.types[0],
-            Rest: $scope.types[3],
-            Study: $scope.types[1],
-            Additional: $scope.types[4]
-        }
-        $http.get(method, { params: param }).then(function successCallback(response) {
-        }, function errorCallback(response) {
-            console.log('profile info saving failed');
-        });
+        korgieApi.saveProfileInfo($scope.name, $scope.primaryEmail, $scope.additionalEmail, $scope.phone, $scope.country, $scope.city, $scope.types);
     }
 
-    getProfileInfo();
+    korgieApi.getProfileInfo().then(function () {
+        $scope.name = korgieApi.name;
+        $scope.primaryEmail = korgieApi.primaryEmail;
+        $scope.additionalEmail = korgieApi.additionalEmail;
+        $scope.phone = korgieApi.phone;
+        $scope.country = korgieApi.country;
+        $scope.city = korgieApi.city;
+        $scope.types = [korgieApi.work, korgieApi.study, korgieApi.sport, korgieApi.rest, korgieApi.additional];
+    });
 });
 
 
