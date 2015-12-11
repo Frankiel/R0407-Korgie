@@ -280,5 +280,167 @@
             return deferred.promise;
         }
 
+        //SETTINGS
+
+        korgieApi.saveProfileInfo = function (name, primaryEmail, additionalEmail, phone, country, city, types) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/SaveProfileInfo';
+            param = {
+                Name: name,
+                PrimaryEmail: primaryEmail,
+                AdditionalEmail: additionalEmail,
+                Phone: phone,
+                Country: country,
+                City: city,
+                Sport: types[2],
+                Work: types[0],
+                Rest: types[3],
+                Study: types[1],
+                Additional: types[4]
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve();
+            }, function errorCallback(response) {
+                console.log('profile info saving failed');
+                deferred.reject();
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.addContact = function (contactEmail) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/AddContact';
+            param = {
+                email: contactEmail,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve('ok');
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.getContacts = function () {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/GetContacts';
+            $http.get(method).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject();
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.getRequests = function () {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/GetRequest';
+            $http.get(method).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject();
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.getRequestsRecieved = function () {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/GetMyRequests';
+            $http.get(method).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject();
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.isInvited = function (contactEmail) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/IsInvited';
+            param = {
+                email: contactEmail,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject(false);
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.isUser = function (contactEmail) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/IsInvited';
+            param = {
+                email: contactEmail,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject(false);
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.inviteContact = function (contactEmail) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/InviteContact';
+            param = {
+                email: contactEmail,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve('ok');
+            });
+            return deferred.promise;
+        };
+
+        //Contacts
+
+        korgieApi.deleteContact = function (contactEmail) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/DeleteContact';
+            param = {
+                email: contactEmail,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve('ok');
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.acceptContact = function (email) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/AcceptRequest';
+            param = {
+                emailcontact: email,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve('ok');
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.rejectContact = function (email) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/RejectRequest';
+            param = {
+                emailcontact: email,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve('ok');
+            });
+            return deferred.promise;
+        };
+
+
         return korgieApi;
     });

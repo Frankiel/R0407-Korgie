@@ -918,6 +918,9 @@
     background-color:#FFCDD2 !important;
 }
 
-.div {
-
+.error-logo{
+    width: 362px;
+    height:auto;
+    background: url(../Content/logo.png) no-repeat;
+    background-size: auto 100%;
 }
