@@ -749,6 +749,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainContext.cs" />
+    <Compile Include="Models\Notifications.cs" />
     <Compile Include="Models\Tasks.cs" />
     <Compile Include="Models\Todo.cs" />
     <Compile Include="Models\Type.cs" />
