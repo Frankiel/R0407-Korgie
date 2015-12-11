@@ -179,7 +179,7 @@
         <form name="showingEvent" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing && eventToSave.Owner == myPrimaryEmail">
-                    <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
+                    <button class="btn btn--m btn--teal btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
                 <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteEvent(eventToSave.EventId); closingDialog('event')"><i class="mdi mdi-delete"></i></button>
             </div>
@@ -213,19 +213,19 @@
                             </div>
                             <div ng-if="eventAdding || eventEditing">
                                 <div class="event-type-edit">
-                                    <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Sports" lx-ripple>Sports</button>
+                                    <button class="type-click btn btn--s btn--flat" etype="Sports" lx-ripple>Sports</button>
                                 </div>
                                 <div class="event-type-edit">
-                                    <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Work" lx-ripple>Work</button>
+                                    <button class="type-click btn btn--s btn--flat" etype="Work" lx-ripple>Work</button>
                                 </div>
                                 <div class="event-type-edit">
-                                    <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Rest" lx-ripple>Rest</button>
+                                    <button class="type-click btn btn--s btn--flat" etype="Rest" lx-ripple>Rest</button>
                                 </div>
                                 <div class="event-type-edit">
-                                    <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Study" lx-ripple>Study</button>
+                                    <button class="type-click btn btn--s btn--flat" etype="Study" lx-ripple>Study</button>
                                 </div>
                                 <div class="event-type-edit">
-                                    <button class="type-click btn btn--s btn--blue-grey btn--flat" etype="Additional" lx-ripple>Additional</button>
+                                    <button class="type-click btn btn--s btn--flat" etype="Additional" lx-ripple>Additional</button>
                                 </div>
                             </div>
                         </div>
@@ -238,28 +238,28 @@
                                 <input type="text" ng-model="eventToEdit.Notifications" number min="1" max="99">
                             </lx-text-field>
                         </div>
-                        <div>
+                        <div ng-hide="true">
                             <p>Periodical:</p>
                             <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Period | numToPeriod}}</div>
                             <div ng-if="eventAdding || eventEditing">
                                 <div class="event-period-edit">
-                                    <button class="period-click btn btn--s btn--blue-grey btn--flat" period="0" lx-ripple>None</button>
+                                    <button class="period-click btn btn--s btn--teal btn--flat" period="0" lx-ripple disabled>None</button>
                                 </div>
                                 <div class="event-period-edit">
-                                    <button class="period-click btn btn--s btn--blue-grey btn--flat" period="1" lx-ripple>Day</button>
+                                    <button class="period-click btn btn--s btn--teal btn--flat" period="1" lx-ripple disabled>Day</button>
                                 </div>
                                 <div class="event-period-edit">
-                                    <button class="period-click btn btn--s btn--blue-grey btn--flat" period="7" lx-ripple>Week</button>
+                                    <button class="period-click btn btn--s btn--teal btn--flat" period="7" lx-ripple disabled>Week</button>
                                 </div>
                                 <div class="event-period-edit">
-                                    <button class="period-click btn btn--s btn--blue-grey btn--flat" period="30" lx-ripple>Month</button>
+                                    <button class="period-click btn btn--s btn--teal btn--flat" period="30" lx-ripple disabled>Month</button>
                                 </div>
                                 <div class="event-period-edit">
-                                    <button class="period-click btn btn--s btn--blue-grey btn--flat" period="365" lx-ripple>Year</button>
+                                    <button class="period-click btn btn--s btn--teal btn--flat" period="365" lx-ripple disabled>Year</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="checkboxes">
+                        <div class="checkboxes" hide>
                             <input type="checkbox" id="checkbox1" class="checkbox__input controlls-unvisible" disabled>
                             <label for="checkbox1" class="checkbox__label">Mon</label>
                             <input type="checkbox" id="checkbox2" class="checkbox__input controlls-unvisible" disabled>
@@ -313,16 +313,13 @@
                 </div>
                 <div layout="row" layout-align="space-around center" class="">
                     <div ng-if="eventAdding || eventEditing">
-                        <!--showingEvent.title.$error.required || showingEvent.title.$error.pattern || showingEvent.title.$error.maxlength-->
-                        <!--showingEvent.descarea.$error.maxlength-->
-                        <!--showingEvent.tagsarea.$error.pattern || showingEvent.tagsarea.$error.maxlength-->
-                        <button class="btn btn--m btn--blue btn--flat" ng-click="save('event')" ng-disabled="showingEvent.title.$error.required || showingEvent.title.$error.pattern || showingEvent.title.$error.maxlength || showingEvent.descarea.$error.maxlength || showingEvent.tagsarea.$error.pattern || showingEvent.tagsarea.$error.maxlength" lx-ripple>Save</button>
+                        <button class="btn btn--m btn--teal btn--flat" ng-click="save('event')" ng-disabled="showingEvent.title.$error.required || showingEvent.title.$error.pattern || showingEvent.title.$error.maxlength || showingEvent.descarea.$error.maxlength || showingEvent.tagsarea.$error.pattern || showingEvent.tagsarea.$error.maxlength" lx-ripple>Save</button>
                     </div>
                     <div ng-if="!eventAdding && !eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
+                        <button class="btn btn--m btn--teal btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
                     </div>
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="cancel('event')">Cancel</button>
+                        <button class="btn btn--m btn--teal btn--flat" lx-ripple ng-click="cancel('event')">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -334,7 +331,7 @@
         <form name="showingTodo" class="event" layout="column" layout-align="space-beetwen" layout-margin layout-peventAdding>
             <div class="buttons" layout="row" ng-if="!eventAdding">
                 <div ng-if="!eventAdding && !eventEditing">
-                    <button class="btn btn--m btn--blue btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
+                    <button class="btn btn--m btn--teal btn--icon" lx-ripple ng-click="edit()"><i class="mdi mdi-pencil"></i></button>
                 </div>
                 <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteTodo(todoToSave.TodoId); closingDialog('todo')"><i class="mdi mdi-delete"></i></button>
             </div>
@@ -403,13 +400,13 @@
                 </div>
                 <div class="dialog-buttons" layout="row" layout-align="space-around center">
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" ng-click="save('todo')" ng-disabled="showingTodo.title.$error.required || showingTodo.title.$error.pattern || showingTodo.title.$error.maxlength || showingTodo.descarea.$error.maxlength" lx-ripple>Save</button>
+                        <button class="btn btn--m btn--teal btn--flat" ng-click="save('todo')" ng-disabled="showingTodo.title.$error.required || showingTodo.title.$error.pattern || showingTodo.title.$error.maxlength || showingTodo.descarea.$error.maxlength" lx-ripple>Save</button>
                     </div>
                     <div ng-if="!eventAdding && !eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
+                        <button class="btn btn--m btn--teal btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
                     </div>
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--blue btn--flat" lx-ripple ng-click="cancel('todo')">Cancel</button>
+                        <button class="btn btn--m btn--teal btn--flat" lx-ripple ng-click="cancel('todo')">Cancel</button>
                     </div>
                 </div>
             </div>

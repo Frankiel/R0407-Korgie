@@ -481,10 +481,11 @@
 .event p {
     margin: 5% 2% 2% 0;
     font-size: large;
+    color: #004D40;
 }
 
 .event p:not(.controlls-visible) {
-    color: #444;
+    /*color: #444;*/
     font-weight: bold;
 }
 

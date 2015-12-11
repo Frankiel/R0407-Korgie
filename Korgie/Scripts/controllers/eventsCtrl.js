@@ -345,12 +345,9 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         } else {
             $scope.eventAdding = false;
             $scope.eventEditing = false;
-            console.log(event.Start.format());
-            var startDate = event.Start.clone();//.toDate();
+            var startDate = event.Start.clone();
             event.StartJsDate = new Date(startDate.year(), startDate.month(), startDate.date());
             event.StartJsTime = new Date(startDate.year(), startDate.month(), startDate.date(), startDate.hours(), startDate.minutes());
-            console.log(event.StartJsTime);
-            //event.StartJsDate = new Date(startDate.setHours(startDate.getHours() + startDate.getTimezoneOffset() / 60));
             if (dialogName == 'event') {
                 korgieApi.getEventContacts(event.EventId).then(function (contacts) {
                     $scope.eventToSave.Contacts = contacts;
@@ -379,6 +376,12 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     };
 
     $scope.edit = function () {
+        $scope.addingActivity = false;
+        $scope.newTask = {
+            Id: -1,
+            Name: '',
+            State: false
+        };
         $scope.eventEditing = !$scope.eventEditing;
         setTimeout(function () {
             $scope.showHideControlls()
@@ -434,10 +437,10 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         $scope.todoToEdit = angular.copy($scope.todoToSave);
 
         var typeButtons = $('.type-click');
-        $('[etype="' + $scope.eventToEdit.Type + '"').addClass('btn--raised').removeClass('btn--flat');
+        $('[etype="' + $scope.eventToEdit.Type + '"').addClass('btn--raised').removeClass('btn--flat').addClass('btn--teal');
         typeButtons.click(function () {
             typeButtons.removeClass('btn--raised');
-            $(this).removeClass('btn--flat').addClass('btn--raised');
+            $(this).removeClass('btn--flat').addClass('btn--raised btn--teal');
             $scope.eventToEdit.Type = $(this).attr('etype');
             switch ($scope.eventToEdit.Type) {
                 case "Sports":
