@@ -20,8 +20,9 @@ namespace Korgie.Models
         //List of tags
         public string Tags { get; set; }
         public string Owner { set; get; }
+        public int Notify { set; get; }
 
-        public Event(int id, string title, DateTime start, string type, string description, int period, /* days ???, */ string tags,string owner)
+        public Event(int id, string title, DateTime start, string type, string description, int period, /* days ???, */ string tags,string owner,int notify)
         {
             EventId = id;
             Title = title;
@@ -31,6 +32,7 @@ namespace Korgie.Models
             Period = period;
             Tags = tags;
             Owner = owner;
+            Notify = notify;
         }
     }
 }

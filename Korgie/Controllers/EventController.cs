@@ -61,9 +61,10 @@ E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail and U.PrimaryEmail=@Emai
 TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", week, year);
             return new JavaScriptSerializer().Serialize(todoStub);
         }
-        public void SaveTodo(int TodoId, string Title, DateTime Start, string Color, string Description, bool[] States, string[] Tasks)
+        public int SaveTodo(int TodoId, string Title, DateTime Start, string Color, string Description, bool[] States, string[] Tasks)
         {
             Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo WHERE Todoid=@Value1", TodoId);
+            int toreturn = -1;
             using (var conn = new SqlConnection(_connection))
             {
                 string resulttasks = "";
@@ -88,6 +89,14 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     var cmd2 = new SqlCommand(@"INSERT INTO UserTodo Values (@Email,(SELECT MAX(TodoId) FROM ToDo))", conn);
                     cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                     cmd2.ExecuteNonQuery();
+                    var cmd3 = new SqlCommand(@"SELECT MAX(EventId) FROM Events", conn);
+                    using (SqlDataReader dr = cmd3.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                    {
+                        while (dr.Read())
+                        {
+                            toreturn = dr.GetInt32(0);
+                }
+                    }
                 }
                 else
                 {
@@ -102,16 +111,17 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd.ExecuteNonQuery();
                 }
             }
-
+            return toreturn;
         }
-        public void SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags, string[] attached, int NotificationDays)
+        public int SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags, string[] attached,int Notify)
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId);
+            int toreturn = -1;
             using (var conn = new SqlConnection(_connection))
             {
                 if (eventsStub.Length == 0)
                 {
-                    var cmd = new SqlCommand(@"INSERT INTO EVENTS VALUES (@Title,@Start,@Type,@Description,@Period,@Days,@Tags,@Owner)", conn);
+                    var cmd = new SqlCommand(@"INSERT INTO EVENTS VALUES (@Title,@Start,@Type,@Description,@Period,@Days,@Tags,@Owner,@Notify)", conn);
                     cmd.Parameters.AddWithValue("@Title", Title);
                     cmd.Parameters.AddWithValue("@Start", Start);
                     cmd.Parameters.AddWithValue("@Type", Type);
@@ -120,6 +130,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd.Parameters.AddWithValue("@Days", Days);
                     cmd.Parameters.AddWithValue("@Tags", Tags);
                     cmd.Parameters.AddWithValue("@Owner", Request.Cookies["Preferences"]["Email"]);
+                    cmd.Parameters.AddWithValue("@Notify", Notify);
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     var cmd2 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,(SELECT MAX(EventId) FROM EVENTS))", conn);
@@ -129,10 +140,18 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                         cmd2.ExecuteNonQuery();
                         cmd2.Parameters.Clear();
                     }
+                    var cmd3 = new SqlCommand(@"SELECT MAX(EventId) FROM Events", conn);
+                    using (SqlDataReader dr = cmd3.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                    {
+                        while (dr.Read())
+                        {
+                            toreturn = dr.GetInt32(0);
+                }
+                    }
                 }
                 else
                 {
-                    var cmd = new SqlCommand(@"UPDATE Events SET Title=@Title, Start=@Start, Type=@Type, Description=@Description, Period=@Period, Days=@Days, Tags=@Tags WHERE EventId=@EventId", conn);
+                    var cmd = new SqlCommand(@"UPDATE Events SET Title=@Title, Start=@Start, Type=@Type, Description=@Description, Period=@Period, Days=@Days, Tags=@Tags Notify=@Notify WHERE EventId=@EventId", conn);
                     cmd.Parameters.AddWithValue("@EventId", EventId);
                     cmd.Parameters.AddWithValue("@Title", Title);
                     cmd.Parameters.AddWithValue("@Start", Start);
@@ -141,6 +160,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     cmd.Parameters.AddWithValue("@Period", Period);
                     cmd.Parameters.AddWithValue("@Days", Days);
                     cmd.Parameters.AddWithValue("@Tags", Tags);
+                    cmd.Parameters.AddWithValue("@Notify", Notify);
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     var cmd2 = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@Id", conn);
@@ -156,6 +176,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     }
                 }
             }
+            return toreturn;
         }
         public void DeleteEvents(int id)
         {
@@ -212,7 +233,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 {
                     while (dr.Read())
                     {
-                        events.Add(new Event(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), dr.GetInt32(5), dr.GetString(7),dr.GetString(8)));
+                        events.Add(new Event(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2), dr.GetString(3), dr.GetString(4), dr.GetInt32(5), dr.GetString(7), dr.GetString(8), dr.GetInt32(9)));
                     }
                 }
             }
@@ -473,34 +494,37 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
         {
             using (var conn = new SqlConnection(_connection))
             {
+                conn.Open();
+                if (GetNotificationsUNI().Count>50) //Проверка на количество оповещений, чтобы не было больше 50
+                {
+                    var cmd2 = new SqlCommand(@"DELETE FROM Notifications WHERE UserEmail=@Email AND Date=Min(Date)",conn);
+                    cmd2.Parameters.AddWithValue("@Email", user);
+                    cmd2.ExecuteNonQuery();
+                }
                 var cmd = new SqlCommand(@"INSERT INTO Notifications VALUES (@User,@Type,'True',@Data,@Date)", conn);
                 cmd.Parameters.AddWithValue("@User", user);
                 cmd.Parameters.AddWithValue("@Type", type);
                 cmd.Parameters.AddWithValue("@Data", data);
                 cmd.Parameters.AddWithValue("@Date", DateTime.UtcNow);
-                conn.Open();
                 cmd.ExecuteNonQuery();
             }
         }
-        public bool CheckNotify(int id)
+        public void CheckNotify(int id)
         {
-            bool result = false;
             using (var conn = new SqlConnection(_connection))
             {
                 conn.Open();
-                var cmd = new SqlCommand(@"SELECT * FROM Notifications WHERE NotId=@Id", conn);
+                var cmd = new SqlCommand(@"UPDATE Notifications SET Actual='False' WHERE NotId=@Id", conn);
                 cmd.Parameters.AddWithValue("@Id", id);
-                using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
-                {
-                    while (dr.Read())
-                    {
-                        result = true;
-                    }
-                }
+                cmd.ExecuteNonQuery();
             }
-            return result;
         }
         public string GetNotifications()
+        {
+            //GetEventsUNI("@SELECT * FROM Events WHERE DATEPART(dayofyear,Start)-5=DATEPART(dayofyear")
+            return new JavaScriptSerializer().Serialize(GetNotificationsUNI().ToArray());
+        }
+        public List<Notifications> GetNotificationsUNI()
         {
             List<Notifications> notifications = new List<Notifications>();
             using (var conn = new SqlConnection(_connection))
@@ -516,7 +540,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                     }
                 }
             }
-            return new JavaScriptSerializer().Serialize(notifications.ToArray());
+            return notifications;
         }
         #endregion
     }
