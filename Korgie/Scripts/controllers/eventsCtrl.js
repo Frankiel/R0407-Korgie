@@ -335,6 +335,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
                 StartJsDate: startDate,
                 StartJsTime: startDate,
                 Period: 0,
+                Notifications: 0,
                 Color: '#2196f3',
                 Tasks: [],
                 Contacts: []
@@ -348,6 +349,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
             var startDate = event.Start.clone();
             event.StartJsDate = new Date(startDate.year(), startDate.month(), startDate.date());
             event.StartJsTime = new Date(startDate.year(), startDate.month(), startDate.date(), startDate.hours(), startDate.minutes());
+            if (event.Notifications == undefined) event.Notifications = 0;
             if (dialogName == 'event') {
                 korgieApi.getEventContacts(event.EventId).then(function (contacts) {
                     $scope.eventToSave.Contacts = contacts;
@@ -370,9 +372,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         $scope.todoToEdit = angular.copy($scope.todoToSave);
         $scope.showHideControlls();
         $scope.eventEditing = false;
-        if ($scope.eventAdding) {
-            $scope.closingDialog(dialogName);
-        }
+        $scope.closingDialog(dialogName);
     };
 
     $scope.edit = function () {

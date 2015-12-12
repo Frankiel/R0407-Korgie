@@ -235,7 +235,7 @@
                             <p>Notifications (days):</p>
                             <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Notifications}}</div>
                             <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
-                                <input type="text" ng-model="eventToEdit.Notifications" number min="1" max="99">
+                                <input type="number" name="notif" ng-model="eventToEdit.Notifications" min="0" max="99" required ng-class="{'validation-error': !showingEvent.notif.$valid}">
                             </lx-text-field>
                         </div>
                         <div ng-hide="true">
@@ -313,7 +313,7 @@
                 </div>
                 <div layout="row" layout-align="space-around center" class="">
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--teal btn--flat" ng-click="save('event')" ng-disabled="showingEvent.title.$error.required || showingEvent.title.$error.pattern || showingEvent.title.$error.maxlength || showingEvent.descarea.$error.maxlength || showingEvent.tagsarea.$error.pattern || showingEvent.tagsarea.$error.maxlength" lx-ripple>Save</button>
+                        <button class="btn btn--m btn--teal btn--flat" ng-click="save('event')" ng-disabled="!showingEvent.$valid" lx-ripple>Save</button>
                     </div>
                     <div ng-if="!eventAdding && !eventEditing">
                         <button class="btn btn--m btn--teal btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>
@@ -340,22 +340,15 @@
                     {{todoToSave.Title}}
                 </div>
                 <lx-text-field label="Title" fixed-label="true" class="event-title-edit" ng-if="eventAdding || eventEditing">
-                    <input type="text" name="title" ng-model="todoToEdit.Title" ng-maxlength="35" required ng-pattern="/^[a-zа-яА-ЯA-Z0-9іІїЇєЄёЁ!@#\$%\^\&*\)\(+=._-]+$/" ng-class="{'validation-error': showingTodo.title.$error.pattern || showingTodo.title.$error.maxlength}"/>
+                    <input type="text" name="title" ng-model="todoToEdit.Title" ng-maxlength="35" required ng-pattern="/^[a-zа-яА-ЯA-Z0-9іІїЇєЄёЁ!@#\$%\^\&*\)\(+=._-]+$/" ng-class="{'validation-error': !showingTodo.title.$valid}"/>
                 </lx-text-field>
                 <div layout="row" layout-sm="column">
-                    <div flex-gt-sm="50" class="event-date">
+                    <div flex-gt-sm="60" class="event-date">
                         <p>Date:</p>
                         <div ng-if="!eventAdding && !eventEditing">
                             {{todoToSave.Start.format('MMMM DD, YYYY')}}
                         </div>
                         <lx-date-picker class="event-date-edit" model="todoToEdit.Start" name="date" locale="fr" allow-clear="false" required ng-if="eventAdding || eventEditing"></lx-date-picker>
-                    </div>
-                    <div flex-gt-sm="50" class="column2">
-                        <p>Notifications (days):</p>
-                        <div ng-if="!eventAdding && !eventEditing">{{todoToSave.Notifications}}</div>
-                        <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
-                            <input type="text" ng-model="todoToEdit.Notifications" number min="1" max="99">
-                        </lx-text-field>
                     </div>
                 </div>
                 <div layout="row" layout-align="start center">
@@ -400,7 +393,7 @@
                 </div>
                 <div class="dialog-buttons" layout="row" layout-align="space-around center">
                     <div ng-if="eventAdding || eventEditing">
-                        <button class="btn btn--m btn--teal btn--flat" ng-click="save('todo')" ng-disabled="showingTodo.title.$error.required || showingTodo.title.$error.pattern || showingTodo.title.$error.maxlength || showingTodo.descarea.$error.maxlength" lx-ripple>Save</button>
+                        <button class="btn btn--m btn--teal btn--flat" ng-click="save('todo')" ng-disabled="!showingTodo.$valid" lx-ripple>Save</button>
                     </div>
                     <div ng-if="!eventAdding && !eventEditing">
                         <button class="btn btn--m btn--teal btn--flat" lx-ripple lx-dialog-close ng-click="">Close</button>

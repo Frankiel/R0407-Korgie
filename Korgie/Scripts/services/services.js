@@ -245,7 +245,8 @@
                     Period: event.Period || 0,
                     Days: 0,
                     Tags: event.Tags || '',
-                    attached: contacts
+                    attached: contacts,
+                    NotificationDays: event.Notifications || 0
                 }
             });
         }
@@ -440,7 +441,6 @@
             });
             return deferred.promise;
         };
-
 
         return korgieApi;
     });
