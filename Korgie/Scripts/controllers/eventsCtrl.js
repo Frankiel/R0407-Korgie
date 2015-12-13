@@ -294,8 +294,9 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         var startDate = $scope.eventToEdit.StartJsDate;
         var startTime = $scope.eventToEdit.StartJsTime;
         $scope.eventToEdit.Start = moment.utc([startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes()]).local();
-        //$scope.eventToEdit.Start = moment.utc(startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60));
-        korgieApi.saveEvent($scope.eventToEdit);
+        korgieApi.saveEvent($scope.eventToEdit).then(function (id) {
+            $scope.eventToEdit.EventId = id;
+        });
         switch ($scope.eventToEdit.Type) {
             case "Sports":
                 $scope.eventToEdit.Color = korgieApi.sport[2];
@@ -322,7 +323,9 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
-        korgieApi.saveTodo($scope.todoToEdit);
+        korgieApi.saveTodo($scope.todoToEdit).then(function (id) {
+            $scope.todoToEdit.TodoId = id;
+        });
     };
 
     $scope.openDialog = function (dialogName, event) {

@@ -89,7 +89,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     var cmd2 = new SqlCommand(@"INSERT INTO UserTodo Values (@Email,(SELECT MAX(TodoId) FROM ToDo))", conn);
                     cmd2.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                     cmd2.ExecuteNonQuery();
-                    var cmd3 = new SqlCommand(@"SELECT MAX(EventId) FROM Events", conn);
+                    var cmd3 = new SqlCommand(@"SELECT MAX(TodoId) FROM ToDo", conn);
                     using (SqlDataReader dr = cmd3.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                     {
                         while (dr.Read())

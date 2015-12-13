@@ -374,7 +374,7 @@
                 <div>
                     <p>Activities:</p>
                     <div ng-if="!eventAdding && !eventEditing" ng-repeat="task in todoToSave.Tasks">
-                        <input type="checkbox" id="123" class="checkbox__input controlls-unvisible" ng-model="task.State" disabled><label for="123" class="checkbox__label"></label>
+                        <input type="checkbox" id="123" class="checkbox__input controlls-unvisible" ng-model="task.State"><label for="123" class="checkbox__label"></label>
                         <div class="activity-name">{{task.Name}}</div>
                     </div>
                     <div ng-if="eventAdding || eventEditing" ng-repeat="task in todoToEdit.Tasks">
