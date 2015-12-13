@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Data.Entity;
+using Korgie.Models;
 
 namespace Korgie
 {
@@ -13,6 +15,8 @@ namespace Korgie
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -22,7 +26,6 @@ namespace Korgie
                 Duration = 0,
                 NoStore = true,
             });
-            // the rest of your global filters here
         }
     }
 }

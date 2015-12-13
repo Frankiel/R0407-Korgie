@@ -8,7 +8,6 @@
     }
 
     korgieApi.getNotifications().then(function (res) {
-        console.log(res);
         $scope.notifications = res;
     });
 

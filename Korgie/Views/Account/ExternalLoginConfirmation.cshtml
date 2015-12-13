@@ -19,6 +19,21 @@
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control login-conf-textbox" })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
+                @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label login-conf-name-label tc-blue-800" })
+                <div class="col-md-10" style="margin-top:10px;margin-bottom:10px;">
+                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control login-conf-textbox" })
+                    @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label login-conf-name-label tc-blue-800" })
+                <div class="col-md-10" style="margin-top:10px;margin-bottom:10px;">
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control login-conf-textbox" })
+                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label login-conf-name-label tc-blue-800" })
+                <div class="col-md-10" style="margin-top:10px;margin-bottom:10px;">
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control login-conf-textbox" })
+                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                </div>
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label tc-blue-800" })
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control login-conf-textbox", @readonly = "readonly" })
