@@ -15,7 +15,7 @@ namespace Korgie.Controllers
 {
     public class EventController : Controller
     {
-        const string _connection = "Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30";
+        const string _connection = "Server=tcp:ivqgu1eln8.database.windows.net,1433;Database=korgie_db_2015-12-13T23-44Z;User ID=frankiel@ivqgu1eln8;Password=Helloworld123;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         // GET: Event
         public ActionResult Index()
         {

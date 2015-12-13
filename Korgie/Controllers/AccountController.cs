@@ -160,7 +160,7 @@ namespace Korgie.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new Korgie.Models.ApplicationUser { UserName = model.Name, Email = model.Email, City = model.City, Country = model.Country, Phone = model.Phone};
+                var user = new Korgie.Models.ApplicationUser { UserName = model.Name, Email = model.Email};
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -175,14 +175,11 @@ namespace Korgie.Controllers
                         }
                         cookie["Email"] = model.Email;
                         Response.Cookies.Add(cookie);
-                        using (var conn = new SqlConnection("Server = tcp:ivqgu1eln8.database.windows.net,1433; Database = korgie_db; User ID = frankiel@ivqgu1eln8; Password = Helloworld123; Trusted_Connection = False; Encrypt = True; Connection Timeout = 30"))
+                        using (var conn = new SqlConnection("Server=tcp:ivqgu1eln8.database.windows.net,1433;Database=korgie_db_2015-12-13T23-44Z;User ID=frankiel@ivqgu1eln8;Password=Helloworld123;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                         {
-                            var cmd = new SqlCommand(@"INSERT INTO Users VALUES (@Email,@Name,@Email,@Phone,@Country,@City,'Sport btn--blue #2196F3','Work btn--red #F44336','Study btn--green #4CAF50','Additional btn--yellow #FFEB3B','Rest btn--purple #9C27B0')", conn);
+                            var cmd = new SqlCommand(@"INSERT INTO Users VALUES (@Email,@Name,@Email,'','','','Sport btn--blue #2196F3','Work btn--red #F44336','Study btn--green #4CAF50','Additional btn--yellow #FFEB3B','Rest btn--purple #9C27B0')", conn);
                             cmd.Parameters.AddWithValue("@Email", user.Email);
                             cmd.Parameters.AddWithValue("@Name", user.UserName);
-                            cmd.Parameters.AddWithValue("@Phone", user.Phone);
-                            cmd.Parameters.AddWithValue("@Country", user.Country);
-                            cmd.Parameters.AddWithValue("@City", user.City);
                             conn.Open();
                             cmd.ExecuteNonQuery();
                             bool resultInvite = false;
