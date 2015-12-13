@@ -535,16 +535,22 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                 cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 cmd.ExecuteNonQuery();
             }
+            bool check = false;
             for (int i=0;i<events.Length;i++)
             {
+                check = false;
                 for (int j=0;j<oldnotify.Count;j++)
                 {
-                    if (events[i].Title == oldnotify[i].Data.Split('~')[0] && oldnotify[i].Data.Split('~')[1] == events[i].Start.ToString("dd.MM.yyyy"))
+                    if (events[i].Title == oldnotify[j].Data.Split('~')[0] && oldnotify[j].Data.Split('~')[1] == events[i].Start.ToString("dd.MM.yyyy"))
                     {
-                        AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), oldnotify[i].Actual.ToString());
+                        AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), oldnotify[j].Actual.ToString());
+                        check = true;
                     }
                 }
-                AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), "True");
+                if (!check)
+                {
+                    AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), "True");
+                }
             }
             return new JavaScriptSerializer().Serialize(GetNotificationsUNI(@"SELECT * FROM Notifications WHERE UserEmail=@Email").ToArray());
         }

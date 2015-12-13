@@ -8,6 +8,7 @@
     }
 
     korgieApi.getNotifications().then(function (res) {
+        console.log(res);
         $scope.notifications = res;
     });
 
@@ -34,6 +35,21 @@
             if ($scope.notifications[i].NotId == id && $scope.notifications[i].Actual == false) {
                 return 'check-not-hide';
             }
+        }
+    }
+
+    $scope.getPath = function (type, index) {
+        $scope.uncheck(index);
+        switch (type) {
+            case 1:
+                $state.go('events');
+                break;
+            case 2:
+                $state.go('contacts.recieved');
+                break;
+            case 3:
+                $state.go('contacts.mycontacts');
+                break;
         }
     }
 });

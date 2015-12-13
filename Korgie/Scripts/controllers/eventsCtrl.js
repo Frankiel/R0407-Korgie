@@ -20,8 +20,8 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     $scope.todoToSave;
 
     $scope.contacts;
-    korgieApi.getContacts().then(function () {
-        $scope.contacts = korgieApi.contacts;
+    korgieApi.getContacts().then(function (res) {
+        $scope.contacts = res;
     });
 
     $scope.myPrimaryEmail;

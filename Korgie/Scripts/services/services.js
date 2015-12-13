@@ -97,7 +97,7 @@
             var deferred = $q.defer();
             $http.get('/Event/GetContacts').then(function successCallback(response) {
                 korgieApi.contacts = response.data;
-                deferred.resolve();
+                deferred.resolve(response.data);
             });
             return deferred.promise;
         };

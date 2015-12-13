@@ -46,11 +46,11 @@
     })
     .filter('notifyTitle', function () {
         return function (text) {
-            return text.slice(0, text.length-7);
+            return text.slice(0, text.length-11);
         }
     })
     .filter('notifyDate', function () {
         return function (text) {
-            return text.slice(text.length - 7);
+            return text.slice(text.length - 10);
         }
     });
