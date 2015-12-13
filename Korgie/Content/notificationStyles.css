@@ -5,6 +5,31 @@
     min-width:580px;
 }
 
+.not1{
+    color: #004D40;
+    font-size: 1.0rem !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    text-align:center;
+}
+
+.not2{
+    color: #1565C0;
+    font-size: 1.0rem !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    text-align:center;
+}
+
+.not3{
+    color: #C62828;
+    font-size: 1.0rem !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    text-align:center;
+}
+
+.check-not-hide{
+    visibility:hidden !important;
+}
+
 @media (max-width: 599px) {
     .notific-card{
         width:95% !important;

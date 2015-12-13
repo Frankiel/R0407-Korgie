@@ -43,4 +43,14 @@
         return function (item) {
             return (item == undefined) ? '' : '...';
         }
+    })
+    .filter('notifyTitle', function () {
+        return function (text) {
+            return text.slice(0, text.length-7);
+        }
+    })
+    .filter('notifyDate', function () {
+        return function (text) {
+            return text.slice(text.length - 7);
+        }
     });

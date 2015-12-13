@@ -78,7 +78,10 @@
         <div layout-align="center center" layout="row">
             <div class="month-header" layout="row" layout-align="space-between center">
                 <button class="btn btn--m btn--teal btn--icon" ng-click="prevMonth()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                <span>{{current.format('MMMM, YYYY')}}</span>
+                <div layout="column">
+                    <span>{{current.format('MMMM, YYYY')}}</span>
+                    <span class="weeks">(weeks: {{current.clone().startOf('month').isoWeek()}}-{{current.clone().endOf('month').isoWeek()}})</span>
+                </div>
                 <button class="btn btn--m btn--teal btn--icon" ng-click="nextMonth()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
@@ -120,7 +123,7 @@
         <div layout-align="center center" layout="row">
             <div class="week-header" layout="row" layout-align="space-around center">
                 <button class="btn btn--m btn--teal btn--icon" ng-click="prevWeek()" lx-ripple><i class="mdi mdi-chevron-left"></i></button>
-                <span>Week {{current.week()}}</span>
+                <span>Week {{current.isoWeek()}}</span>
                 <button class="btn btn--m btn--teal btn--icon" ng-click="nextWeek()" lx-ripple><i class="mdi mdi-chevron-right"></i></button>
             </div>
         </div>
@@ -374,11 +377,11 @@
                 <div>
                     <p>Activities:</p>
                     <div ng-if="!eventAdding && !eventEditing" ng-repeat="task in todoToSave.Tasks">
-                        <input type="checkbox" id="123" class="checkbox__input controlls-unvisible" ng-model="task.State"><label for="123" class="checkbox__label"></label>
+                        <input type="checkbox" id="123" class="checkbox__input controlls-unvisible" ng-model="task.State" ng-change="changeActivityState()"><label for="123" class="checkbox__label"></label>
                         <div class="activity-name">{{task.Name}}</div>
                     </div>
                     <div ng-if="eventAdding || eventEditing" ng-repeat="task in todoToEdit.Tasks">
-                        <input type="checkbox" id={{task.Id}} class="checkbox__input controlls-unvisible" ng-model="task.State"><label for={{task.Id}} class="checkbox__label"></label>
+                        <input type="checkbox" id={{task.Id}} class="checkbox__input controlls-unvisible" ng-model="task.State" disabled><label for={{task.Id}} class="checkbox__label"></label>
                         <div class="activity-name">{{task.Name}}</div>
                         <button class="btn btn--xs btn--red btn--icon" ng-click="deleteActivity(task.Id)" lx-ripple><i class="mdi mdi-delete"></i></button><!-- ng-click="deleteActivity({{task.Id}})"-->
                     </div>

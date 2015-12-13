@@ -99,7 +99,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
                 while ($scope.current.day() != 1) {
                     $scope.current.subtract(1, 'day');
                 }
-                monday = $scope.current;
+                monday = $scope.current.clone();
             } else {
                 monday = $scope.current.clone().day(1);
             }
@@ -124,6 +124,11 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         return result;
     };
     function getEvents(isNextPrev) {
+        if (moment().format('MMMM-YYYY') != $scope.current.format('MMMM-YYYY')) {
+            $scope.current.set('date', 4);
+        } else {
+            $scope.current.set('date', moment().date());
+        }
         korgieApi.getEvents($scope.weekSwitcher, $scope.current.clone()).then(function (result) {
             events = result.events;
             todos = result.todos;
@@ -401,6 +406,10 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         Id: -1,
         Name: '',
         State: false
+    };
+
+    $scope.changeActivityState = function () {
+        korgieApi.saveTodo($scope.todoToSave);
     };
 
     $scope.createActivity = function () {

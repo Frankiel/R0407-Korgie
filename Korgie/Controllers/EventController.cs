@@ -524,7 +524,8 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
         }
         public string GetNotifications()
         {
-            Event[] events=GetEventsUNI("@SELECT * FROM Events E, UserEvents UE,Users U WHERE (DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND YEAR(Start)=YEAR(@Start)) OR (DATEPART(dayofyear,Start)-Notify+365<=DATEPART(dayofyear,@Start) AND YEAR(Start)>YEAR(@Start)) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
+            //Event[] events=GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE (DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND YEAR(Start)=YEAR(@Start)) OR (DATEPART(dayofyear,Start)-Notify+365<=DATEPART(dayofyear,@Start) AND YEAR(Start)>YEAR(@Start)) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
+            Event[] events=GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND DATEPART(dayofyear, @Start) <= DATEPART(dayofyear, Start) AND YEAR(Start)=YEAR(@Start) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
             using (var conn = new SqlConnection(_connection))
             {
                 conn.Open();

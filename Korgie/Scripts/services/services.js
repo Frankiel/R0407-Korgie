@@ -194,8 +194,6 @@
                                 Name: todoData[i].Tasks[j].Name
                             });
                         }
-                        console.log(moment(todoData[i].Start).format());
-                        console.log(moment.utc(todoData[i].Start).format());
                         todoResult.push({
                             TodoId: todoData[i].TodoId,
                             Title: todoData[i].Title,
@@ -260,12 +258,11 @@
                 deferred.resolve(event.EventId);
             });
             return deferred.promise;
-        }
+        };
 
         korgieApi.saveTodo = function (todo) {
             var deferred = $q.defer();
             var start = todo.Start.clone().add(todo.Start.utcOffset() / 60, 'h');
-            console.log(new Date(start.year(), start.month(), start.date(), start.hours(), start.minutes()));
             $http({
                 url: '/Event/SaveTodo',
                 method: "GET",
@@ -289,7 +286,7 @@
                 deferred.resolve(todo.TodoId);
             });
             return deferred.promise;
-        }
+        };
 
         korgieApi.getEventContacts = function (eventId) {
             var deferred = $q.defer();
@@ -299,7 +296,7 @@
                 deferred.resolve(response.data);
             });
             return deferred.promise;
-        }
+        };
 
         //SETTINGS
 
