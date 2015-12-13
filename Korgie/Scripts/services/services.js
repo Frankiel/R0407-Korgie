@@ -392,7 +392,7 @@
         korgieApi.isUser = function (contactEmail) {
             var deferred = $q.defer();
             var param, method;
-            method = '/Event/IsInvited';
+            method = '/Event/IsUser';
             param = {
                 email: contactEmail,
             }

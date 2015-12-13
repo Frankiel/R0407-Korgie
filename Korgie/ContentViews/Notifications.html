@@ -9,12 +9,13 @@
     </div>
     <div>
         <div layout="column" layout-wrap layout-align="start center">
-            <div class="card notific-card" ng-repeat="not in notifications | orderBy:['-Actual','-Date']" ng-class="isActual(not.NotId)">
+            <div ng-if="notifications.length == 0" class="no-data-ng-if">You don't have any notifications yet</div>
+            <div class="card notific-card" ng-repeat="not in notifications | orderBy:['-Actual','-Date']" ng-class="isActual(not.NotId)"  style="background-color: #B2DFDB !important;">
                 <div layout="column">
                     <div layout="row">
                         <div flex="auto"></div>
                         <div ng-class="isActualHide(not.NotId)">
-                            <button class="btn btn--s btn--grey btn--icon" lx-ripple ng-click="uncheck(not.NotId)" ng-disabled="not.Actual == false"><i class="mdi mdi-close"></i></button>
+                            <button class="btn btn--s btn--grey btn--icon" lx-ripple ng-click="uncheck(not.NotId)" ng-disabled="not.Actual == false"><i class="mdi mdi-eye"></i></button>
                         </div>
                     </div>
                     <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column" ng-click="redirect($index)">

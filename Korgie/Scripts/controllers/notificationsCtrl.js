@@ -9,8 +9,6 @@
 
     korgieApi.getNotifications().then(function (res) {
         $scope.notifications = res;
-        console.log(res);
-        //moment(todoData[i].Start)
     });
 
     $scope.uncheck = function (index) {
