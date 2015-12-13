@@ -458,5 +458,32 @@
             return deferred.promise;
         };
 
+        //Notifications
+
+        korgieApi.getNotifications = function () {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/GetNotifications';
+            $http.get(method).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject();
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.checkNotify = function (numb) {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/CheckNotify';
+            param = {
+                id: numb,
+            }
+            $http.get(method, { params: param }).then(function successCallback(response) {
+                deferred.resolve('ok');
+            });
+            return deferred.promise;
+        };
+
         return korgieApi;
     });
