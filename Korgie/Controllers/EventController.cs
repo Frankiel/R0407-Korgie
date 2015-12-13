@@ -34,7 +34,7 @@ namespace Korgie.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Email = Request.Cookies["Preferences"]["Email"];
-            return View(); // don't return anything
+            return View();
         }
         #region EventsAndTODO
         public string GetMonthEvents(int month, int year)

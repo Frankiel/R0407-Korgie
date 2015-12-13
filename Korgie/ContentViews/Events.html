@@ -238,7 +238,7 @@
                             <p>Notifications (days):</p>
                             <div ng-if="!eventAdding && !eventEditing">{{eventToSave.Notifications}}</div>
                             <lx-text-field class="event-notif-edit" ng-if="eventAdding || eventEditing">
-                                <input type="number" name="notif" ng-model="eventToEdit.Notifications" min="0" max="99" required ng-class="{'validation-error': !showingEvent.notif.$valid}">
+                                <input type="number" name="notif" ng-model="eventToEdit.Notifications" min="0" max="30" required ng-class="{'validation-error': !showingEvent.notif.$valid}">
                             </lx-text-field>
                         </div>
                         <div ng-hide="true">

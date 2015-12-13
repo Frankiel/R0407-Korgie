@@ -189,6 +189,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\bootstrap.css.map" />
     <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="ClassDiagram.cd" />
     <None Include="Properties\PublishProfiles\korgie.pubxml" />
     <Content Include="Scripts\libs\bourbon\.bower.json" />
     <Content Include="Scripts\libs\bourbon\app\assets\stylesheets\addons\_border-color.scss" />
