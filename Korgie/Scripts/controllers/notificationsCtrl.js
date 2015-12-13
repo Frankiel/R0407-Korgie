@@ -1,4 +1,4 @@
-﻿korgie.controller('notificationsCtrl', function ($scope, $state, korgieApi) {
+﻿korgie.controller('notificationsCtrl', function ($scope, $state, korgieApi, $state) {
     korgieApi.setCurState('notifications');
 
     $scope.notifications;
@@ -8,9 +8,8 @@
     }
 
     korgieApi.getNotifications().then(function (res) {
-        $scope.notifications = res;
         console.log(res);
-        //moment(todoData[i].Start)
+        $scope.notifications = res;
     });
 
     $scope.uncheck = function (index) {
@@ -39,7 +38,8 @@
         }
     }
 
-    $scope.getPath = function (type) {
+    $scope.getPath = function (type, index) {
+        $scope.uncheck(index);
         switch (type) {
             case 1:
                 $state.go('events');

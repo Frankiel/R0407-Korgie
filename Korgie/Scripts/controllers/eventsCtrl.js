@@ -20,8 +20,8 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     $scope.todoToSave;
 
     $scope.contacts;
-    korgieApi.getContacts().then(function () {
-        $scope.contacts = korgieApi.contacts;
+    korgieApi.getContacts().then(function (res) {
+        $scope.contacts = res;
     });
 
     $scope.myPrimaryEmail;
@@ -99,7 +99,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
                 while ($scope.current.day() != 1) {
                     $scope.current.subtract(1, 'day');
                 }
-                monday = $scope.current;
+                monday = $scope.current.clone();
             } else {
                 monday = $scope.current.clone().day(1);
             }
@@ -124,6 +124,11 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         return result;
     };
     function getEvents(isNextPrev) {
+        if (moment().format('MMMM-YYYY') != $scope.current.format('MMMM-YYYY')) {
+            $scope.current.set('date', 4);
+        } else {
+            $scope.current.set('date', moment().date());
+        }
         korgieApi.getEvents($scope.weekSwitcher, $scope.current.clone()).then(function (result) {
             events = result.events;
             todos = result.todos;
@@ -294,8 +299,9 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         var startDate = $scope.eventToEdit.StartJsDate;
         var startTime = $scope.eventToEdit.StartJsTime;
         $scope.eventToEdit.Start = moment.utc([startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startTime.getHours(), startTime.getMinutes()]).local();
-        //$scope.eventToEdit.Start = moment.utc(startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60));
-        korgieApi.saveEvent($scope.eventToEdit);
+        korgieApi.saveEvent($scope.eventToEdit).then(function (id) {
+            $scope.eventToEdit.EventId = id;
+        });
         switch ($scope.eventToEdit.Type) {
             case "Sports":
                 $scope.eventToEdit.Color = korgieApi.sport[2];
@@ -322,7 +328,9 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         $scope.todoToEdit.Color = korgieApi.rgb2hex($('.mdi-check').parent().css('background-color'));
         crudTodo(!$scope.eventAdding ? $scope.todoToEdit.TodoId : -1, $scope.todoToEdit);
         $scope.todoToSave = angular.copy($scope.todoToEdit);
-        korgieApi.saveTodo($scope.todoToEdit);
+        korgieApi.saveTodo($scope.todoToEdit).then(function (id) {
+            $scope.todoToEdit.TodoId = id;
+        });
     };
 
     $scope.openDialog = function (dialogName, event) {
@@ -335,6 +343,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
                 StartJsDate: startDate,
                 StartJsTime: startDate,
                 Period: 0,
+                Notifications: 0,
                 Color: '#2196f3',
                 Tasks: [],
                 Contacts: []
@@ -348,6 +357,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
             var startDate = event.Start.clone();
             event.StartJsDate = new Date(startDate.year(), startDate.month(), startDate.date());
             event.StartJsTime = new Date(startDate.year(), startDate.month(), startDate.date(), startDate.hours(), startDate.minutes());
+            if (event.Notifications == undefined) event.Notifications = 0;
             if (dialogName == 'event') {
                 korgieApi.getEventContacts(event.EventId).then(function (contacts) {
                     $scope.eventToSave.Contacts = contacts;
@@ -370,9 +380,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         $scope.todoToEdit = angular.copy($scope.todoToSave);
         $scope.showHideControlls();
         $scope.eventEditing = false;
-        if ($scope.eventAdding) {
-            $scope.closingDialog(dialogName);
-        }
+        $scope.closingDialog(dialogName);
     };
 
     $scope.edit = function () {
@@ -398,6 +406,10 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         Id: -1,
         Name: '',
         State: false
+    };
+
+    $scope.changeActivityState = function () {
+        korgieApi.saveTodo($scope.todoToSave);
     };
 
     $scope.createActivity = function () {

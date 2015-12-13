@@ -97,7 +97,7 @@
             var deferred = $q.defer();
             $http.get('/Event/GetContacts').then(function successCallback(response) {
                 korgieApi.contacts = response.data;
-                deferred.resolve();
+                deferred.resolve(response.data);
             });
             return deferred.promise;
         };
@@ -177,6 +177,7 @@
                             Type: eventData[i].Type,
                             Color: color[2],
                             Description: eventData[i].Description,
+                            Notifications: eventData[i].Notify,
                             Period: eventData[i].Period,
                             Tags: eventData[i].Tags,
                             Contacts: [],
@@ -196,7 +197,7 @@
                         todoResult.push({
                             TodoId: todoData[i].TodoId,
                             Title: todoData[i].Title,
-                            Start: moment(todoData[i].Start),
+                            Start: moment.utc(todoData[i].Start),
                             Color: todoData[i].Color,
                             Description: todoData[i].Description,
                             Tasks: tasks
@@ -229,35 +230,46 @@
         };
 
         korgieApi.saveEvent = function (event) {
+            var deferred = $q.defer();
             var contacts = [korgieApi.primaryEmail];
             for (var i = 0; i < event.Contacts.length; i++) {
                 contacts.push(event.Contacts[i].PrimaryEmail);
             }
+            var start = event.Start.utc();
             $http({
                 url: '/Event/SaveEvents',
                 method: "GET",
                 params: {
                     EventId: event.EventId || -1,
                     Title: event.Title,
-                    Start: event.Start.utc().toDate(),
+                    Start: new Date(start.year(), start.month(), start.date(), start.hours(), start.minutes()),
                     Type: event.Type,
                     Description: event.Description || '',
                     Period: event.Period || 0,
                     Days: 0,
                     Tags: event.Tags || '',
-                    attached: contacts
+                    attached: contacts,
+                    Notify: event.Notifications || 0
                 }
+            }).then(function (response) {
+                if (event.EventId == undefined) {
+                    event.EventId = response.data;
+                }
+                deferred.resolve(event.EventId);
             });
+            return deferred.promise;
         };
 
         korgieApi.saveTodo = function (todo) {
+            var deferred = $q.defer();
+            var start = todo.Start.clone().add(todo.Start.utcOffset() / 60, 'h');
             $http({
                 url: '/Event/SaveTodo',
                 method: "GET",
                 params: {
                     TodoId: todo.TodoId || -1,
                     Title: todo.Title,
-                    Start: todo.Start.toDate(),
+                    Start: /*todo.Start.local().toDate(), //*/new Date(start.year(), start.month(), start.date(), start.hours(), start.minutes()),
                     Color: todo.Color,
                     Description: todo.Description || '',
                     States: todo.Tasks.map(function (task) {
@@ -267,7 +279,13 @@
                         return task.Name;
                     }) || []
                 }
+            }).then(function (response) {
+                if (todo.TodoId == undefined) {
+                    todo.TodoId = response.data;
+                }
+                deferred.resolve(todo.TodoId);
             });
+            return deferred.promise;
         };
 
         korgieApi.getEventContacts = function (eventId) {
@@ -302,7 +320,6 @@
             $http.get(method, { params: param }).then(function successCallback(response) {
                 deferred.resolve();
             }, function errorCallback(response) {
-                console.log('profile info saving failed');
                 deferred.reject();
             });
             return deferred.promise;
@@ -375,7 +392,7 @@
         korgieApi.isUser = function (contactEmail) {
             var deferred = $q.defer();
             var param, method;
-            method = '/Event/IsInvited';
+            method = '/Event/IsUser';
             param = {
                 email: contactEmail,
             }

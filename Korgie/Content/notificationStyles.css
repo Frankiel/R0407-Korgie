@@ -30,6 +30,11 @@
     visibility:hidden !important;
 }
 
+
+.notif-actual-false{
+    opacity:0.4;
+}
+
 @media (max-width: 599px) {
     .notific-card{
         width:95% !important;
