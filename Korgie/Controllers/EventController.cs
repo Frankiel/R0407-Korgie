@@ -430,13 +430,13 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
         public void AddContact(string email)
         {
             Delete_Add_Contact(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@PrimaryContact,'Sent')", email);
-            AddNotify(email, 2, Request.Cookies["Preferences"]["Email"]);
+            AddNotify(email, 2, Request.Cookies["Preferences"]["Email"], "True");
         }
         public void DeleteContact(string email)
         {
             Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) 
 OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email); //добавить проверку на статус и сделать обратку
-            AddNotify(email, 3, Request.Cookies["Preferences"]["Email"]);
+            AddNotify(email, 3, Request.Cookies["Preferences"]["Email"], "True");
         }
         public void Delete_Add_Contact(string sqlcom, string email)
         {
@@ -493,20 +493,21 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
         }
         #endregion
         #region Notifications
-        private void AddNotify(string user,int type,string data)
+        private void AddNotify(string user,int type,string data,string actual)
         {
             using (var conn = new SqlConnection(_connection))
             {
                 conn.Open();
-                if (GetNotificationsUNI().Count>50) //Проверка на количество оповещений, чтобы не было больше 50
+                if (GetNotificationsUNI(@"SELECT * FROM Notifications WHERE UserEmail=@Email").Count>50) //Проверка на количество оповещений, чтобы не было больше 50
                 {
-                    var cmd2 = new SqlCommand(@"DELETE FROM Notifications WHERE UserEmail=@Email AND Date=Min(Date)",conn);
+                    var cmd2 = new SqlCommand(@"DELETE FROM Notifications WHERE UserEmail=@Email AND Actual='False' AND Date=Min(Date)",conn);
                     cmd2.Parameters.AddWithValue("@Email", user);
                     cmd2.ExecuteNonQuery();
                 }
-                var cmd = new SqlCommand(@"INSERT INTO Notifications VALUES (@User,@Type,'True',@Data,@Date)", conn);
+                var cmd = new SqlCommand(@"INSERT INTO Notifications VALUES (@User,@Type,@Actual,@Data,@Date)", conn);
                 cmd.Parameters.AddWithValue("@User", user);
                 cmd.Parameters.AddWithValue("@Type", type);
+                cmd.Parameters.AddWithValue("@Actual", actual);
                 cmd.Parameters.AddWithValue("@Data", data);
                 cmd.Parameters.AddWithValue("@Date", DateTime.UtcNow);
                 cmd.ExecuteNonQuery();
@@ -526,6 +527,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
         {
             //Event[] events=GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE (DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND YEAR(Start)=YEAR(@Start)) OR (DATEPART(dayofyear,Start)-Notify+365<=DATEPART(dayofyear,@Start) AND YEAR(Start)>YEAR(@Start)) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
             Event[] events=GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND DATEPART(dayofyear, @Start) <= DATEPART(dayofyear, Start) AND YEAR(Start)=YEAR(@Start) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
+            List<Notifications> oldnotify = GetNotificationsUNI(@"SELECT * FROM Notifications WHERE Type=1 AND UserEmail=@Email");
             using (var conn = new SqlConnection(_connection))
             {
                 conn.Open();
@@ -535,16 +537,23 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
             }
             for (int i=0;i<events.Length;i++)
             {
-                AddNotify(Request.Cookies["Preferences"]["Email"], 1, Request.Cookies["Preferences"]["Email"]);
+                for (int j=0;j<oldnotify.Count;j++)
+                {
+                    if (events[i].Title == oldnotify[i].Data.Split('~')[0] && oldnotify[i].Data.Split('~')[1] == events[i].Start.ToString("dd.MM.yyyy"))
+                    {
+                        AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), oldnotify[i].Actual.ToString());
+                    }
+                }
+                AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), "True");
             }
-            return new JavaScriptSerializer().Serialize(GetNotificationsUNI().ToArray());
+            return new JavaScriptSerializer().Serialize(GetNotificationsUNI(@"SELECT * FROM Notifications WHERE UserEmail=@Email").ToArray());
         }
-        public List<Notifications> GetNotificationsUNI()
+        public List<Notifications> GetNotificationsUNI(string sqlcom)
         {
             List<Notifications> notifications = new List<Notifications>();
             using (var conn = new SqlConnection(_connection))
             {
-                var cmd = new SqlCommand(@"SELECT * FROM Notifications WHERE UserEmail=@Email", conn);
+                var cmd = new SqlCommand(sqlcom, conn);
                 conn.Open();
                 cmd.Parameters.AddWithValue("@Email", Request.Cookies["Preferences"]["Email"]);
                 using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
