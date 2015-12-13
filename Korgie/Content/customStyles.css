@@ -916,10 +916,33 @@
 }
 
 .error-logo{
-    width: 362px;
-    height:300px;
+    width: 400px;
+    height:280px;
     background: url(../Content/logo.png) no-repeat;
     background-size: auto 100%;
+}
+
+.error-title {
+    position: absolute;
+    bottom:0px;
+    right:0px;
+    color:#00695C; /**#F57F17*/
+    overflow: hidden;
+    font-weight:200 !important;
+}
+
+.error-title-text {
+    font-size: 45px;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 48px;
+    letter-spacing: -1px;
+    display: block;
+}
+
+.error-back{
+    background-color: #00897B;
+    min-height: 100%;
 }
 
 .notif-actual-false{

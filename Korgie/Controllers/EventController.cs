@@ -542,6 +542,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                     if (events[i].Title == oldnotify[i].Data.Split('~')[0] && oldnotify[i].Data.Split('~')[1] == events[i].Start.ToString("dd.MM.yyyy"))
                     {
                         AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), oldnotify[i].Actual.ToString());
+                        continue;
                     }
                 }
                 AddNotify(Request.Cookies["Preferences"]["Email"], 1, events[i].Title + "~" + events[i].Start.ToString("dd.MM.yyyy"), "True");

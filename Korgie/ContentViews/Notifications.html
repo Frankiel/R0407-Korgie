@@ -17,7 +17,7 @@
                             <button class="btn btn--s btn--grey btn--icon" lx-ripple ng-click="uncheck(not.NotId)" ng-disabled="not.Actual == false"><i class="mdi mdi-close"></i></button>
                         </div>
                     </div>
-                    <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column" ng-click="redirect($index)">
+                    <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column" ng-click="getPath(not.Type)" style="cursor:pointer"><!-- ui-sref="getPath(not.Type)"-->
                         <div layout="column" style="width:60%">
                             <div layout="column">
                                 <div ng-if="not.Type == 1" class="not1">There is upcoming event "{{not.Data | notifyTitle}}"</div>
