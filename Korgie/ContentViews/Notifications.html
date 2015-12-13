@@ -9,8 +9,7 @@
     </div>
     <div>
         <div layout="column" layout-wrap layout-align="start center">
-            <div ng-if="notifications.length == 0" class="no-data-ng-if">You don't have any notifications yet</div>
-            <div class="card notific-card" ng-repeat="not in notifications | orderBy:['-Actual','-Date']" ng-class="isActual(not.NotId)"  style="background-color: #B2DFDB !important;">
+            <div class="card notific-card" ng-repeat="not in notifications | orderBy:['-Actual','-Date']" ng-class="isActual(not.NotId)" style="background-color: #B2DFDB !important;">
                 <div layout="column">
                     <div layout="row">
                         <div flex="auto"></div>
@@ -18,7 +17,7 @@
                             <button class="btn btn--s btn--grey btn--icon" lx-ripple ng-click="uncheck(not.NotId)" ng-disabled="not.Actual == false"><i class="mdi mdi-eye"></i></button>
                         </div>
                     </div>
-                    <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column" ng-click="redirect($index)">
+                    <div layout="row" layout-align="space-around center" layout-md="row" layout-sm="column" ng-click="getPath(not.Type)" style="cursor:pointer">
                         <div layout="column" style="width:60%">
                             <div layout="column">
                                 <div ng-if="not.Type == 1" class="not1">There is upcoming event "{{not.Data | notifyTitle}}"</div>
@@ -31,6 +30,6 @@
                 </div>
             </div>
         </div>
-        <div ng-if="nots.length == 0" class="no-data-ng-if">You don't have any notifications</div>
+        <div ng-if="notifications.length == 0" class="no-data-ng-if">You don't have any notifications</div>
     </div>
 </div>
