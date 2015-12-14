@@ -16,6 +16,10 @@
         return 'btn--flat';
     }
 
+    korgieApi.getProfileInfo().then(function () {
+        $scope.name = korgieApi.name;
+    });
+
     $('[ui-sref]').click(function () {
         $('.header').removeClass('opened-menu');
         $('.content').removeClass('opened-menu');
