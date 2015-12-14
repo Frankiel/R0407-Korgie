@@ -501,17 +501,5 @@
             return deferred.promise;
         };
 
-        korgieApi.checkActualNotify = function () {
-            var deferred = $q.defer();
-            var param, method;
-            method = '/Event/CheckActualNotify';
-            $http.get(method).then(function successCallback(response) {
-                deferred.resolve(response.data);
-            }, function errorCallback(response) {
-                deferred.reject(false);
-            });
-            return deferred.promise;
-        };
-
         return korgieApi;
     });
