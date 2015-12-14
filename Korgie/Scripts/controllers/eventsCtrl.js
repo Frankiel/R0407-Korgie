@@ -124,10 +124,12 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
         return result;
     };
     function getEvents(isNextPrev) {
-        if (moment().format('MMMM-YYYY') != $scope.current.format('MMMM-YYYY')) {
-            $scope.current.set('date', 4);
-        } else {
-            $scope.current.set('date', moment().date());
+        if ($scope.weekSwitcher === false) {
+            if (moment().format('MMMM-YYYY') != $scope.current.format('MMMM-YYYY')) {
+                $scope.current.set('date', 4);
+            } else {
+                $scope.current.set('date', moment().date());
+            }
         }
         korgieApi.getEvents($scope.weekSwitcher, $scope.current.clone()).then(function (result) {
             events = result.events;
@@ -378,7 +380,7 @@ korgie.controller('eventsCtrl', function ($scope, $q, korgieApi, LxDialogService
     $scope.cancel = function (dialogName) {
         $scope.eventToEdit = angular.copy($scope.eventToSave);
         $scope.todoToEdit = angular.copy($scope.todoToSave);
-        $scope.showHideControlls();
+        //$scope.showHideControlls();
         $scope.eventEditing = false;
         $scope.closingDialog(dialogName);
     };

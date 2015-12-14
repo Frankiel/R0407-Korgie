@@ -14,7 +14,7 @@
     <!-- Day mode -->
     <div id="day-mode" ng-if="dayToShow">
         <div class="day-mode-close">
-            <button class="btn btn--l btn--red btn--icon" lx-ripple ng-click="closeDayMode()" style="margin-top:5px;"><i class="icon icon--l icon--red icon--flat mdi mdi-arrow-left"></i></button>
+            <button class="btn btn--l btn--red btn--icon day-back" lx-ripple ng-click="closeDayMode()"><i class="icon icon--l icon--red icon--flat mdi mdi-arrow-left"></i></button>
         </div>
         <div class="day-mode-header" layout-align="center center" layout="row">
             <div class="day-header" layout="row" layout-align="center center">
@@ -37,7 +37,7 @@
                         <div class="time">{{event.Start.format('HH:mm')}}</div>
                         <div class="title" layout="row" layout-align="center center">{{event.Title}}</div>
                         <div class="type" layout="row" layout-align="start center">
-                            <div class="type-color" style="background-color: {{event.Color}}"></div>
+                            <div class="type-color" ng-style="{'background-color': '{{event.Color}}'}"></div>
                             {{event.Type}}
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             <button class="btn btn--m btn--red btn--icon" lx-ripple ng-click="deleteTodo(todo.TodoId)"><i class="mdi mdi-delete"></i></button>
                         </div>
                         <div class="type" layout="row" layout-align="start center">
-                            <div style="background-color: {{todo.Color}}" class="day-todo-color"></div>
+                            <div ng-style="{'background-color': '{{todo.Color}}'}" class="day-todo-color"></div>
                             <div class="title">{{todo.Title}}</div>
                         </div>
                         <div class="tasks" layout="column" layout-align="start start">
@@ -100,7 +100,7 @@
                     <div class="day-number">{{calendarDay.date.get('date') || calendarDay.day}}</div>
                     <div class="event-container" hide-sm>
                         <div ng-repeat="type in calendarDay.types">
-                            <div class="type-color" style="background-color: {{type.color}}">
+                            <div class="type-color" ng-style="{'background-color': '{{type.color}}'}">
                             </div>
                         </div>
                         <div class="todo-list" ng-if="calendarDay.todos.length > 0" layout="column" layout-align="space-around center">
@@ -135,7 +135,7 @@
                         <div hide-gt-sm>{{day.date.format('dddd')}},</div>
                         <div>{{day.date.format('DD.MM.YYYY')}}</div>
                     </div>
-                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" style="background-color: {{type.color}}"></div>
+                    <div hide-gt-sm class="week-mode-type type-color" ng-repeat="type in day.types" ng-style="{'background-color': '{{type.color}}'}"></div>
                     <div hide-gt-sm class="todo-list" ng-if="day.todos.length > 0" layout="column" layout-align="space-around center">
                         <div></div>
                         <div></div>
@@ -152,14 +152,14 @@
                         </div>
                         <div class="week-mode-type" layout="row" layout-align="end center">
                             {{event.Type}}
-                            <div class="type-color" style="background-color: {{event.Color}}"></div>
+                            <div class="type-color" ng-style="{'background-color': '{{event.Color}}'}"></div>
                         </div>
                     </div>
                 </div>
                 <div hide-sm class="week-mode-event card" ng-repeat="todo in day.todos">
                     <div ng-click="openDialog('todo', todo)">
                         <div class="type" layout="row" layout-align="start center">
-                            <div style="background-color: {{todo.Color}}" class="week-mode-todo-color"></div>
+                            <div ng-style="{'background-color': '{{todo.Color}}'}" class="week-mode-todo-color"></div>
                             <div class="title">{{todo.Title}}</div>
                         </div>
                         <div class="tasks" layout="column" layout-align="start start">
@@ -356,7 +356,7 @@
                 </div>
                 <div layout="row" layout-align="start center">
                     <p>Color:</p>
-                    <div ng-if="!eventAdding && !eventEditing" class="todo-color-edit" style="background-color: {{todoToSave.Color}}" ng-click="(eventEditing || eventAdding) && chooseTodoColor()"></div>
+                    <div ng-if="!eventAdding && !eventEditing" class="todo-color-edit" ng-style="{'background-color': '{{todoToSave.Color}}'}" ng-click="(eventEditing || eventAdding) && chooseTodoColor()"></div>
                 </div>
                 <div ng-if="eventAdding || eventEditing" layout="row" layout-align="space-around center" class="color-buttons">
                     <button class="btn btn--s btn--blue btn--fab" ng-click="chooseTodoColor(todoToEdit.TodoId, 0)" lx-ripple></button>
