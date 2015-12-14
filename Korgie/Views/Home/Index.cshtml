@@ -2,24 +2,24 @@
 <div class="background-image" layout="column" layout-align="center center">
     <div class="container">
         <div class="text-center start-page-content">
-            <br /><br />
-            <h1>Welcome to the Korgie main page!</h1>
-            <hr />
-            <p>Korgie is a useful organizer, that can save your everyday life! Try Korgie to remember every detail in your plans. Single and repeating events, to-do lists, notes, sharing with friends – everything you need is here!</p>
-            <hr />
-            @{
-                var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-                using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div id="socialLoginList">
+            <div class="error-logo" style="width:170px; margin-left:calc(50% - 85px) !important;"></div>
+                <h1>Welcome to the Korgie!</h1>
+                <hr />
+                <p>Korgie is a useful organizer, that can save your everyday life! Try Korgie to remember every detail in your plans. Events, to-do lists, sharing with friends – everything you need is here!</p>
+                <hr />
+                @{
+                    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div id="socialLoginList">
                             @foreach (AuthenticationDescription p in loginProviders)
                             {
                                 <button type="submit" class="btn btn--m btn--blue btn--raised" lx-ripple id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Sign in with @p.AuthenticationType</button>
                             }
-                    </div>
+                        </div>
+                    }
                 }
-            }
-        </div>
+            </div>
     </div>
 </div>

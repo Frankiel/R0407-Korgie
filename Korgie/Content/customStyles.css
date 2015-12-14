@@ -124,7 +124,7 @@
 .background-image {
     /*background: url(../img/header-bg.jpg) center top no-repeat;*/
     min-height: 100%;
-    background-color: #555;
+    background-color: #4DB6AC;
     font-family: Lato,sans-serif;
     color: #fff;
 }
@@ -152,7 +152,7 @@
 
 .background-image hr {
     max-width: 50px;
-    border-color: #f13e3e;
+    border-color: #B2DFDB;
     border-width: 3px;
     margin-left: calc(50% - 25px);
 }
@@ -163,11 +163,19 @@
     line-height: 1.5;
     font-size: 20.5px;
     font-family: 'Times New Roman', 'Helvetica Neue', Arial, sans-serif;
-    opacity: 0.7;
 }
 
 .background-image button {
     margin: 0px;
+}
+
+.registraton .tc-blue-800{
+    color: #FFF !important;
+}
+
+.registraton .btn--raised{
+    color: #FFF !important;
+    background-color:#FF9800 !important;
 }
 
 .header {
@@ -287,7 +295,7 @@
 }
 
 .calendar-container {
-    height: calc(100% - 77px);
+    height: calc(100% - 100px);
 }
 
 .week-days {
@@ -921,6 +929,15 @@
 
 .validation-error{
     background-color:#FFCDD2 !important;
+}
+
+.start-page-content .error-logo {
+    margin-top: 0px !important;
+}
+
+.background-image .btn--raised{
+    color: #E0F2F1 !important;
+    background-color:#FF9800 !important;
 }
 
 .error-logo{

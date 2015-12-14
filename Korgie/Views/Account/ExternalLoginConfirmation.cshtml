@@ -3,15 +3,16 @@
     ViewBag.Title = "Register";
 }
 
-<div layout="row" layout-align="center center" style="width:100%;height:85%">
-    <div style="width:600px;text-align:center; padding:15px 15px 0px 15px" class="card bgc-light-blue-50">
+<div layout="column" layout-align="center center" style="width:100%;height:100%;background-color:#B2DFDB">
+    <div class="error-logo" style="width:170px;"></div>
+    <div style="width:600px;text-align:center; padding:15px 15px 0px 15px; background-color:#4DB6AC" class="card registraton">
         @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <span class="fs-title display-block tc-blue-900">Enter your Name to complete registration!</span>
+            <span class="fs-title display-block tc-blue-800">Enter your Name to complete registration!</span>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label login-conf-name-label tc-blue-800" })
