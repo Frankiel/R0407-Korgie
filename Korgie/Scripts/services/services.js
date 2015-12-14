@@ -501,5 +501,28 @@
             return deferred.promise;
         };
 
+        korgieApi.checkActualNotify = function () {
+            var deferred = $q.defer();
+            var param, method;
+            method = '/Event/CheckActualNotify';
+            $http.get(method).then(function successCallback(response) {
+                deferred.resolve(response.data);
+            }, function errorCallback(response) {
+                deferred.reject();
+            });
+            return deferred.promise;
+        };
+
+        korgieApi.setNotificationButton = function () {
+            korgieApi.checkActualNotify().then(function (result) {
+                if (result == 'True') {
+                    $('.notif').addClass('not-isactual');
+                }
+                else {
+                    $('.notif').removeClass('not-isactual');
+                }
+            });
+        };
+
         return korgieApi;
     });

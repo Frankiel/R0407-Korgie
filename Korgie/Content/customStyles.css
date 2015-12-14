@@ -994,3 +994,7 @@
     margin-left:-500px;
     left:50% !important;
 }
+
+.not-isactual{
+    background-color:#F44336 !important;
+}

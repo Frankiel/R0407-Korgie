@@ -1,4 +1,6 @@
 ﻿korgie.controller('HomeCtrl', function ($scope, $state, korgieApi) {
+    $scope.notify;
+
     $scope.getCurrentState = function (param) {
         var curstate = korgieApi.getCurState();
         if (param == 'contacts.mycontacts' && (curstate == 'contacts.mycontacts' || curstate == 'contacts.addcontact' || curstate == 'contacts.sent' || curstate == 'contacts.recieved')) {
@@ -19,6 +21,9 @@
     korgieApi.getProfileInfo().then(function () {
         $scope.name = korgieApi.name;
     });
+
+    setInterval(function () { korgieApi.setNotificationButton(); }, 2000);
+    
 
     $('[ui-sref]').click(function () {
         $('.header').removeClass('opened-menu');
