@@ -150,16 +150,16 @@
     transform: translateY(-50%);
 }
 
-.background-image hr {
-    max-width: 50px;
-    border-color: #B2DFDB;
-    border-width: 3px;
-    margin-left: calc(50% - 25px);
+.background-image .hr {
+    width: 50px;
+    background-color: #B2DFDB;
+    height: 3px;
 }
 
 .background-image p {
+    max-width:700px;
     margin-left: 10%;
-    max-width: 80%;
+    margin-right: 10%;
     line-height: 1.5;
     font-size: 20.5px;
     font-family: 'Times New Roman', 'Helvetica Neue', Arial, sans-serif;
@@ -951,6 +951,7 @@
     height:280px;
     background: url(../Content/logo.png) no-repeat;
     background-size: auto 100%;
+    width:170px;
 }
 
 .error-title {
