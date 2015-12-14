@@ -165,6 +165,7 @@
     <Content Include="Content\contactsStyles.css" />
     <Content Include="Content\customStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\icon.png" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\notificationStyles.css" />
     <Content Include="Content\settingsStyles.css" />
@@ -188,6 +189,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\bootstrap.css.map" />
     <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="ClassDiagram.cd" />
     <None Include="Properties\PublishProfiles\korgie.pubxml" />
     <Content Include="Scripts\libs\bourbon\.bower.json" />
     <Content Include="Scripts\libs\bourbon\app\assets\stylesheets\addons\_border-color.scss" />

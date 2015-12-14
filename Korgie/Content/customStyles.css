@@ -124,7 +124,7 @@
 .background-image {
     /*background: url(../img/header-bg.jpg) center top no-repeat;*/
     min-height: 100%;
-    background-color: #555;
+    background-color: #4DB6AC;
     font-family: Lato,sans-serif;
     color: #fff;
 }
@@ -152,7 +152,7 @@
 
 .background-image hr {
     max-width: 50px;
-    border-color: #f13e3e;
+    border-color: #B2DFDB;
     border-width: 3px;
     margin-left: calc(50% - 25px);
 }
@@ -163,11 +163,19 @@
     line-height: 1.5;
     font-size: 20.5px;
     font-family: 'Times New Roman', 'Helvetica Neue', Arial, sans-serif;
-    opacity: 0.7;
 }
 
 .background-image button {
     margin: 0px;
+}
+
+.registraton .tc-blue-800{
+    color: #FFF !important;
+}
+
+.registraton .btn--raised{
+    color: #FFF !important;
+    background-color:#FF9800 !important;
 }
 
 .header {
@@ -287,7 +295,7 @@
 }
 
 .calendar-container {
-    height: calc(100% - 77px);
+    height: calc(100% - 100px);
 }
 
 .week-days {
@@ -923,9 +931,53 @@
     background-color:#FFCDD2 !important;
 }
 
+.start-page-content .error-logo {
+    margin-top: 0px !important;
+}
+
+.background-image .btn--raised{
+    color: #E0F2F1 !important;
+    background-color:#FF9800 !important;
+}
+
 .error-logo{
-    width: 362px;
-    height:300px;
+    width: 400px;
+    height:280px;
     background: url(../Content/logo.png) no-repeat;
     background-size: auto 100%;
+}
+
+.error-title {
+    position: absolute;
+    bottom:0px;
+    right:0px;
+    color:#E0F2F1;
+    overflow: hidden;
+    font-weight:200 !important;
+}
+
+.error-title-text {
+    font-size: 45px;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 48px;
+    letter-spacing: -1px;
+    display: block;
+}
+
+.error-back{
+    background-color: #00897B;
+    min-height: 100%;
+}
+
+.error-page-content {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    margin-left:-200px;
+    margin-top:-140px;
+}
+
+.notif-actual-false{
+    background-color: #E0E0E0 !important;
 }
