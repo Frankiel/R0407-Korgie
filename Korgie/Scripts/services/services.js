@@ -16,14 +16,30 @@
 
         korgieApi.getTypes = function (events) {
             var result = [];
-            events.forEach(function (event) {
-                if (!result.some(type => type.name == event.Type)) {
-                    result.push({
-                        name: event.Type,
-                        color: event.Color
-                    });
-                }
-            });
+            if (events.length > 0) {
+                events.forEach(function (event) {
+                    var len = result.length;
+                    var hasType = false;
+                    for (var i = 0; i < len; i++) {
+                        if (result[i].name == event.Type) {
+                            hasType = true;
+                            break;
+                        }
+                    }
+                    if (!hasType) {
+                        result.push({
+                            name: event.Type,
+                            color: event.Color
+                        });
+                    }
+                    /*if (!result.some(type => type.name == event.Type)) {
+                        result.push({
+                            name: event.Type,
+                            color: event.Color
+                        });
+                    }*/
+                });
+            }
             return result;
         };
 
