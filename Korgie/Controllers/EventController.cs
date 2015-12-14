@@ -17,7 +17,7 @@ namespace Korgie.Controllers
     {
         const string _connection = "Server=tcp:ivqgu1eln8.database.windows.net,1433;Database=korgie_db_2015-12-13T23-44Z;User ID=frankiel@ivqgu1eln8;Password=Helloworld123;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         // GET: Event
-        public ActionResult Index()
+        public ActionResult Index() // Проверка залогинен ли пользователь или нет
         {
             string[] allcookies = Request.Cookies.AllKeys;
             bool result = true;
@@ -36,34 +36,35 @@ namespace Korgie.Controllers
             ViewBag.Email = Request.Cookies["Preferences"]["Email"];
             return View();
         }
+        //Регион Events и TODO
         #region EventsAndTODO
-        public string GetMonthEvents(int month, int year)
+        public string GetMonthEvents(int month, int year) //Получение месячных евентов
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE MONTH(E.Start)=@Value1 AND YEAR(E.Start)=@Value2
 AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
-        public string GetMonthTodo(int month, int year)
+        public string GetMonthTodo(int month, int year) // Получение месячных TODO
         {
             Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserTodo UTD,Users U WHERE MONTH(TD.Start)=@Value1 And YEAR(TD.Start)=@Value2
 AND TD.Todoid=UTD.Todoid AND UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", month, year);
             return new JavaScriptSerializer().Serialize(todoStub);
         }
-        public string GetWeekEvents(int week, int year)
+        public string GetWeekEvents(int week, int year) // Получение недельных евентов
         {
             Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events E, Users U, UserEvents UE WHERE DATEPART(iso_week,E.Start)=@Value1 AND YEAR(E.Start)=@Value2 AND
 E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail and U.PrimaryEmail=@Email", week, year);
             return new JavaScriptSerializer().Serialize(eventsStub);
         }
-        public string GetWeekTodo(int week, int year)
+        public string GetWeekTodo(int week, int year) // Получение недельных TODO
         {
             Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo TD,UserToDo UTD,Users U WHERE DATEPART(iso_week,TD.Start)=@Value1 AND YEAR(TD.Start)=@Value2 AND
 TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email", week, year);
             return new JavaScriptSerializer().Serialize(todoStub);
         }
-        public int SaveTodo(int TodoId, string Title, DateTime Start, string Color, string Description, bool[] States, string[] Tasks)
+        public int SaveTodo(int TodoId, string Title, DateTime Start, string Color, string Description, bool[] States, string[] Tasks) // Сохранение и редактирование TODO
         {
-            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo WHERE Todoid=@Value1", TodoId);
+            Todo[] todoStub = GetTodoUNI(@"SELECT * FROM ToDo WHERE Todoid=@Value1", TodoId); //Проверка на наличие туду листов, есть - редактируем, нет - создаем
             int toreturn = -1;
             using (var conn = new SqlConnection(_connection))
             {
@@ -76,7 +77,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                     }
                 }
 
-                if (todoStub.Length == 0)
+                if (todoStub.Length == 0) // Если нет, так же создаем связь пользователя с этим TODO
                 {
                     var cmd = new SqlCommand(@"INSERT INTO ToDo VALUES (@Title,@Start,@Color,@Description,@Tasks)", conn);
                     cmd.Parameters.AddWithValue("@Title", Title);
@@ -98,7 +99,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 }
                     }
                 }
-                else
+                else // Если есть
                 {
                     var cmd = new SqlCommand(@"UPDATE ToDo SET Title=@Title, Start=@Start, Color=@Color, Description=@Description, Tasks=@Tasks WHERE Todoid=@Todoid", conn);
                     cmd.Parameters.AddWithValue("@Todoid", TodoId);
@@ -113,13 +114,13 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
             }
             return toreturn;
         }
-        public int SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags, string[] attached,int Notify)
+        public int SaveEvents(int EventId, string Title, DateTime Start, string Type, string Description, int Period, int Days, string Tags, string[] attached,int Notify) // Сохранение и редактирование Events
         {
-            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId);
+            Event[] eventsStub = GetEventsUNI(@"SELECT * FROM Events WHERE EventId=@Value1", EventId); // Проверка на наличие евента, если есть - редактируем, нет  - создаем
             int toreturn = -1;
             using (var conn = new SqlConnection(_connection))
             {
-                if (eventsStub.Length == 0)
+                if (eventsStub.Length == 0) // Если нет создаем евент и связываем с ним пользователя
                 {
                     var cmd = new SqlCommand(@"INSERT INTO EVENTS VALUES (@Title,@Start,@Type,@Description,@Period,@Days,@Tags,@Owner,@Notify)", conn);
                     cmd.Parameters.AddWithValue("@Title", Title);
@@ -149,7 +150,7 @@ TD.Todoid=UTD.Todoid and UTD.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Ema
                 }
                     }
                 }
-                else
+                else // Если если редактируем существующий евент
                 {
                     var cmd = new SqlCommand(@"UPDATE Events SET Title=@Title, Start=@Start, Type=@Type, Description=@Description, Period=@Period, Days=@Days, 
 Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
@@ -167,7 +168,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
                     var cmd2 = new SqlCommand(@"DELETE FROM UserEvents WHERE EventId=@Id", conn);
                     cmd2.Parameters.AddWithValue("@Id", EventId);
                     cmd2.ExecuteNonQuery();
-                    var cmd3 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,@Id)", conn);
+                    var cmd3 = new SqlCommand(@"INSERT INTO UserEvents Values (@Email,@Id)", conn); // Подпись участников на евент
                     for (int i = 0; i < attached.Length; i++)
                     {
                         cmd3.Parameters.AddWithValue("@Id", EventId);
@@ -179,7 +180,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
             }
             return toreturn;
         }
-        public void DeleteEvents(int id)
+        public void DeleteEvents(int id) // Удаление евентов, если удаляет создатель евента, то отписывает от них всех пользователь, если подписавшийся, то он просто отписывается
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -201,11 +202,11 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
                 cmd2.ExecuteNonQuery();
             }
         }
-        public void DeleteTodo(int id)
+        public void DeleteTodo(int id) // Удаление TODO
         {
             Delete_Todo_Events_UNI(@"DELETE FROM UserTodo WHERE TodoId=@Id AND PrimaryEmail=@Email", @"DELETE FROM ToDo WHERE Todoid=@Id", id);
         }
-        public void Delete_Todo_Events_UNI(string sqlcom,string sqlcom2,int id)
+        public void Delete_Todo_Events_UNI(string sqlcom,string sqlcom2,int id) // Универсальный метод для удаление TODO и Events
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -219,7 +220,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
                 cmd2.ExecuteNonQuery();
             }
         }
-        private Event[] GetEventsUNI(string sqlcommand, int value1 = 0, int value2 = 0, int id = 0)
+        private Event[] GetEventsUNI(string sqlcommand, int value1 = 0, int value2 = 0, int id = 0) // Универсальный метод для получения евентов
         {
             List<Event> events = new List<Event>();
             using (var conn = new SqlConnection(_connection))
@@ -242,7 +243,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
             }
             return events.ToArray();
         }
-        public string GetEventContacts(int id)
+        public string GetEventContacts(int id) // Получение подписавшихся на евент
         {
             List<User> result = new List<User>();
             using (var conn = new SqlConnection(_connection))
@@ -264,7 +265,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
             }
             return new JavaScriptSerializer().Serialize(result.ToArray());
         }
-        private Todo[] GetTodoUNI(string sqlcommand, int value1 = 0, int value2 = 0)
+        private Todo[] GetTodoUNI(string sqlcommand, int value1 = 0, int value2 = 0) // Унивесальный метод получения TODO листов
         {
             List<Todo> todo = new List<Todo>();
             using (var conn = new SqlConnection(_connection))
@@ -291,8 +292,9 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
             return todo.ToArray();
         }
         #endregion
+        //Регион работы с профилем
         #region Profile
-        public string GetProfileInfo()
+        public string GetProfileInfo() // Получение информации о пользователе
         {
             User result = null;
             using (var conn = new SqlConnection(_connection))
@@ -312,7 +314,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
             return new JavaScriptSerializer().Serialize(result);
         }
         public void SaveProfileInfo(string Name, string PrimaryEmail, string AdditionalEmail, string Phone, string Country,
-            string City, string[] Sport, string[] Work, string[] Rest, string[] Study, string[] Additional)
+            string City, string[] Sport, string[] Work, string[] Rest, string[] Study, string[] Additional) // Метод редактирования профиля
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -333,7 +335,7 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
                 cmd.ExecuteNonQuery();
             }
         }
-        public bool IsUser(string email)
+        public bool IsUser(string email) // Проверка наличия пользователя в системе
         {
             User result = null;
             using (var conn = new SqlConnection(_connection))
@@ -353,8 +355,9 @@ Tags=@Tags, Notify=@Notify WHERE EventId=@EventId", conn);
             return result != null;
         }
         #endregion
+        //Регион работы с контактами
         #region Contacts
-        public string GetContacts() //Accepted
+        public string GetContacts() // Получение контактов, которые приняли предложения дружбы
         {
             List<User> contacts = new List<User>();
             using (var conn = new SqlConnection(_connection))
@@ -374,22 +377,22 @@ UserContacts UC WHERE (UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.P
             }
             return new JavaScriptSerializer().Serialize(contacts);
         }
-        public string GetRequest() //Rejected and Send
+        public string GetRequest() //Получение отправленных запросов и запросов, которые были отклонены
         {
             return new JavaScriptSerializer().Serialize(GetRequestsUni(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC 
 WHERE UC.PrimaryEmailUser=@Email AND UC.PrimaryEmailContact=U.PrimaryEmail AND (State='Sent' OR State='Rejected')"));
         }
-        public void AcceptRequest(string emailcontact)
+        public void AcceptRequest(string emailcontact) // Метод принятия запроса на дружбу
         {
             Accept_Reject_Contacts(@"UPDATE UserContacts SET State='Accepted' WHERE PrimaryEmailUser=@Email AND PrimaryEmailContact=@Contact", @"UPDATE UserContacts
 SET State='Accepted' WHERE PrimaryEmailUser=@Contact AND PrimaryEmailContact=@Email", emailcontact);
         }
-        public void RejectRequest(string emailcontact)
+        public void RejectRequest(string emailcontact) // Метод, чтобы отклонить запрос на дружбу
         {
             Accept_Reject_Contacts(@"UPDATE UserContacts SET State='Rejected' WHERE PrimaryEmailUser=@Email AND PrimaryEmailContact=@Contact",@"UPDATE UserContacts
 SET State='Rejected' WHERE PrimaryEmailUser=@Contact AND PrimaryEmailContact=@Email",emailcontact);
         }
-        private void Accept_Reject_Contacts(string sqlcom,string sqlcom2,string contact)
+        private void Accept_Reject_Contacts(string sqlcom,string sqlcom2,string contact) //Универсальный метод принятия и отклонения запроса на дружбу
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -404,12 +407,12 @@ SET State='Rejected' WHERE PrimaryEmailUser=@Contact AND PrimaryEmailContact=@Em
                 cmd2.ExecuteNonQuery();
             }
         }
-        public string GetMyRequests()
+        public string GetMyRequests() //Получить запросы дружбы для пользователя
         {
             return new JavaScriptSerializer().Serialize(GetRequestsUni(@"SELECT UC.PrimaryEmailUser, UC.PrimaryEmailContact, U.Name, UC.State FROM Users U, UserContacts UC
 WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND State='Sent'"));
         }
-        private Contact[] GetRequestsUni(string sqlcom)
+        private Contact[] GetRequestsUni(string sqlcom) // Универсальный метод получения запросов
         {
             List<Contact> contacts = new List<Contact>();
             using (var conn = new SqlConnection(_connection))
@@ -427,18 +430,20 @@ WHERE UC.PrimaryEmailUser=U.PrimaryEmail AND UC.PrimaryEmailContact=@Email AND S
             }
             return contacts.ToArray();
         }
-        public void AddContact(string email)
+        public void AddContact(string email) // Метод добавления в контакты
         {
+            Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) 
+OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email);
             Delete_Add_Contact(@"INSERT INTO UserContacts VALUES (@PrimaryUser,@PrimaryContact,'Sent')", email);
-            AddNotify(email, 2, Request.Cookies["Preferences"]["Email"], "True");
+            AddNotify(email, 2, Request.Cookies["Preferences"]["Email"], "True"); //Отправка нотификации о добавлении
         }
-        public void DeleteContact(string email)
+        public void DeleteContact(string email) //Метод удаления контакта
         {
             Delete_Add_Contact(@"DELETE FROM UserContacts WHERE (PrimaryEmailUser=@PrimaryUser AND PrimaryEmailContact=@PrimaryContact) 
 OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", email); //добавить проверку на статус и сделать обратку
-            AddNotify(email, 3, Request.Cookies["Preferences"]["Email"], "True");
+            AddNotify(email, 3, Request.Cookies["Preferences"]["Email"], "True"); //Отправка нотификации об удалении
         }
-        public void Delete_Add_Contact(string sqlcom, string email)
+        public void Delete_Add_Contact(string sqlcom, string email) //Универсальный метод добавления и удаления контакта
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -449,7 +454,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                 cmd.ExecuteNonQuery();
             }
         }
-        public void InviteContact(string email)
+        public void InviteContact(string email) //Приглашение в приложение (через почту) и добавление в контакты
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -473,7 +478,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
             mail.To.Add(new MailAddress(email));
             client.Send(mail);
         }
-        public bool IsInvited(string email)
+        public bool IsInvited(string email) //Проверка приглашен ли пользователь в систему или нет, чтобы избежать лишних сообщених об приглашении (флуда)
         {
             bool result = false;
             using (var conn = new SqlConnection(_connection))
@@ -492,8 +497,9 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
             return result;
         }
         #endregion
+        //Регион работы с нотификациями
         #region Notifications
-        private void AddNotify(string user,int type,string data,string actual)
+        private void AddNotify(string user,int type,string data,string actual) //Добавление нотификации в БД
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -513,7 +519,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                 cmd.ExecuteNonQuery();
             }
         }
-        public void CheckNotify(int id)
+        public void CheckNotify(int id) //Изменение актуальности нотификации (прочитал ее пользователь или нет)
         {
             using (var conn = new SqlConnection(_connection))
             {
@@ -523,9 +529,9 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                 cmd.ExecuteNonQuery();
             }
         }
-        public string GetNotifications()
+        public string GetNotifications() //Получение нотификаций, также добавление нотификаций об евентах о котрых нужно предупредить заранее (устанавливается при добавлении евента)
         {
-            //Event[] events=GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE (DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND YEAR(Start)=YEAR(@Start)) OR (DATEPART(dayofyear,Start)-Notify+365<=DATEPART(dayofyear,@Start) AND YEAR(Start)>YEAR(@Start)) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
+            //Получение всех евентов о которых нужно уведомить и перезапись всех нотификаций об евентов (учитывая их актуальность)
             Event[] events=GetEventsUNI(@"SELECT * FROM Events E, UserEvents UE,Users U WHERE DATEPART(dayofyear,Start)-Notify<=DATEPART(dayofyear,@Start) AND DATEPART(dayofyear, @Start) <= DATEPART(dayofyear, Start) AND YEAR(Start)=YEAR(@Start) AND E.EventId=UE.EventId AND UE.PrimaryEmail=U.PrimaryEmail AND U.PrimaryEmail=@Email");
             List<Notifications> oldnotify = GetNotificationsUNI(@"SELECT * FROM Notifications WHERE Type=1 AND UserEmail=@Email");
             using (var conn = new SqlConnection(_connection))
@@ -554,7 +560,7 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
             }
             return new JavaScriptSerializer().Serialize(GetNotificationsUNI(@"SELECT * FROM Notifications WHERE UserEmail=@Email").ToArray());
         }
-        public List<Notifications> GetNotificationsUNI(string sqlcom)
+        public List<Notifications> GetNotificationsUNI(string sqlcom) //Универсальный метод получения нотификаций
         {
             List<Notifications> notifications = new List<Notifications>();
             using (var conn = new SqlConnection(_connection))
@@ -571,6 +577,18 @@ OR (PrimaryEmailUser=@PrimaryContact AND PrimaryEmailContact=@PrimaryUser)", ema
                 }
             }
             return notifications;
+        }
+        public bool CheckActualNotify() //Проверка есть ли актуальные нотификация у пользователя или нет
+        {
+            List<Notifications> tocheck = GetNotificationsUNI(@"SELECT * FROM Notifications WHERE UserEmail=@Email");
+            for (int i = 0; i < tocheck.Count; i++)
+            {
+                if (tocheck[i].Actual)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         #endregion
     }

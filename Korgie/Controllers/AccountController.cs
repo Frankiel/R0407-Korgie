@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 namespace Korgie.Controllers
 {
     [Authorize]
+    // Код авторизации через GOOGLE
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
