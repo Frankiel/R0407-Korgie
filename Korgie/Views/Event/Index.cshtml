@@ -10,7 +10,7 @@
     </div>
     <nav class="container" ng-controller="HomeCtrl">
         <div class="navicons" layout-align="end start" layout-gt-sm="row">
-            <div class="email"><span class="fs-subhead display-block">@ViewBag.Email</span></div>
+            <div class="email"><span class="fs-subhead display-block">{{name}}</span></div>
             <div layout="row" layout-align="end start" layout-align-sm="center center">
                 <div><button class="btn btn--m btn--teal" lx-ripple type="button" ui-sref="notifications" ng-class="getCurrentState('notifications')"><i class="mdi mdi-bell-outline"></i></button></div>
                 <div><button class="btn btn--m btn--teal" lx-ripple type="button" ui-sref="settings" ng-class="getCurrentState('settings')"><i class="mdi mdi-settings"></i></button></div>

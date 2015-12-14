@@ -927,6 +927,14 @@
     }
 }
 
+@media (max-width: 1000px) {
+    .home-block{
+        width:400px !important;
+        margin-left:-200px !important;
+        left:50% !important;
+    }
+}
+
 .validation-error{
     background-color:#FFCDD2 !important;
 }
@@ -980,4 +988,10 @@
 
 .notif-actual-false{
     background-color: #E0E0E0 !important;
+}
+
+.home-block{
+    width:1000px;
+    margin-left:-500px;
+    left:50% !important;
 }
