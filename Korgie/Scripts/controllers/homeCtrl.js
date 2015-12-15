@@ -22,7 +22,10 @@
         $scope.name = korgieApi.name;
     });
 
-    setInterval(function () { korgieApi.setNotificationButton(); }, 2000);
+    korgieApi.setNotificationButton();
+    setInterval(function () {
+            korgieApi.setNotificationButton();
+    }, 15000);
     
 
     $('[ui-sref]').click(function () {

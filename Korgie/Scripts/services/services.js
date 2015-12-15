@@ -514,13 +514,15 @@
         };
 
         korgieApi.setNotificationButton = function () {
-            korgieApi.checkActualNotify().then(function (result) {
-                if (result == 'True') {
-                    $('.notif').addClass('not-isactual');
-                }
-                else {
-                    $('.notif').removeClass('not-isactual');
-                }
+            korgieApi.getNotifications().then(function () {
+                korgieApi.checkActualNotify().then(function (result) {
+                    if (result == 'True') {
+                        $('.notif').addClass('not-isactual');
+                    }
+                    else {
+                        $('.notif').removeClass('not-isactual');
+                    }
+                });
             });
         };
 
