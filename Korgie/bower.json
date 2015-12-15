@@ -1,0 +1,17 @@
+{
+  "name": "korgie",
+  "ignore": [ 
+    "**/.*", 
+    "node_modules", 
+    "bower_components" 
+    ],
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "latest",
+    "angular-ui-router": "latest",
+    "bootstrap": "latest",
+    "lumx": "latest",
+    "moment": "latest",
+    "velocity": "latest"
+  }
+}
